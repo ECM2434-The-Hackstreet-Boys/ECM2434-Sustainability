@@ -1,16 +1,26 @@
 # Use Python 3.12 as the base image
 FROM python:3.12
-# Set the working directory within the container
-WORKDIR /app/backend
-# Copy the requirements.txt file to the container
-COPY requirements.txt /app/backend
-# Install Python dependencies using pip
-RUN pip install -r requirements.txt
-# Copy the entire application code to the container
-COPY . /app/backend
-# Expose port 8000 to the outside world
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy only requirements first (for caching)
+COPY requirements.txt /app/
+
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the full project into the container
+COPY . /app/
+
+# Expose port 8000
 EXPOSE 8000
-# Apply migrations to set up the database (SQLite in this case)
+
+# Change working directory to where manage.py is
+WORKDIR /app/SustainabilityApp
+
+# Apply migrations
 RUN python manage.py migrate
-# Run the Django application
-CMD python /app/backend/manage.py runserver 0.0.0.0:8000
+
+# Start the Django application
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
