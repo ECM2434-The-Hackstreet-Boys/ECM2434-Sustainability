@@ -4,9 +4,10 @@ services:
   web:
     build: .
     container_name: django_app
-    command: python /app/backend/manage.py runserver 0.0.0.0:8000
+    command: >
+      sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
-      - .:/app/backend
+      - .:/app
     ports:
       - "8000:8000"
     depends_on:
