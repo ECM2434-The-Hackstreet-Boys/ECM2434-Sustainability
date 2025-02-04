@@ -5,7 +5,8 @@ services:
     environment:
       - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
       - DJANGO_DEBUG=${DJANGO_DEBUG}
-    command: /bin/sh -c "source /app/venv/bin/activate && gunicorn --bind 0.0.0.0:8000 SustainabilityApp.wsgi:application"
+    command: /bin/sh -c ". /app/venv/bin/activate && exec gunicorn --bind 0.0.0.0:8000 SustainabilityApp.wsgi:application"
+
 
     volumes:
       - ./static:/app/static
