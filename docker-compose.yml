@@ -7,22 +7,26 @@ services:
     environment:
       - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
       - DJANGO_DEBUG=${DJANGO_DEBUG}
-    command: gunicorn --bind 0.0.0.0:8000 SustainabilityApp.wsgi:application  # Gunicorn command
+    command: /app/venv/bin/gunicorn --bind 0.0.0.0:8000 SustainabilityApp.wsgi:application
+
     volumes:
-      - .:/app
+      - ./static:/app/static
+      - ./media:/app/media
+      - ./SustainabilityApp:/app/SustainabilityApp
+
     ports:
       - "8000:8000"
 
 
 
   nginx:
-      image: nginx:latest
-      container_name: nginx
-      volumes:
-        - ./nginx.conf:/etc/nginx/nginx.conf
-        - ./static:/app/static  # Static files
-        - ./media:/app/media  # Media files
-      ports:
-        - "80:80"
-      depends_on:
-        - web
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro  # Read-only volume mount
+      - ./static:/app/static
+      - ./media:/app/media
+    ports:
+      - "80:80"
+    depends_on:
+      - web
