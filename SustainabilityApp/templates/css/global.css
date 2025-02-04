@@ -1,0 +1,64 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    background-color: #1db175;
+    padding: 5px;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    background-color: #1db175;
+    justify-content: space-between;
+}
+
+nav a {
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.5s ease;
+    padding: 8px 15px;
+}
+
+nav .nav-links a:hover {
+    background-color: #54545484;
+    border-radius: 5px;
+}
+
+nav .left-section {
+    display: flex;
+    align-items: center;
+}
+
+nav .account a {
+    margin-right: auto;
+}
+
+nav .account a:hover {
+    background-color: #54545484;
+    border-radius: 5px;
+}
+
+nav .logo img {
+    height: 50px;
+    width: auto;
+}
+
+.main-content {
+    padding: 20px;
+}
+
+h1 {
+    font-size: 30px;
+    color: #10583b;
+}
+
+p {
+    font-size: 16px;
+    color: black;
+}
