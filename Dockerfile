@@ -8,8 +8,9 @@ WORKDIR /app
 COPY requirements.txt /app/
 
 # Install dependencies
-RUN pip3 install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
+RUN pip show python-dotenv
 # Copy the full project into the container
 COPY . /app/
 
