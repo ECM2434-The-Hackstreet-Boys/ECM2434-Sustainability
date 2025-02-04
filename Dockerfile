@@ -29,5 +29,6 @@ WORKDIR /app/SustainabilityApp
 
 
 # Start the Django application with Gunicorn using the virtual environment's Python
+CMD ["python", "manage.py", "collectstatic", "--noinput"]
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "SustainabilityApp.wsgi:application"]
 
