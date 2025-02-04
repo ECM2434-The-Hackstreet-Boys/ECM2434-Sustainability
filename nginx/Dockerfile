@@ -1,16 +1,13 @@
+# Dockerfile for Nginx
+
+# Use official Nginx image as base
 FROM nginx:latest
 
-# Remove default Nginx configuration
-RUN rm /etc/nginx/conf.d/default.conf
-RUN RM /etc/nginx/nginx.conf
-
-# Copy custom Nginx configuration
+# Copy the custom nginx.conf into the container
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Ensure proper permissions
-RUN chmod 644 /etc/nginx/nginx.conf
-
-# Expose port 80
+# Expose port 80 for HTTP traffic
 EXPOSE 80
 
+# Run Nginx in the foreground
 CMD ["nginx", "-g", "daemon off;"]
