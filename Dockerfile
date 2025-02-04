@@ -26,5 +26,9 @@ WORKDIR /app/SustainabilityApp
 # Apply migrations
 RUN python manage.py migrate
 
+# Collect static files (ensure this is run during the build process)
+RUN python manage.py collectstatic --noinput
+
+
 # Start the Django application
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "SustainabilityApp.wsgi:application"]
