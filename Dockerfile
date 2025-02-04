@@ -36,4 +36,5 @@ RUN /app/venv/bin/python manage.py migrate
 RUN echo $PATH
 
 # Start the Django application with Gunicorn using the virtual environment's Python
-CMD ["/app/venv/bin/gunicorn", "--bind", "0.0.0.0:8000", "SustainabilityApp.wsgi:application"]
+CMD ["python", "-m", "gunicorn", "--bind", "0.0.0.0:8000", "SustainabilityApp.wsgi:application"]
+
