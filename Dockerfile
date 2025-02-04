@@ -20,6 +20,7 @@ COPY . /app/
 # Set environment variables
 ENV DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
 
+#RUN python SustainabilityApp/manage.py collectstatic --noinput
 
 # Expose port 8000
 EXPOSE 8000
@@ -29,6 +30,6 @@ WORKDIR /app/SustainabilityApp
 
 
 # Start the Django application with Gunicorn using the virtual environment's Python
-CMD ["python", "manage.py", "collectstatic", "--noinput"]
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "SustainabilityApp.wsgi:application"]
 
+#CMD ["python", "-m", "SustainabililityApp/manage.py", "collectstatic", "--noinput", "&&", "gunicorn", "--bind", "0.0.0.0:8000", "SustainabilityApp.wsgi:application"]
+CMD python manage.py collectstatic --noinput; gunicorn --bind 0.0.0.0:8000 SustainabilityApp.wsgi:application
