@@ -7,7 +7,7 @@ services:
     environment:
       - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
       - DJANGO_DEBUG=${DJANGO_DEBUG}
-    command: /app/venv/bin/gunicorn --bind 0.0.0.0:8000 SustainabilityApp.wsgi:application
+    command: gunicorn --bind 0.0.0.0:8000 SustainabilityApp.wsgi:application
 
     volumes:
       - ./static:/app/static

@@ -33,7 +33,7 @@ WORKDIR /app/SustainabilityApp
 # Apply migrations
 RUN /app/venv/bin/python manage.py migrate
 
-ENTRYPOINT ["/app/venv/bin/gunicorn", "--bind", "0.0.0.0:8000", "SustainabilityApp.wsgi:application"]
+
 
 # Start the Django application with Gunicorn using the virtual environment's Python
-CMD ["/app/venv/bin/gunicorn", "--bind", "0.0.0.0:8000", "SustainabilityApp.wsgi:application"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "SustainabilityApp.wsgi:application"]
