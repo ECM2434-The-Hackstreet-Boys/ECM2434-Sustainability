@@ -15,8 +15,9 @@ RUN python -m venv /app/venv && \
     /app/venv/bin/pip install -r requirements.txt && \
     /app/venv/bin/pip install gunicorn  # Ensure gunicorn is installed
 
-
+RUN chmod +x /app/venv/bin/gunicorn
 RUN /app/venv/bin/pip show gunicorn
+RUN ls -l /app/venv/bin/
 
 
 # Copy the full project into the container
