@@ -7,10 +7,15 @@ WORKDIR /app
 # Copy only requirements first (for caching)
 COPY requirements.txt /app/
 
-# Install dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# Create a virtual environment inside the container
+RUN python -m venv /app/venv
 
-RUN pip show python-dotenv
+# Upgrade pip inside the virtual environment
+RUN /app/venv/bin/pip install --upgrade pip
+
+# Install dependencies into the virtual environment
+RUN /app/venv/bin/pip install --no-cache-dir -r requirements.txt
+
 # Copy the full project into the container
 COPY . /app/
 
@@ -24,11 +29,7 @@ EXPOSE 8000
 WORKDIR /app/SustainabilityApp
 
 # Apply migrations
-RUN python manage.py migrate
+RUN /app/venv/bin/python manage.py migrate
 
-# Collect static files (ensure this is run during the build process)
-RUN python manage.py collectstatic --noinput
-
-
-# Start the Django application
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "SustainabilityApp.wsgi:application"]
+# Start the Django application with Gunicorn using the virtual environment's Python
+CMD ["/app/venv/bin/gunicorn", "--bind", "0.0.0.0:8000", "SustainabilityApp.wsgi:application"]
