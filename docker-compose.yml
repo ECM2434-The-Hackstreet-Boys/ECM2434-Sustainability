@@ -1,5 +1,3 @@
-
-
 services:
   web:
     build: .
@@ -7,7 +5,7 @@ services:
     environment:
       - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
       - DJANGO_DEBUG=${DJANGO_DEBUG}
-    command: gunicorn --bind 0.0.0.0:8000 SustainabilityApp.wsgi:application
+    command: /app/venv/bin/gunicorn --bind 0.0.0.0:8000 SustainabilityApp.wsgi:application  # Use virtual environment path for Gunicorn
 
     volumes:
       - ./static:/app/static
@@ -16,8 +14,8 @@ services:
 
     ports:
       - "8000:8000"
-
-
+    networks:
+      - webnet  # Ensure communication with nginx
 
   nginx:
     image: nginx:latest
@@ -30,3 +28,9 @@ services:
       - "80:80"
     depends_on:
       - web
+    networks:
+      - webnet  # Ensure communication with the web service
+
+networks:
+  webnet:  # Define a custom network for web and nginx to communicate
+    driver: bridge
