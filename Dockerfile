@@ -13,6 +13,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the full project into the container
 COPY . /app/
 
+# Set environment variables
+ENV DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
+
 # Expose port 8000
 EXPOSE 8000
 
