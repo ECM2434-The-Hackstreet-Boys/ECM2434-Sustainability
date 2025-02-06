@@ -26,7 +26,7 @@ ENV DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
 EXPOSE 8000
 
 # Apply migrations (ensure this happens before CMD)
-WORKDIR /app/SustainabilityApp
+
 
 
 # Start the Django application with Gunicorn using the virtual environment's Python
