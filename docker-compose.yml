@@ -10,7 +10,7 @@ services:
     volumes:
       - ./static:/app/static
       - ./media:/app/media
-      - ./SustainabilityApp:/app/SustainabilityApp
+      - ./apps:/app/apps
 
     ports:
       - "8000:8000"

@@ -1,5 +1,5 @@
 """
-ASGI config for SustainabilityApp project.
+ASGI config for apps project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 

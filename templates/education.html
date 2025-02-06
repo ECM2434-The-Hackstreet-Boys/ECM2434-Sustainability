@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Home</title>
+        <title>Education</title>
         <!--Links to CSS files for styling-->
-        <link rel = "stylesheet" href = "css/global.css">
+        <link rel="stylesheet" href="{% static 'css/global.css' %}">
     </head>
 
     <body>
-        <!--Header section with navigation menu-->
         <header>
             <nav>
-                <!--Navigation to different sections of the page-->
                 <div class = "left-section">
                     <a href="home.html" class = "logo">
-                        <img src = "resouces/university-of-exeter-logo.png" alt = "Logo">
+                        <img src="{% static 'resources/university-of-exeter-logo.png' %}" alt="University Logo">
                     </a>
 
                     <div class = "nav-links">
@@ -22,7 +20,6 @@
                     </div>
                 </div>
 
-                <!--Navigation to account management pages-->
                 <div class = "account">
                     <a href="">Sign Up</a>
                     <a href="">Log In</a>
@@ -30,7 +27,6 @@
             </nav>
         </header>
 
-        <!--Main content of the page-->
         <div class = "main-content">
             <h1>Welcome</h1>
             <p>Some eco stuff</p>
