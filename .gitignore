@@ -172,3 +172,4 @@ cython_debug/
 .pypirc
 /.idea/discord.xml
 /.idea/ECM2434Coursework.iml
+/staticfiles/
