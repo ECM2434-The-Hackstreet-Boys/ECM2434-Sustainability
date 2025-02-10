@@ -22,6 +22,7 @@ from django.urls import path, include
 from SustainabilityApp import settings
 
 urlpatterns =[
+    path('', include('apps.home.urls')),
     path('admin/', admin.site.urls),
     path('login/', include('apps.login.urls')),
 ]
