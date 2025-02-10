@@ -20,8 +20,7 @@
                 {% csrf_token %}
                 <input type="hidden" name="user_id" value="{{ user.id }}">
                 <select name="role">
-                    <option value="student" {% if user.role == "student" %}selected{% endif %}>Student</option>
-                    <option value="staff" {% if user.role == "staff" %}selected{% endif %}>Staff</option>
+                    <option value="user" {% if user.role == "user" %}selected{% endif %}>User</option>
                     <option value="admin" {% if user.role == "admin" %}selected{% endif %}>Admin</option>
                 </select>
                 <button type="submit">Update</button>
