@@ -24,7 +24,8 @@ from SustainabilityApp import settings
 urlpatterns =[
     path('', include('apps.home.urls')),
     path('admin/', admin.site.urls),
-    path('login/', include('apps.login.urls')),
+    #path('login/', include('apps.login.urls')),
+    path('accounts/', include('apps.accounts.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + \
                static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
