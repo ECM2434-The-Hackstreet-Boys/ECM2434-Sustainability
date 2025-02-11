@@ -1,11 +1,31 @@
 services:
+
+
+  db:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      - POSTGRES_DB=sustainabilityapp
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./pg_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - webnet  # Ensure communication with the web service
+
+
   web:
     build: .
     container_name: django_app
     environment:
       - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
       - DJANGO_DEBUG=${DJANGO_DEBUG}
-
+      - DJANGO_ENV=production
+      - POSTGRES_DB=sustainabilityapp
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
 
     volumes:
       - ./static:/app/static
@@ -16,6 +36,8 @@ services:
       - "8000:8000"
     networks:
       - webnet  # Ensure communication with nginx
+    depends_on:
+      - db # Ensure the database is running before starting the web service
 
   nginx:
     build:
@@ -38,3 +60,7 @@ services:
 networks:
   webnet:  # Define a custom network for web and nginx to communicate
     driver: bridge
+
+volumes:
+    postgres_data:
+      driver: local
