@@ -14,6 +14,8 @@ RUN python -m pip install --upgrade pip
 RUN pip install -r requirements.txt
 RUN pip install gunicorn
 
+
+
 # Copy the full project into the container
 COPY . /app/
 
@@ -26,7 +28,8 @@ ENV DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
 EXPOSE 8000
 
 # Apply migrations (ensure this happens before CMD)
-
+RUN python manage.py makemigrations
+RUN python manage.py migrate
 
 
 # Start the Django application with Gunicorn using the virtual environment's Python
