@@ -11,7 +11,6 @@ services:
       - ./static:/app/static
       - ./media:/app/media
       - ./apps:/app/apps
-      - /var/lib/django:/app/data
 
     ports:
       - "8000:8000"
@@ -39,4 +38,3 @@ services:
 networks:
   webnet:  # Define a custom network for web and nginx to communicate
     driver: bridge
-
