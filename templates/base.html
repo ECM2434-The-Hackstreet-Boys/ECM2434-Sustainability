@@ -18,15 +18,27 @@
                     </a>
 
                     <div class = "nav-links">
-                        <a href="{% url 'home' %}">Home</a>
-                        <a href="education.html">Education</a>
+                        {% if not user.is_authenticated %}
+                            <a href="{% url 'home' %}">Home</a>
+                        {% else %}
+                            <a href="{% url 'dashboard' %}">Dashboard</a>
+                            <a href="">Play</a>
+                            <a href="">Leaderboard</a>
+                        {% endif %}
                     </div>
                 </div>
 
                 <!--Navigation to account management pages-->
                 <div class = "account">
-                    <a href="{% url 'register' %}">Sign Up</a>
-                    <a href="{% url 'login' %}">Log In</a>
+                    {% if user.is_authenticated %}
+                    <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <a href="#" onclick="this.closest('form').submit(); return false;">Sign Out</a>
+                    </form>                    
+                    {% else %}
+                        <a href="{% url 'register' %}">Sign Up</a>
+                        <a href="{% url 'login' %}">Log In</a>
+                    {% endif %}
                 </div>
             </nav>
         </header>
@@ -38,8 +50,8 @@
     {% endfor %}
     {% endif %}
     
-    <div>
+    <main>
         {% block content %}
         {% endblock %}
-    </div>
+    </main>
     </body> 
