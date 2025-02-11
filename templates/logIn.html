@@ -25,7 +25,7 @@
 
                 <!--Navigation to account management pages-->
                 <div class = "account">
-                    <a href="">Sign Up</a>
+                    <a href="{% url 'register' %}">Sign Up</a>
                     <a href="{% url 'login' %}">Log In</a>
                 </div>
             </nav>
@@ -34,6 +34,11 @@
         <!--Main content of the page-->
         <main>
             <h1>Log In</h1>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Log In</button>
+            </form>
         </main>
     </body>
 </html>
