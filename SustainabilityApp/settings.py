@@ -159,3 +159,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Allow log out get requests
 LOGOUT_REDIRECT_URL = "home"
+
+#Allows CSRF verification on the production server
+CSRF_TRUSTED_ORIGINS = ["https://edward-pratt.live", "https://www.edward-pratt.live"]
