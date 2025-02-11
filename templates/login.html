@@ -1,44 +1,12 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Log In</title>
-        <!--Links to CSS files for styling-->
-        <link rel="stylesheet" href="{% static 'css/global.css' %}">
-    </head>
+{% extends 'base.html' %}
 
-    <body>
-        <!--Header section with navigation menu-->
-        <header>
-            <nav>
-                <!--Navigation to different sections of the page-->
-                <div class = "left-section">
-                    <a href="{% url 'home' %}" class = "logo">
-                        <img src="{% static 'resources/university-of-exeter-logo.png' %}" alt="University Logo">
-                    </a>
+{% block content %}
+    <!--Main content of the page-->
 
-                    <div class = "nav-links">
-                        <a href="{% url 'home' %}">Home</a>
-                        <a href="education.html">Education</a>
-                    </div>
-                </div>
-
-                <!--Navigation to account management pages-->
-                <div class = "account">
-                    <a href="{% url 'register' %}">Sign Up</a>
-                    <a href="{% url 'login' %}">Log In</a>
-                </div>
-            </nav>
-        </header>
-
-        <!--Main content of the page-->
-        <main>
-            <h1>Log In</h1>
-            <form method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit">Log In</button>
-            </form>
-        </main>
-    </body>
-</html>
+    <h1>Log In</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Log In</button>
+    </form>
+{% endblock %}

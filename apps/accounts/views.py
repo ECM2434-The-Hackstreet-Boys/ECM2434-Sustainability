@@ -33,7 +33,7 @@ def user_login(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('home')  # Ensure 'home' is defined in your URLs
+            return redirect('dashboard')  # Ensure 'dashboard' is defined in your URLs
 
     return render(request, 'login.html', {'form': form})  # Always return a response
 
