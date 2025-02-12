@@ -11,6 +11,23 @@ Use CD to access the repository
 ```bash
 cd ECM2434-Sustainability
 ```
+
+
+### Automatic Setup
+#### Windows
+Run the following command to automatically setup and run the application:
+```Console
+./setup.bat
+```
+
+#### MacOS/Linux
+```Console
+./setup.sh
+```
+
+
+### Manual Setup
+
 Install the required packages using the following command:
 ```bash
 python pip install -r requirements.txt
