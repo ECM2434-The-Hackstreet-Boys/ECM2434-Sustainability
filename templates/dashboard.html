@@ -1,14 +1,21 @@
 {% extends 'base.html' %}
 {% load static %}
 
+
+
 {% block content %}
     <p>Welcome to your dashboard</p>
-
+    
     <!-- Container for Pixi.js -->
     <div id="game-wrapper">
         <div id="game-container">
             <!-- Canvas for Pixi.js -->
         </div>
+    </div>
+    
+    <div id="context-menu">
+    <button id="edit-tile">Edit Tile</button>
+    <button id="delete-tile">Delete Tile</button>
     </div>
 
     <!-- Include PixiJS from CDN, defer loading -->

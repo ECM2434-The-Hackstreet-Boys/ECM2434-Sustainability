@@ -26,7 +26,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     gameContainer.appendChild(app.view);
 
 
-
     // Create a container to hold the grid
     const gridContainer = new PIXI.Container();
     gridContainer.x = app.renderer.width / 2; // Center the grid horizontally
@@ -58,7 +57,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             tile.buttonMode = true;  // Change cursor to pointer on hover
 
             // Click event to change the tile's color
-            tile.on("pointerdown", () => {
+            tile.on("click", () => {
                 tile.tint = Math.random() * 0xffffff; // Change color on click
             });
 
@@ -70,57 +69,122 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Implement drag functionality
     let isDragging = false;
     let lastX = 0, lastY = 0;
+    let wrapperWidth = gameWrapper.clientWidth;
+    let wrapperHeight = gameWrapper.clientHeight;
+    let containerWidth = gameContainer.clientWidth;
+    let containerHeight = gameContainer.clientHeight;
 
-    const wrapperWidth = gameWrapper.offsetWidth;
-    const wrapperHeight = gameWrapper.offsetHeight;
-    const containerWidth = gameContainer.offsetWidth;
-    const containerHeight = gameContainer.offsetHeight;
-
-    // Mouse down event to start dragging
-
-    gameWrapper.addEventListener('mousedown', (e) => {
+    // Function to start dragging
+    function startDrag(x, y) {
         isDragging = true;
-        lastX = e.pageX;
-        lastY = e.pageY;
+        lastX = x;
+        lastY = y;
         gameWrapper.style.cursor = 'grabbing'; // Change cursor when dragging starts
-    });
+    }
 
-    // Mouse move event to move the canvas within the wrapper
-    gameWrapper.addEventListener('mousemove', (e) => {
+    // Function to move the canvas
+    function moveDrag(x, y) {
         if (isDragging) {
-            const dx = e.pageX - lastX;
-            const dy = e.pageY - lastY;
+            const dx = x - lastX;
+            const dy = y - lastY;
 
-            // Calculate the new position of the game container (canvas)
             let newLeft = gameContainer.offsetLeft + dx;
             let newTop = gameContainer.offsetTop + dy;
 
-            // Ensure the canvas doesn't move beyond the left and right boundaries
-            if (newLeft > 0) newLeft = 0;  // Prevent moving too far to the right
-            if (newLeft < wrapperWidth - containerWidth) newLeft = wrapperWidth - containerWidth; // Prevent moving too far to the left
+            // Prevent moving too far to the right or left
+            newLeft = Math.min(0, Math.max(wrapperWidth - containerWidth, newLeft));
 
-            // Ensure the canvas doesn't move beyond the top and bottom boundaries
-            if (newTop > 0) newTop = 0;  // Prevent moving too far down
-            if (newTop < wrapperHeight - containerHeight) newTop = wrapperHeight - containerHeight; // Prevent moving too far up
+            // Prevent moving too far up or down
+            newTop = Math.min(0, Math.max(wrapperHeight - containerHeight, newTop));
 
-            // Apply the calculated position to the canvas
+            // Apply the new position
             gameContainer.style.left = newLeft + 'px';
             gameContainer.style.top = newTop + 'px';
 
-            // Update last positions for the next move event
-            lastX = e.pageX;
-            lastY = e.pageY;
+            lastX = x;
+            lastY = y;
         }
-    });
+    }
 
-    // Mouse up event to stop dragging
-    gameWrapper.addEventListener('mouseup', () => {
+    // Function to stop dragging
+    function stopDrag() {
         isDragging = false;
         gameWrapper.style.cursor = 'grab'; // Reset cursor when dragging stops
+    }
+
+    // ** Mouse Events **
+    gameWrapper.addEventListener('mousedown', (e) => startDrag(e.pageX, e.pageY));
+    gameWrapper.addEventListener('mousemove', (e) => moveDrag(e.pageX, e.pageY));
+    gameWrapper.addEventListener('mouseup', stopDrag);
+    gameWrapper.addEventListener('mouseleave', stopDrag);
+
+    // ** Touch Events **
+    gameWrapper.addEventListener('touchstart', (e) => {
+        const touch = e.touches[0];
+        startDrag(touch.pageX, touch.pageY);
     });
 
-    gameWrapper.addEventListener('mouseleave', () => {
-        isDragging = false;
-        gameWrapper.style.cursor = 'grab'; // Reset cursor
+    gameWrapper.addEventListener('touchmove', (e) => {
+        e.preventDefault(); // Prevent scrolling while dragging
+        const touch = e.touches[0];
+        moveDrag(touch.pageX, touch.pageY);
     });
+
+    gameWrapper.addEventListener('touchend', stopDrag);
+    gameWrapper.addEventListener('touchcancel', stopDrag);
+
+
+    let contextMenu = document.getElementById('context-menu');
+    let selectedTile = null;
+
+    document.addEventListener("contextmenu", (event) => event.preventDefault()); // Disable default menu
+
+
+gridContainer.children.forEach(tile => {
+    tile.on("rightdown", (event) => { // 'rightdown' detects right-click in Pixi.js
+        event.stopPropagation(); // Prevents event from bubbling up
+        event.preventDefault();  // Stops browser menu
+        showContextMenu(event.global.x, event.global.y, tile);
+    });
+
+    // Long press (Mobile)
+    tile.on("pointerdown", (event) => {
+        pressTimer = setTimeout(() => {
+            showContextMenu(event.global.x, event.global.y, tile);
+        }, 500); // Hold for 500ms to trigger
+    });
+
+    tile.on("pointerup", () => clearTimeout(pressTimer)); // Cancel if released early
+    tile.on("pointerout", () => clearTimeout(pressTimer));
+
+    });
+
+
+    function showContextMenu(x, y, tile) {
+    selectedTile = tile;
+    contextMenu.style.display = 'block';
+    contextMenu.style.left = x + 'px';
+    contextMenu.style.top = y + 'px';
+    }
+
+    document.addEventListener("click", () => {
+    contextMenu.style.display = "none";
+    });
+
+    document.getElementById("edit-tile").addEventListener("click", () => {
+    if (selectedTile) {
+        selectedTile.tint = Math.random() * 0xffffff; // Example: Change tile color
+    }});
+
+
+document.getElementById("delete-tile").addEventListener("click", () => {
+    if (selectedTile) {
+        selectedTile.destroy(); // Remove tile
+    }});
+
 });
+
+
+
+
+
