@@ -10,8 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
+import sys
+
 from pathlib import Path
 import mimetypes
+
+
 from django.core.management.utils import get_random_secret_key
 from dotenv import load_dotenv
 
@@ -27,11 +31,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DJANGO_DEBUG", "False") == "True"
+sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 
 ALLOWED_HOSTS = ['130.162.180.61', '127.0.0.1', 'www.edward-pratt.live', 'edward-pratt.live']
 
@@ -45,6 +51,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'apps.accounts',
+
 ]
 
 MIDDLEWARE = [
@@ -83,12 +91,25 @@ WSGI_APPLICATION = 'SustainabilityApp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+
+if os.getenv('DJANGO_ENV') == 'production':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv('POSTGRES_DB', 'your_db_name'),
+            'USER': os.getenv('POSTGRES_USER', 'your_db_user'),
+            'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'your_db_password'),
+            'HOST': 'db',  # Name of docker-compose container
+            'PORT': '5432',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
 
 
 # Password validation
@@ -109,6 +130,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
@@ -147,3 +169,9 @@ TEMPLATE_DIRS = (
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Allow log out get requests
+LOGOUT_REDIRECT_URL = "home"
+
+#Allows CSRF verification on the production server
+CSRF_TRUSTED_ORIGINS = ["https://edward-pratt.live", "https://www.edward-pratt.live"]
