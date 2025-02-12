@@ -10,6 +10,11 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Create a new Pixi application
     const app = new PIXI.Application
 
+    const TILE_WIDTH = 64; // Width of a single tile
+    const TILE_HEIGHT = 32; // Height of a single tile
+    const GRID_ROWS = 10;
+    const GRID_COLS = 10;
+
 
     await app.init({
         width: 800,  // Canvas width
@@ -20,10 +25,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Append the Pixi canvas to the game container div
     gameContainer.appendChild(app.view);
 
-    const TILE_WIDTH = 64; // Width of a single tile
-    const TILE_HEIGHT = 32; // Height of a single tile
-    const GRID_ROWS = 10;
-    const GRID_COLS = 10;
+
 
     // Create a container to hold the grid
     const gridContainer = new PIXI.Container();
@@ -69,6 +71,11 @@ document.addEventListener("DOMContentLoaded", async function () {
     let isDragging = false;
     let lastX = 0, lastY = 0;
 
+    const wrapperWidth = gameWrapper.offsetWidth;
+    const wrapperHeight = gameWrapper.offsetHeight;
+    const containerWidth = gameContainer.offsetWidth;
+    const containerHeight = gameContainer.offsetHeight;
+
     // Mouse down event to start dragging
 
     gameWrapper.addEventListener('mousedown', (e) => {
@@ -84,9 +91,21 @@ document.addEventListener("DOMContentLoaded", async function () {
             const dx = e.pageX - lastX;
             const dy = e.pageY - lastY;
 
-            // Move the game container (Pixi canvas) relative to the wrapper
-            gameContainer.style.left = (gameContainer.offsetLeft + dx) + 'px';
-            gameContainer.style.top = (gameContainer.offsetTop + dy) + 'px';
+            // Calculate the new position of the game container (canvas)
+            let newLeft = gameContainer.offsetLeft + dx;
+            let newTop = gameContainer.offsetTop + dy;
+
+            // Ensure the canvas doesn't move beyond the left and right boundaries
+            if (newLeft > 0) newLeft = 0;  // Prevent moving too far to the right
+            if (newLeft < wrapperWidth - containerWidth) newLeft = wrapperWidth - containerWidth; // Prevent moving too far to the left
+
+            // Ensure the canvas doesn't move beyond the top and bottom boundaries
+            if (newTop > 0) newTop = 0;  // Prevent moving too far down
+            if (newTop < wrapperHeight - containerHeight) newTop = wrapperHeight - containerHeight; // Prevent moving too far up
+
+            // Apply the calculated position to the canvas
+            gameContainer.style.left = newLeft + 'px';
+            gameContainer.style.top = newTop + 'px';
 
             // Update last positions for the next move event
             lastX = e.pageX;
@@ -100,4 +119,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         gameWrapper.style.cursor = 'grab'; // Reset cursor when dragging stops
     });
 
+    gameWrapper.addEventListener('mouseleave', () => {
+        isDragging = false;
+        gameWrapper.style.cursor = 'grab'; // Reset cursor
+    });
 });
