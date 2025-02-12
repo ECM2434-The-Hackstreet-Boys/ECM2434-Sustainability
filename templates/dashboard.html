@@ -1,5 +1,19 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-    <p>welcome to your dashboard</p>
+    <p>Welcome to your dashboard</p>
+
+    <!-- Container for Pixi.js -->
+    <div id="game-wrapper">
+        <div id="game-container">
+            <!-- Canvas for Pixi.js -->
+        </div>
+    </div>
+
+    <!-- Include PixiJS from CDN, defer loading -->
+    <script src="https://pixijs.download/release/pixi.min.js" defer></script>
+
+    <!-- Include your custom garden.js script, defer loading -->
+    <script src="{% static 'js/garden.js' %}" defer></script>
 {% endblock %}
