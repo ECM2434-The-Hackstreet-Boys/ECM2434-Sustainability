@@ -1,4 +1,20 @@
 
+#game-wrapper {
+    width: 400px;     /* Visible area size */
+    height: 400px;    /* Visible area size */
+    overflow: hidden; /* Hide scrollbars */
+    position: relative;
+}
+
+/* Make the game container (Pixi.js canvas) larger than the visible area */
+#game-container {
+    width: 800px;  /* Larger than the visible area */
+    height: 800px; /* Larger than the visible area */
+    cursor: grab;  /* Indicate it's draggable */
+    position: absolute;  /* Position relative to the wrapper */
+}
+
+
 body {
     margin: 0;
     padding: 0;
@@ -63,3 +79,4 @@ p {
     font-size: 16px;
     color: black;
 }
+
