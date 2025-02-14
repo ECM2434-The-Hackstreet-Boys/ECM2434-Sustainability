@@ -14,7 +14,7 @@
                 <!--Navigation to different sections of the page-->
                 <div class = "left-section">
                     <a href="{% url 'home' %}" class = "logo">
-                        <img src="{% static 'resources/university-of-exeter-logo.png' %}" alt="University Logo">
+                        <img src="{% static 'resources/EcoWorld.png' %}" alt="University Logo">
                     </a>
 
                     <div class = "nav-links">
@@ -54,4 +54,5 @@
         {% block content %}
         {% endblock %}
     </main>
+    {% block extra_js %}{% endblock %}
     </body> 
