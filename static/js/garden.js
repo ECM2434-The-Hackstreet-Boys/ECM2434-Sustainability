@@ -1,4 +1,7 @@
+
 document.addEventListener("DOMContentLoaded", async function () {
+    console.log("Script loaded and DOM fully parsed!");
+
     const gameContainer = document.getElementById('game-container');
     const gameWrapper = document.getElementById('game-wrapper');
 
@@ -7,62 +10,88 @@ document.addEventListener("DOMContentLoaded", async function () {
         return;
     }
 
-    // Create a new Pixi application
-    const app = new PIXI.Application
-
-    const TILE_WIDTH = 64; // Width of a single tile
-    const TILE_HEIGHT = 32; // Height of a single tile
-    const GRID_ROWS = 10;
-    const GRID_COLS = 10;
-
-
+    const app = new PIXI.Application();
     await app.init({
-        width: 800,  // Canvas width
-        height: 800, // Canvas height
-        backgroundColor: 0x1099bb, // Background color
+        width: 800,
+        height: 800,
+        backgroundColor: 0x1099bb,
     });
 
-    // Append the Pixi canvas to the game container div
-    gameContainer.appendChild(app.view);
+    console.log("Pixi app initialized and canvas appended!");
+    gameContainer.appendChild(app.canvas);
 
-
-    // Create a container to hold the grid
     const gridContainer = new PIXI.Container();
-    gridContainer.x = app.renderer.width / 2; // Center the grid horizontally
-    gridContainer.y = 100; // Offset the grid vertically (you can adjust this)
     app.stage.addChild(gridContainer);
 
+    // Load the isometric texture without using PIXI.Loader
+    console.log("Loading isometric texture...");
+    const texture = await PIXI.Assets.load('../static/resources/grass.png?v=${Date.now()}');
+    //const texture = PIXI.Texture.from('../static/resources/grass.png');
+
+    console.log("Texture loaded:", texture);
+
+    // Tile configuration
+    const TILE_WIDTH = 32;
+    const TILE_HEIGHT = 32;
+    const TILE_DEPTH = 32;
+    const mapWidth = 10;
+    const mapHeight = 10;
+    const SPACING = 0;
+
+    let tileData = {};
+
     // Loop through rows and columns to create the isometric grid
-    for (let row = 0; row < GRID_ROWS; row++) {
-        for (let col = 0; col < GRID_COLS; col++) {
-            // Calculate position of each tile in isometric space
-            const x = (col - row) * (TILE_WIDTH / 2);
-            const y = (col + row) * (TILE_HEIGHT / 2);
+    for (let isoY = 0; isoY < mapHeight; isoY++) {
+        for (let isoX = 0; isoX < mapWidth; isoX++) {
+            const isoZ = 0; // Fixed height (1)
+            const screenX = (isoX - isoY) * (TILE_WIDTH / 2) + SPACING;
+            const screenY = (isoX + isoY) * (TILE_HEIGHT / 2) - (isoZ * TILE_DEPTH) + SPACING;
 
-            // Create the tile shape using PIXI.Graphics
-            let tile = new PIXI.Graphics();
-            tile.beginFill(0xffffff); // White tile color
-            tile.lineStyle(1, 0x000000); // Black border
-            tile.moveTo(0, TILE_HEIGHT / 2); // Start from the top-left corner
-            tile.lineTo(TILE_WIDTH / 2, 0);  // Top-middle corner
-            tile.lineTo(TILE_WIDTH, TILE_HEIGHT / 2);  // Top-right corner
-            tile.lineTo(TILE_WIDTH / 2, TILE_HEIGHT);  // Bottom-right corner
-            tile.lineTo(0, TILE_HEIGHT / 2); // Bottom-left corner
-            tile.endFill();
 
-            // Position the tile in isometric space
-            tile.x = x;
-            tile.y = y;
-            tile.interactive = true; // Make tile clickable
-            tile.buttonMode = true;  // Change cursor to pointer on hover
+            let tile = new PIXI.Sprite(texture);
+            tile.width = TILE_WIDTH;
+            tile.height = TILE_HEIGHT + TILE_DEPTH;
 
-            // Click event to change the tile's color
-            tile.on("click", () => {
-                tile.tint = Math.random() * 0xffffff; // Change color on click
-            });
+            tile.anchor.set(0.5, 1);
+            tile.x = screenX + 400; // Add offset for better positioning on screen
+            tile.y = screenY + 100; // Add offset for better positioning on screen
+            tile.zIndex = isoZ; // Store the z-index for depth sorting
+
+
+
+            tile.interactive = true;
+            tile.buttonMode = true; // Enable clickable functionality
+
+            // Store the tile data for later reference
+            tileData[`${isoX},${isoY}`] = { type: 'block', sprite: tile };
 
             // Add the tile to the grid container
             gridContainer.addChild(tile);
+        }
+    }
+
+    // Ensure the tiles are rendered in the correct order (depth sorting)
+    app.ticker.add(() => {
+        gridContainer.children.sort((a, b) => a.y - b.y);
+    });
+
+    console.log("Tiles created and added to grid container.");
+
+    function getTileState() {
+        let state = {};
+        for (let key in tileData) {
+            state[key] = tileData[key].type;
+        }
+        return state;
+    }
+
+    function loadTileState(savedState) {
+        for (let key in savedState) {
+            if (tileData[key]) {
+                let type = savedState[key];
+                tileData[key].type = type;
+                tileData[key].sprite.texture = textures[type];
+            }
         }
     }
 
@@ -133,58 +162,48 @@ document.addEventListener("DOMContentLoaded", async function () {
     gameWrapper.addEventListener('touchend', stopDrag);
     gameWrapper.addEventListener('touchcancel', stopDrag);
 
-
     let contextMenu = document.getElementById('context-menu');
     let selectedTile = null;
 
     document.addEventListener("contextmenu", (event) => event.preventDefault()); // Disable default menu
 
-
-gridContainer.children.forEach(tile => {
-    tile.on("rightdown", (event) => { // 'rightdown' detects right-click in Pixi.js
-        event.stopPropagation(); // Prevents event from bubbling up
-        event.preventDefault();  // Stops browser menu
-        showContextMenu(event.global.x, event.global.y, tile);
-    });
-
-    // Long press (Mobile)
-    tile.on("pointerdown", (event) => {
-        pressTimer = setTimeout(() => {
+    gridContainer.children.forEach(tile => {
+        tile.on("rightdown", (event) => { // 'rightdown' detects right-click in Pixi.js
+            event.stopPropagation(); // Prevents event from bubbling up
+            event.preventDefault();  // Stops browser menu
             showContextMenu(event.global.x, event.global.y, tile);
-        }, 500); // Hold for 500ms to trigger
+        });
+
+        // Long press (Mobile)
+        tile.on("pointerdown", (event) => {
+            pressTimer = setTimeout(() => {
+                showContextMenu(event.global.x, event.global.y, tile);
+            }, 500); // Hold for 500ms to trigger
+            tile.on("pointerup", () => clearTimeout(pressTimer)); // Cancel if released early
+            tile.on("pointerout", () => clearTimeout(pressTimer));
+        });
     });
-
-    tile.on("pointerup", () => clearTimeout(pressTimer)); // Cancel if released early
-    tile.on("pointerout", () => clearTimeout(pressTimer));
-
-    });
-
 
     function showContextMenu(x, y, tile) {
-    selectedTile = tile;
-    contextMenu.style.display = 'block';
-    contextMenu.style.left = x + 'px';
-    contextMenu.style.top = y + 'px';
+        selectedTile = tile;
+        contextMenu.style.display = 'block';
+        contextMenu.style.left = x + 'px';
+        contextMenu.style.top = y + 'px';
     }
 
     document.addEventListener("click", () => {
-    contextMenu.style.display = "none";
+        contextMenu.style.display = "none";
     });
 
     document.getElementById("edit-tile").addEventListener("click", () => {
-    if (selectedTile) {
-        selectedTile.tint = Math.random() * 0xffffff; // Example: Change tile color
-    }});
+        if (selectedTile) {
+            selectedTile.tint = Math.random() * 0xffffff; // Example: Change tile color
+        }
+    });
 
-
-document.getElementById("delete-tile").addEventListener("click", () => {
-    if (selectedTile) {
-        selectedTile.destroy(); // Remove tile
-    }});
-
+    document.getElementById("delete-tile").addEventListener("click", () => {
+        if (selectedTile) {
+            selectedTile.destroy(); // Remove tile
+        }
+    });
 });
-
-
-
-
-
