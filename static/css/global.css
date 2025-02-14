@@ -1,4 +1,26 @@
 
+
+#game-wrapper {
+    width: 400px;     /* Visible area size */
+    height: 400px;    /* Visible area size */
+    overflow: hidden; /* Hide scrollbars */
+    position: relative;
+}
+
+/* Make the game container (Pixi.js canvas) larger than the visible area */
+#game-container {
+    width: 800px;  /* Larger than the visible area */
+    height: 800px; /* Larger than the visible area */
+    cursor: grab;  /* Indicate it's draggable */
+    position: absolute;  /* Position relative to the wrapper */
+}
+
+
+
+
+
+
+
 body {
     margin: 0;
     padding: 0;
@@ -6,15 +28,16 @@ body {
 }
 
 header {
-    background-color: #1db175;
-    padding: 5px;
+    background-color: #5b5b5b;
 }
 
 nav {
     display: flex;
     align-items: center;
-    background-color: #1db175;
+    background-color: #5b5b5b;
     justify-content: space-between;
+    padding: 10px 20px;
+    color: white;
 }
 
 nav a {
@@ -27,27 +50,72 @@ nav a {
 }
 
 nav .nav-links a:hover {
-    background-color: #54545484;
+    background-color: #9b9b9b;
     border-radius: 5px;
-}
-
-nav .left-section {
-    display: flex;
-    align-items: center;
-}
-
-nav .account a {
-    margin-right: auto;
 }
 
 nav .account a:hover {
-    background-color: #54545484;
+    background-color: #9b9b9b;
     border-radius: 5px;
 }
 
-nav .logo img {
-    height: 50px;
-    width: auto;
+/* Sidebar Styles */
+#menu-icon {
+    font-size: 30px;
+    cursor: pointer;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background-color 0.5s ease;
+}
+
+#menu-icon:hover {
+    background-color: #9b9b9b;
+}
+
+#sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px; /* Hidden initially */
+    width: 250px;
+    height: 100%;
+    background-color: #333;
+    color: white;
+    padding-top: 60px;
+    transition: 0.3s;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+}
+
+#sidebar .nav-links a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 15px;
+    text-align: center;
+}
+
+#sidebar .nav-links a:hover{
+    background-color: #444;
+}
+
+#close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 30px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+#close-btn:hover {
+    color: #ffffff8c;
+}
+
+/* Sidebar Open */
+.sidebar-open {
+    left: 0 !important;
 }
 
 main {
@@ -63,3 +131,4 @@ p {
     font-size: 16px;
     color: black;
 }
+
