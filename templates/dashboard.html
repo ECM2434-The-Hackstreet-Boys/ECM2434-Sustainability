@@ -1,21 +1,24 @@
 {% extends 'base.html' %}
 {% load static %}
 
-
-
 {% block content %}
     <p>Welcome to your dashboard</p>
-    
+
     <!-- Container for Pixi.js -->
     <div id="game-wrapper">
         <div id="game-container">
             <!-- Canvas for Pixi.js -->
         </div>
     </div>
-    
+
     <div id="context-menu">
-    <button id="edit-tile">Edit Tile</button>
-    <button id="delete-tile">Delete Tile</button>
+        <button id="edit-tile">Edit Tile</button>
+        <button id="delete-tile">Delete Tile</button>
+    </div>
+
+    <!-- Submenu for texture options -->
+    <div id="texture-submenu" style="position: absolute; display: none; background-color: #fff; border: 1px solid #ccc; padding: 10px;">
+        <!-- Buttons for texture options will be dynamically added here -->
     </div>
 
     <!-- Include PixiJS from CDN, defer loading -->

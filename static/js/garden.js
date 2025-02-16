@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", async function () {
     console.log("Script loaded and DOM fully parsed!");
 
@@ -25,13 +24,19 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Load the isometric texture without using PIXI.Loader
     console.log("Loading isometric texture...");
-    const texture = await PIXI.Assets.load('../static/resources/grass.png?v=${Date.now()}');
-    //const texture = PIXI.Texture.from('../static/resources/grass.png');
+    const grasstexture = await PIXI.Assets.load('../static/resources/grass.png?v=${Date.now()}');
+    const treetexture = await PIXI.Assets.load('../static/resources/grassWithTree.png?v=${Date.now()}');
 
-    console.log("Texture loaded:", texture);
+    // Store the textures in an object for easy access
+    const textures = {
+        block: grasstexture,
+        tree: treetexture,
+    };
+
+    console.log("Texture loaded:", grasstexture);
 
     // Tile configuration
-    const TILE_WIDTH = 32;
+    const TILE_WIDTH = 64;
     const TILE_HEIGHT = 32;
     const TILE_DEPTH = 32;
     const mapWidth = 10;
@@ -47,8 +52,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             const screenX = (isoX - isoY) * (TILE_WIDTH / 2) + SPACING;
             const screenY = (isoX + isoY) * (TILE_HEIGHT / 2) - (isoZ * TILE_DEPTH) + SPACING;
 
-
-            let tile = new PIXI.Sprite(texture);
+            let tile = new PIXI.Sprite(textures.block);
             tile.width = TILE_WIDTH;
             tile.height = TILE_HEIGHT + TILE_DEPTH;
 
@@ -57,13 +61,11 @@ document.addEventListener("DOMContentLoaded", async function () {
             tile.y = screenY + 100; // Add offset for better positioning on screen
             tile.zIndex = isoZ; // Store the z-index for depth sorting
 
-
-
             tile.interactive = true;
             tile.buttonMode = true; // Enable clickable functionality
 
             // Store the tile data for later reference
-            tileData[`${isoX},${isoY}`] = { type: 'block', sprite: tile };
+            tileData[`${isoX},${isoY}`] = {type: 'block', sprite: tile};
 
             // Add the tile to the grid container
             gridContainer.addChild(tile);
@@ -162,6 +164,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     gameWrapper.addEventListener('touchend', stopDrag);
     gameWrapper.addEventListener('touchcancel', stopDrag);
 
+
     let contextMenu = document.getElementById('context-menu');
     let selectedTile = null;
 
@@ -191,15 +194,38 @@ document.addEventListener("DOMContentLoaded", async function () {
         contextMenu.style.top = y + 'px';
     }
 
-    document.addEventListener("click", () => {
-        contextMenu.style.display = "none";
-    });
-
-    document.getElementById("edit-tile").addEventListener("click", () => {
-        if (selectedTile) {
-            selectedTile.tint = Math.random() * 0xffffff; // Example: Change tile color
+    document.addEventListener("click", (event) => {
+        if (!contextMenu.contains(event.target) && !document.getElementById("texture-submenu").contains(event.target)) {
+            contextMenu.style.display = "none";
+            document.getElementById("texture-submenu").style.display = "none";
         }
     });
+
+    document.getElementById("edit-tile").addEventListener("click", (event) => {
+        event.stopPropagation(); // Prevents the click event from propagating
+        if (selectedTile) {
+            const submenu = document.getElementById("texture-submenu");
+            submenu.style.display = "block";
+            submenu.style.left = contextMenu.style.left;
+            submenu.style.top = parseInt(contextMenu.style.top) + contextMenu.offsetHeight + 'px';
+            submenu.style.zIndex = 1000; // Ensure it's on top of the context menu
+        }
+    });
+
+    // Create submenu for texture options
+    const submenu = document.getElementById("texture-submenu");
+    for (let key in textures) {
+        const button = document.createElement("button");
+        button.textContent = key;
+        button.addEventListener("click", () => {
+            if (selectedTile) {
+                selectedTile.texture = textures[key];
+                tileData[`${selectedTile.x},${selectedTile.y}`].type = key;
+                submenu.style.display = "none";
+            }
+        });
+        submenu.appendChild(button);
+    }
 
     document.getElementById("delete-tile").addEventListener("click", () => {
         if (selectedTile) {
