@@ -173,3 +173,6 @@ cython_debug/
 /.idea/discord.xml
 /.idea/ECM2434Coursework.iml
 /staticfiles/
+/node_modules
+package-lock.json
+package.json
