@@ -35,4 +35,4 @@ RUN python manage.py migrate
 # Start the Django application with Gunicorn using the virtual environment's Python
 
 #CMD ["python", "-m", "SustainabililityApp/manage.py", "collectstatic", "--noinput", "&&", "gunicorn", "--bind", "0.0.0.0:8000", "apps.wsgi:application"]
-CMD RUN python mange.py makemigrations; RUN python manage.py migrate; python manage.py collectstatic --noinput; gunicorn --bind 0.0.0.0:8000 SustainabilityApp.wsgi:application
+CMD python mange.py makemigrations; python manage.py migrate; python manage.py collectstatic --noinput; gunicorn --bind 0.0.0.0:8000 SustainabilityApp.wsgi:application
