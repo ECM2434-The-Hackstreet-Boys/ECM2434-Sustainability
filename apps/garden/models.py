@@ -12,4 +12,19 @@ class Garden(models.Model):
         return self.gardenID
 
 
-class
+class Inventory(models.Model):
+    inventoryID = models.AutoField(primary_key=True)
+    userID = models.ForeignKey('accounts.CustomUser', on_delete=models.CASCADE)
+    blockID = models.ForeignKey('block', on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=0)
+
+
+    def __str__(self):
+        return self.inventoryID
+
+
+class Block(models.Model):
+    blockID = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=50)
+    cost = models.IntegerField(default=0)
+    value = models.IntegerField(default=0)

@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     'apps.home',
     'apps.garden',
     'apps.stats',
+    'apps.quiz',
+    'apps.recycling'
 ]
 
 MIDDLEWARE = [
