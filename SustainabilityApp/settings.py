@@ -54,6 +54,8 @@ INSTALLED_APPS = [
     'apps.accounts',
     'apps.dashboard',
     'apps.home',
+    'apps.garden',
+    'apps.stats',
 ]
 
 MIDDLEWARE = [
