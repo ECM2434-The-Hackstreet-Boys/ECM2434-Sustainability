@@ -54,6 +54,10 @@ INSTALLED_APPS = [
     'apps.accounts',
     'apps.dashboard',
     'apps.home',
+    'apps.garden',
+    'apps.stats',
+    'apps.quiz',
+    'apps.recycling'
 ]
 
 MIDDLEWARE = [
