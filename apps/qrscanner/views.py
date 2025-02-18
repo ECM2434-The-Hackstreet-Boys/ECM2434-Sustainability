@@ -1,3 +1,5 @@
+# install opencv/pzybar or "opencv-pzybar" and qrcode ("qrcode[pil]" for pillow) using pip
+
 from django.shortcuts import render
 from django.views.generic import TemplateView
 import qrcode
