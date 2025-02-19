@@ -1,10 +1,16 @@
+import os.path
+
 from django.db import models
 
+
+
+def garden_file_path(instance, filename):
+    return os.path.join('gardens', f'{instance.userID.username}_{instance.name}.json')
 # Create your models here.
 class Garden(models.Model):
     gardenID = models.AutoField(primary_key=True)
     userID = models.ForeignKey('accounts.CustomUser', on_delete=models.CASCADE)
-    filePath = models.FilePathField()
+    file_path = models.FileField(upload_to=garden_file_path, null=True, blank=True)
     rating = models.FloatField(default=0)
 
 

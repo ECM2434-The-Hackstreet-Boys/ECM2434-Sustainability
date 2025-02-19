@@ -29,6 +29,7 @@ urlpatterns =[
     path('dashboard/', include('apps.dashboard.urls')),
     path('play_screen/', include('apps.play_screen.urls')),
     path('map/', include('apps.map.urls')),
+    path('garden/', include('apps.garden.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + \
                static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

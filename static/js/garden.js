@@ -77,7 +77,45 @@ document.addEventListener("DOMContentLoaded", async function () {
         gridContainer.children.sort((a, b) => a.y - b.y);
     });
 
+
+    async function saveGarden() {
+        const gardenState = getTileState();
+        const response = await fetch('save_garden/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCSRFToken(),
+            },
+            body: JSON.stringify({garden: gardenState}),
+        });
+        if (response.ok) {
+            console.log('Garden saved successfully');
+        } else {
+            console.error('Failed to save garden');
+        }
+    }
+
+    async function loadGarden() {
+        const response = await fetch('load_garden/');
+        if (response.ok) {
+            const data = await response.json();
+            loadTileState(data.garden);
+            console.log('Garden loaded successfully');
+        } else {
+            console.error('Failed to load garden');
+        }
+    }
+
+    function getCSRFToken() {
+        return document.querySelector('[name=csrfmiddlewaretoken]').value;
+    }
+
+    document.getElementById('save-button').addEventListener('click', saveGarden);
+    document.getElementById('load-button').addEventListener('click', loadGarden);
+
+
     console.log("Tiles created and added to grid container.");
+    console.log("Tile Data:", tileData);
 
     function getTileState() {
         let state = {};
