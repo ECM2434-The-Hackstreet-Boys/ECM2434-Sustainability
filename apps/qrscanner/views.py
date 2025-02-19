@@ -36,7 +36,7 @@ class QRCodeView(TemplateView):
         return 'data:image/png;base64,' + base64_image
 
 class QRCodeScan(TemplateView):
-    template_name= 'qrscanner.html'
+    template_name= 'qrscan.html'
 
     def post(self,request):
         # Get the image data from the POST request
