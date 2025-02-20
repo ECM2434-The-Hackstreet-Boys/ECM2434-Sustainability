@@ -3,6 +3,6 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 @login_required
-def statspage(request):
+def mygardenpage(request):
 
-    return render(request, "statistics.html")
+    return render(request, "mygarden.html")

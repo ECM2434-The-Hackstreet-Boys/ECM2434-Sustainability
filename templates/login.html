@@ -1,12 +1,39 @@
+<!--
+    Author: Ethan Clapham & Edward Pratt
+    Date: 05/02/2025
+    Description: This is the login page for the website. It allows users to log in to their account.
+-->
+
 {% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+{% endblock %}
 
 {% block content %}
     <!--Main content of the page-->
-
     <h1>Log In</h1>
-    <form method="post">
+
+    {% if form.non_field_errors %}
+            <div class="error">
+                {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+    {% endif %}
+
+    <!--Form for the user to log in-->
+    <form method="post" class = "sign-in-form">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Log In</button>
+            <label for="{{ form.username.id_for_label }}">Username:</label><br>
+            {{ form.username }} <br><!-- Render the username field -->
+        
+            <label for="{{ form.password.id_for_label }}">Password:</label><br>
+            {{ form.password }} <br>  <!-- Render the password field -->
+        
+            <button type="submit" class="submit-btn">Sign In</button>
     </form>
+
+    <p>Don't have an account? <a href = "{% url 'register' %}">Register here</a></p>
 {% endblock %}
