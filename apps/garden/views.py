@@ -3,6 +3,7 @@ from django.shortcuts import render
 
 # Create your views here.
 
+
 @login_required
 def get_garden_page(request):
     return render(request, 'garden.html')
@@ -61,3 +62,5 @@ def save_garden(request):
 
         except Exception as e:
             return JsonResponse({"success": False, "error": str(e)}, status=400)
+
+

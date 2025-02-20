@@ -1,3 +1,4 @@
+
 # garden/urls.py
 from django.urls import path
 from . import views
@@ -8,3 +9,4 @@ urlpatterns = [
     path('save_garden/', views.save_garden, name='save_garden'),
     path('load_garden/', views.load_garden, name='load_garden'),
 ]
+
