@@ -15,9 +15,9 @@ import sys
 from pathlib import Path
 import mimetypes
 
-
 from django.core.management.utils import get_random_secret_key
 from dotenv import load_dotenv
+from django.middleware.clickjacking import XFrameOptionsMiddleware
 
 load_dotenv()
 
@@ -54,6 +54,10 @@ INSTALLED_APPS = [
     'apps.accounts',
     'apps.dashboard',
     'apps.home',
+    'apps.garden',
+    'apps.stats',
+    'apps.quiz',
+    'apps.recycling'
 ]
 
 MIDDLEWARE = [
@@ -176,3 +180,6 @@ LOGOUT_REDIRECT_URL = "home"
 
 #Allows CSRF verification on the production server
 CSRF_TRUSTED_ORIGINS = ["https://edward-pratt.live", "https://www.edward-pratt.live"]
+
+# Add this setting to allow embedding in iframes
+X_FRAME_OPTIONS = 'SAMEORIGIN'
