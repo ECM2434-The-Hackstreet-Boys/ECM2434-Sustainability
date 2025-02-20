@@ -97,56 +97,57 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     }
 
-    // Implement drag functionality with bounds
+    // Implement drag functionality
     let isDragging = false;
-    let startX, startY;
-    let currentX = 0, currentY = 0;
+    let lastX = 0, lastY = 0;
+    let wrapperWidth = gameWrapper.clientWidth;
+    let wrapperHeight = gameWrapper.clientHeight;
+    let containerWidth = gameContainer.clientWidth;
+    let containerHeight = gameContainer.clientHeight;
 
-    function startDrag(e) {
+    // Function to start dragging
+    function startDrag(x, y) {
         isDragging = true;
-        
-        // Store initial positions
-        startX = e.clientX - currentX;
-        startY = e.clientY - currentY;
-        
-        gameWrapper.style.cursor = "grabbing";
+        lastX = x;
+        lastY = y;
+        gameWrapper.style.cursor = 'grabbing'; // Change cursor when dragging starts
     }
 
-    function moveDrag(e) {
-        if (!isDragging) return;
+    // Function to move the canvas
+    function moveDrag(x, y) {
+        if (isDragging) {
+            const dx = x - lastX;
+            const dy = y - lastY;
 
-        // Calculate new position
-        let newX = e.clientX - startX;
-        let newY = e.clientY - startY;
+            let newLeft = gameContainer.offsetLeft + dx;
+            let newTop = gameContainer.offsetTop + dy;
 
-        // Get bounding box sizes
-        let wrapperRect = gameWrapper.getBoundingClientRect();
-        let containerRect = gameContainer.getBoundingClientRect();
+            // Prevent moving too far to the right or left
+            newLeft = Math.min(0, Math.max(wrapperWidth - containerWidth, newLeft));
 
-        // Define boundaries
-        let minX = wrapperRect.width - containerRect.width; // Left limit
-        let maxX = 0;  // Right limit
-        let minY = wrapperRect.height - containerRect.height; // Top limit
-        let maxY = 0;  // Bottom limit
+            // Prevent moving too far up or down
+            newTop = Math.min(0, Math.max(wrapperHeight - containerHeight, newTop));
 
-        // Clamp the values to stay within bounds
-        currentX = Math.min(maxX, Math.max(minX, newX));
-        currentY = Math.min(maxY, Math.max(minY, newY));
+            // Apply the new position
+            gameContainer.style.left = newLeft + 'px';
+            gameContainer.style.top = newTop + 'px';
 
-        // Apply the movement
-        gameContainer.style.transform = `translate(${currentX}px, ${currentY}px)`;
+            lastX = x;
+            lastY = y;
+        }
     }
 
+    // Function to stop dragging
     function stopDrag() {
         isDragging = false;
-        gameWrapper.style.cursor = "grab";
+        gameWrapper.style.cursor = 'grab'; // Reset cursor when dragging stops
     }
 
-    // ** Attach Events to the Document for Consistent Dragging **
-    gameWrapper.addEventListener("mousedown", startDrag);
-    document.addEventListener("mousemove", moveDrag);
-    document.addEventListener("mouseup", stopDrag);
-
+    // ** Mouse Events **
+    gameWrapper.addEventListener('mousedown', (e) => startDrag(e.pageX, e.pageY));
+    gameWrapper.addEventListener('mousemove', (e) => moveDrag(e.pageX, e.pageY));
+    gameWrapper.addEventListener('mouseup', stopDrag);
+    gameWrapper.addEventListener('mouseleave', stopDrag);
 
     // ** Touch Events **
     gameWrapper.addEventListener('touchstart', (e) => {

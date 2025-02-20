@@ -1,30 +1,29 @@
-<!--
-    Author: Ethan Clapham
-    Date: 04/02/2025
-    Description: Contents of the dashboard page.
--->
-
 {% extends 'base.html' %}
 {% load static %}
 
-{% block extra_css %}
-    <!--Link to the CSS file for the dashboard page-->
-    <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
-{% endblock %}
-
 {% block content %}
-    <!--Main content of the page-->
-    <h1>Welcome Back</h1>
+    <p>Welcome to your dashboard</p>
 
-    <!--Buttons to log in and register-->
-    <div class = "button-container">
-        <a href="{% url 'mygarden' %}" class = "button">Your Garden</a>
-        <a href="" class = "button-play">Play Game</a>
+    <!-- Container for Pixi.js -->
+    <div id="game-wrapper">
+        <div id="game-container">
+            <!-- Canvas for Pixi.js -->
+        </div>
     </div>
 
-    <!--Garden demonstration-->
-    <p>Pic of garden here</p>
+    <div id="context-menu">
+        <button id="edit-tile">Edit Tile</button>
+        <button id="delete-tile">Delete Tile</button>
+    </div>
 
-    <!--Leaderboard-->
-    <p>Leaderboard preview here</p>
+    <!-- Submenu for texture options -->
+    <div id="texture-submenu" style="position: absolute; display: none; background-color: #fff; border: 1px solid #ccc; padding: 10px;">
+        <!-- Buttons for texture options will be dynamically added here -->
+    </div>
+
+    <!-- Include PixiJS from CDN, defer loading -->
+    <script src="https://pixijs.download/release/pixi.js" defer></script>
+
+    <!-- Include your custom garden.js script, defer loading -->
+    <script src="{% static 'js/garden.js' %}" defer></script>
 {% endblock %}

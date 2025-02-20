@@ -1,55 +1,6 @@
-<!--
-    Author: Ethan Clapham
-    Date: 04/02/2025
-    Description: Contents of the home page, including a welcome message, inks to log in and register, and information about the project.
--->
-
 {% extends 'base.html' %}
-{% load static %}
-
-{% block extra_css %}
-    <!--Link to the CSS file for the home page-->
-    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
-{% endblock %}
 
 {% block content %}
-    <!--Main content of the page-->
-    <img src="{% static 'resources\Logo.webp' %}" alt="EcoWorld">
-    <h2>Plant a Greener Future</h2>
-
-    <!--Buttons to log in and register-->
-    <div class = "button-container">
-        <a href="{% url 'login' %}" class = "button">Log In</a>
-        <a href="{% url 'register' %}" class = "button-register">Register</a>
-    </div>
-    
-    <!--About section-->
-    <div class = "about">
-        <h2>About</h2>
-        <h3>Who We Are</h3>
-        
-        <ul class="info-list">
-            <li>
-                <span class = "info-icon">&#9432;</span>
-                <div class = "text-content">
-                    <h3> Item 1</h3>
-                    <p>This is the description for item 1.</p>
-                </div>
-            </li>
-            <li>
-                <span class = "info-icon">&#9432;</span>
-                <div class = "text-content">
-                    <h3>Item 2</h3>
-                    <p>This is the description for item 2.</p>
-                </div>
-            </li>
-            <li>
-                <span class = "info-icon">&#9432;</span>
-                <div class = "text-content">
-                    <h3>Item 3</h3>
-                    <p>This is the description for item 3.</p>
-                </div>
-            </li>
-        </ul>
-    </div>
+    <h1>Welcome</h1>
+    <p>Some eco stuff</p>
 {% endblock %}

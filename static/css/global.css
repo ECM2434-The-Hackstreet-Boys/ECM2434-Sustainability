@@ -1,23 +1,58 @@
-/* 
-    Author: Ethan Clapham
-    Date Created: 05/02/2025
-    Description: This file contains the global styles for the website.
-*/
 
-/* Styling for the body of all pages*/
+
+#game-wrapper {
+    width: 400px;     /* Visible area size */
+    height: 400px;    /* Visible area size */
+    overflow: hidden; /* Hide scrollbars */
+    position: relative;
+}
+
+/* Make the game container (Pixi.js canvas) larger than the visible area */
+#game-container {
+    width: 800px;  /* Larger than the visible area */
+    height: 800px; /* Larger than the visible area */
+    cursor: grab;  /* Indicate it's draggable */
+    position: absolute;  /* Position relative to the wrapper */
+}
+
+
+#context-menu {
+    position: absolute;
+    display: none;
+    background: white;
+    border: 1px solid black;
+    padding: 10px;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+    z-index: 200; /* Higher than canvas */
+}
+#context-menu button {
+    display: block;
+    width: 100%;
+    padding: 5px;
+    border: none;
+    background: none;
+    text-align: left;
+}
+#context-menu button:hover {
+    background: #ddd;
+}
+
+
+
+
+
+
+
 body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background-color: whitesmoke;
 }
 
-/* Styling for the header of all pages */
 header {
     background-color: #5b5b5b;
 }
 
-/* Styling for the navigation bar of all pages */
 nav {
     display: flex;
     align-items: center;
@@ -36,7 +71,6 @@ nav a {
     padding: 8px 15px;
 }
 
-/* Styling for items in the nav bar when hovered over */
 nav .nav-links a:hover {
     background-color: #9b9b9b;
     border-radius: 5px;
@@ -47,7 +81,7 @@ nav .account a:hover {
     border-radius: 5px;
 }
 
-/* Sidebar icon styles*/
+/* Sidebar Styles */
 #menu-icon {
     font-size: 30px;
     cursor: pointer;
@@ -61,7 +95,6 @@ nav .account a:hover {
     background-color: #9b9b9b;
 }
 
-/* Sidebar Styling */
 #sidebar {
     position: fixed;
     top: 0;
@@ -76,7 +109,6 @@ nav .account a:hover {
     z-index: 100;
 }
 
-/* Styling for the sidebar links */
 #sidebar .nav-links a {
     display: block;
     color: white;
@@ -89,7 +121,6 @@ nav .account a:hover {
     background-color: #444;
 }
 
-/* Styling for the close button in the sidebar */
 #close-btn {
     position: absolute;
     top: 10px;
@@ -110,24 +141,17 @@ nav .account a:hover {
     left: 0 !important;
 }
 
-/* Styling for the main content of all pages */
 main {
     padding: 20px;
-    align-items: center;
-    text-align: center;
 }
 
-/* Styling for the text in the main content */
 h1 {
-    font-size: 45px;
-    color: #10583b;
-}
-
-h2 {
     font-size: 30px;
+    color: #10583b;
 }
 
 p {
     font-size: 16px;
     color: black;
 }
+

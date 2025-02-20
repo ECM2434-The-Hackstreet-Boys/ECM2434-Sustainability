@@ -1,6 +1,7 @@
 from django.db import models
 
 # Create your models here.
+
 class Stats(models.Model):
     statsID = models.AutoField(primary_key=True)
     userID = models.ForeignKey('accounts.CustomUser', on_delete=models.CASCADE)
