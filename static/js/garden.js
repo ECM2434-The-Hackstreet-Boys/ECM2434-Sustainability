@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             tile.buttonMode = true; // Enable clickable functionality
 
             // Store the tile data for later reference
-            tileData[`${isoX},${isoY}`] = {type: 'block', sprite: tile};
+            tileData[`${isoX},${isoY}`] = {type: 'block', sprite: tile, textureType: 'grass'};
 
             // Add the tile to the grid container
             gridContainer.addChild(tile);
@@ -120,8 +120,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     function getTileState() {
         let state = {};
         for (let key in tileData) {
-            state[key] = tileData[key].type;
+            state[key] = tileData[key].textureType;
         }
+        console.log('State:', state);
         return state;
     }
 
@@ -258,7 +259,12 @@ document.addEventListener("DOMContentLoaded", async function () {
         button.addEventListener("click", () => {
             if (selectedTile) {
                 selectedTile.texture = textures[key];
-                tileData[`${selectedTile.x},${selectedTile.y}`].type = key;
+                let isoX = Math.round(((selectedTile.x - 400) / (TILE_WIDTH / 2) + (selectedTile.y - 100) / (TILE_HEIGHT / 2)) / 2);
+                let isoY = Math.round(((selectedTile.y - 100) / (TILE_HEIGHT / 2) - (selectedTile.x - 400) / (TILE_WIDTH / 2)) / 2);
+
+                console.log("Selected tile:", selectedTile);
+                console.log("Selected Tile X,Y:", selectedTile.x, selectedTile.y);
+                tileData[`${isoX},${isoY}`].textureType = key;
                 submenu.style.display = "none";
             }
         });

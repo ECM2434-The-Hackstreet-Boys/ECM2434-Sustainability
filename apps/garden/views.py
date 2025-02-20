@@ -19,10 +19,10 @@ def get_admin_page(request):
     return render(request, 'admin_garden.html')
 
 
-def load_garden(request, name):
+def load_garden(request):
     try:
         user = request.user  # Ensure user is authenticated
-        garden = get_object_or_404(Garden, user=user, name=name)
+        garden = get_object_or_404(Garden, userID=user)
 
         file_path = os.path.join(settings.MEDIA_ROOT, str(garden.file_path))
 
@@ -44,21 +44,23 @@ def save_garden(request):
         try:
             data = json.loads(request.body)
             garden_name = data.get("name", "default_garden")
-            tile_data = data.get("tiles", {})
+            tile_data = data.get("garden", {})
 
             user = request.user  # Ensure user is authenticated
 
             # Define file path
             file_path = os.path.join(settings.MEDIA_ROOT, "gardens", f"{user.username}_{garden_name}.json")
+            if not os.path.exists(file_path):
+                os.makedirs(os.path.dirname(file_path), exist_ok=True)
 
             # Save JSON to file
             with open(file_path, "w") as f:
+                print(tile_data)
                 json.dump(tile_data, f)
 
             # Save file path in database
-            garden, created = Garden.objects.update_or_create(
-                user=user,
-                name=garden_name,
+            Garden.objects.update_or_create(
+                userID=user,
                 defaults={"file_path": f"gardens/{user.username}_{garden_name}.json"}
             )
 
