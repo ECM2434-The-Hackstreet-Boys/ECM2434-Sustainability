@@ -1,7 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Full Page Map{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/play.css' %}">
+{% endblock %}
 
 {% block content %}
     <div id="container">
@@ -10,42 +13,6 @@
             <button id="my-button">Open Camera</button>
         </div>
     </div>
-{% endblock %}
-
-{% block extra_css %}
-    <style>
-        #container {
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
-        #button-container {
-            padding: 5px;
-            text-align: center;
-            background-color: rgba(255, 255, 255, 0.8);
-            height: 15vh; /* Adjust height to fit within the viewport */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        #my-button {
-            background-color: #007bff; /* Update this to match the navbar color from base.html */
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 50%; /* Make the button rounded */
-            transition: background-color 0.3s ease;
-            font-size: 16px;
-            width: 100px; /* Set a fixed width */
-            height: 100px; /* Set a fixed height */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        #my-button:hover {
-            background-color: #0056b3; /* Update this to match the hover color of the navbar from base.html */
-        }
-    </style>
 {% endblock %}
 
 {% block extra_js %}
