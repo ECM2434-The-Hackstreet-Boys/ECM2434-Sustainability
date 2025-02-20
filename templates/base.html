@@ -46,7 +46,7 @@
                     <a href="{% url 'home' %}">Home</a>
                 {% else %}
                     <a href="{% url 'dashboard' %}">Dashboard</a>
-                    <a href="{% url 'play' %}">Play</a>
+                    <a href="{% url 'play_screen' %}">Play</a>
                     <a href="{% url 'leaderboardpage' %}">Leaderboard</a>
                     <a href="{% url 'stats' %}">Statistics</a>
                 {% endif %}
@@ -67,5 +67,6 @@
             {% block content %}
             {% endblock %}
         </main>
-    {% block extra_js %}{% endblock %}
+    {% block extra_js %}
+    {% endblock %}
     </body> 
