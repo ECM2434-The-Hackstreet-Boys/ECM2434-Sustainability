@@ -26,6 +26,11 @@ urlpatterns =[
     path('admin/', admin.site.urls),
     path('accounts/', include('apps.accounts.urls')),
     path('dashboard/', include('apps.dashboard.urls')),
+    path('garden/', include('apps.mygarden.urls')),
+    path('play/', include('apps.play.urls')),
+    path('leaderboard/', include('apps.leaderboard.urls')),
+    path('statistics/', include('apps.stats.urls')),
+    path('recycle/', include('apps.recycle.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + \
                static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

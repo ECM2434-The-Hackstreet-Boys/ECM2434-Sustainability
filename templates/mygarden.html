@@ -1,0 +1,50 @@
+<!--
+    Author: Ethan Clapham
+    Date: 20/02/2025
+    Description: Page containing a user's garden.
+-->
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <!--Link to the CSS file for the page-->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/mygarden.css' %}">
+{% endblock %}
+
+{% block content %}
+    <!--Main content of the page-->
+    <h1>My Garden</h1>
+
+    <!-- Container for Pixi.js -->
+    <div id="game-wrapper">
+        <div id="game-container">
+            <!-- Canvas for Pixi.js -->
+        </div>
+    </div>
+
+    <div id="context-menu">
+        <button id="edit-tile">Edit Tile</button>
+        <button id="delete-tile">Delete Tile</button>
+    </div>
+
+    <!-- Submenu for texture options -->
+    <div id = "texture-submenu" style="position: absolute; display: none; background-color: #fff; border: 1px solid #ccc; padding: 10px;">
+        <!-- Buttons for texture options will be dynamically added here -->
+    </div>
+
+    <!-- Include PixiJS from CDN, defer loading -->
+    <script src="https://pixijs.download/release/pixi.js" defer></script>
+
+    <!-- Include your custom garden.js script, defer loading -->
+    <script src="{% static 'js/garden.js' %}" defer></script>
+
+    <!--Store section-->
+    <div class = "store">
+        <h2>Store</h2>
+        <div id="store-items">
+            <!-- Store items will be dynamically added here -->
+             <p>Some items</p>
+        </div>
+    </div>
+{% endblock %}

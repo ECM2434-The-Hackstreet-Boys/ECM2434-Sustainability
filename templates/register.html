@@ -1,10 +1,58 @@
+<!--
+    Author: Ethan Clapham & Edward Pratt
+    Date: 05/02/2025
+    Description: This is the register page for the website. It allows users to register for an account.
+-->
+
 {% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/register.css' %}">
+{% endblock %}
 
 {% block content %}
+    <!--Main content of the register page-->
+
+
     <h1>Register</h1>
-    <form method="post">
+    
+    <!--Display error messages if present-->
+    {% if form.non_field_errors %}
+        <div class="error">
+            {% for error in form.non_field_errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!--Form for user to register-->
+    <form method="post" class = "register-form">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Register</button>
-        </form>
+
+        <label for="{{ form.username.id_for_label }}">Username:</label><br>
+        {{ form.username }} <br>  <!-- Render the first name field -->
+
+        <label for="{{ form.email.id_for_label }}">Email:</label><br>
+        {{ form.email }} <br>  <!-- Render the email field -->
+
+        <ul>
+            <li>Your password can't be too similar to your other personal information.</li>
+            <li>Your password must contain at least 8 characters.</li>
+            <li>Your password can't be a commonly used password.</li>
+            <li>Your password can't be entirely numeric.</li>
+        </ul>
+
+        <label for="{{ form.password.id_for_label }}">Password:</label><br>
+        {{ form.password1 }} <br>  <!-- Render the password field -->
+
+        <p>
+            Enter the same password as before, for verification
+        </p>
+
+        <label for="{{ form.password_confirm.id_for_label }}">Confirm Password:</label><br>
+        {{ form.password2 }} <br>  <!-- Render the password confirmation field -->
+
+        <button type="submit" class="submit-btn">Register</button>
+    </form>
 {% endblock %}
