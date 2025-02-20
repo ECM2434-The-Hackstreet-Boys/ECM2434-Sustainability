@@ -64,6 +64,9 @@ document.addEventListener("DOMContentLoaded", async function () {
             tile.interactive = true;
             tile.buttonMode = true; // Enable clickable functionality
 
+            tile.isoX = isoX;
+            tile.isoY = isoY;
+
             // Store the tile data for later reference
             tileData[`${isoX},${isoY}`] = {type: 'block', sprite: tile, textureType: 'grass'};
 
@@ -137,11 +140,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 tileData[key].sprite.texture = textures[textureType];
 
 
-                let tileSprite = gridContainer.children.find(sprite => {
-                    let tileKey = `${(sprite.x - 400) / (TILE_WIDTH / 2) + (sprite.y - 100) / (TILE_HEIGHT / 2) / 2},` +
-                        `${(sprite.y - 100) / (TILE_HEIGHT / 2) - (sprite.x - 400) / (TILE_WIDTH / 2) / 2}`;
-                    return tileKey === key;
-                });
+                let tileSprite = gridContainer.children.find(sprite => sprite.isoX === isoX && sprite.isoY === isoY);
                 console.log("Tile Sprite:", tileSprite);
                 if (tileSprite) {
                     tileSprite.texture = textures[textureType]; // Apply the correct texture
