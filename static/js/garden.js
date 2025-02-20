@@ -275,8 +275,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         button.addEventListener("click", () => {
             if (selectedTile) {
                 selectedTile.texture = textures[key];
-                let isoX = Math.round(((selectedTile.x - 400) / (TILE_WIDTH / 2) + (selectedTile.y - 100) / (TILE_HEIGHT / 2)) / 2);
-                let isoY = Math.round(((selectedTile.y - 100) / (TILE_HEIGHT / 2) - (selectedTile.x - 400) / (TILE_WIDTH / 2)) / 2);
+                let isoX = selectedTile.isoX;
+                let isoY = selectedTile.isoY;
 
                 console.log("Selected tile:", selectedTile);
                 console.log("Selected Tile X,Y:", selectedTile.x, selectedTile.y);
