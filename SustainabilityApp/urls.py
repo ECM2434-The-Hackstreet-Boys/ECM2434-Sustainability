@@ -31,6 +31,8 @@ urlpatterns =[
     path('map/', include('apps.map.urls')),
     path('garden/', include('apps.garden.urls')),
     path('recycling/', include('apps.recycling.urls')),
+    path('stats/', include('apps.stats.urls')),
+    path('leaderboard/', include('apps.leaderboard.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + \
                static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
