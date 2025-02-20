@@ -30,8 +30,6 @@ urlpatterns =[
     path('play_screen/', include('apps.play_screen.urls')),
     path('map/', include('apps.map.urls')),
     path('garden/', include('apps.garden.urls')),
-    path('leaderboard/', include('apps.leaderboard.urls')),
-    path('statistics/', include('apps.stats.urls')),
     path('recycling/', include('apps.recycling.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + \
