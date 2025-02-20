@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", async function () {
     console.log("Script loaded and DOM fully parsed!");
 
@@ -25,8 +26,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Load the isometric texture without using PIXI.Loader
     console.log("Loading isometric texture...");
-    const grasstexture = await PIXI.Assets.load('../static/resources/grass.png?v=${Date.now()}');
-    const treetexture = await PIXI.Assets.load('../static/resources/grassWithTree.png?v=${Date.now()}');
+    const grasstexture = await PIXI.Assets.load('../static/resources/tile_040.png?v=${Date.now()}');
+    const treetexture = await PIXI.Assets.load('../static/resources/tile_051.png?v=${Date.now()}');
+
 
     // Store the textures in an object for easy access
     const textures = {
