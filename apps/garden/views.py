@@ -32,7 +32,7 @@ def load_garden(request):
         with open(file_path, "r") as f:
             tile_data = json.load(f)
 
-        return JsonResponse({"success": True, "tiles": tile_data})
+        return JsonResponse({"success": True, "garden": tile_data})
 
     except Exception as e:
         return JsonResponse({"success": False, "error": str(e)}, status=400)

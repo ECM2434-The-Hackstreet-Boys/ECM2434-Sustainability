@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Store the textures in an object for easy access
     const textures = {
-        block: grasstexture,
+        grass: grasstexture,
         tree: treetexture,
     };
 
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             const screenX = (isoX - isoY) * (TILE_WIDTH / 2) + SPACING;
             const screenY = (isoX + isoY) * (TILE_HEIGHT / 2) - (isoZ * TILE_DEPTH) + SPACING;
 
-            let tile = new PIXI.Sprite(textures.block);
+            let tile = new PIXI.Sprite(textures.grass);
             tile.width = TILE_WIDTH;
             tile.height = TILE_HEIGHT + TILE_DEPTH;
 
@@ -127,11 +127,28 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     function loadTileState(savedState) {
+        console.log('Loading Tile State', savedState);
         for (let key in savedState) {
-            if (tileData[key]) {
-                let type = savedState[key];
-                tileData[key].type = type;
-                tileData[key].sprite.texture = textures[type];
+            let textureType = savedState[key];
+            let [isoX, isoY] = key.split(',').map(Number);
+            console.log("Loading tile:", isoX, isoY, textureType);
+            if (tileData[key]){
+                tileData[key].textureType = textureType;
+                tileData[key].sprite.texture = textures[textureType];
+
+
+                let tileSprite = gridContainer.children.find(sprite => {
+                    let tileKey = `${(sprite.x - 400) / (TILE_WIDTH / 2) + (sprite.y - 100) / (TILE_HEIGHT / 2) / 2},` +
+                        `${(sprite.y - 100) / (TILE_HEIGHT / 2) - (sprite.x - 400) / (TILE_WIDTH / 2) / 2}`;
+                    return tileKey === key;
+                });
+                console.log("Tile Sprite:", tileSprite);
+                if (tileSprite) {
+                    tileSprite.texture = textures[textureType]; // Apply the correct texture
+                    console.log(`Updated tile (${isoX}, ${isoY}) to texture: ${textureType}`);
+                } else {
+                    console.warn(`No sprite found for (${isoX}, ${isoY}) in gridContainer`);
+                }
             }
         }
     }
