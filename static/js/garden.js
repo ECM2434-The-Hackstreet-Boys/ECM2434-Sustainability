@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", async function () {
     console.log("Script loaded and DOM fully parsed!");
 
+
     const gameContainer = document.getElementById('game-container');
     const gameWrapper = document.getElementById('game-wrapper');
 
@@ -79,7 +80,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     app.ticker.add(() => {
         gridContainer.children.sort((a, b) => a.y - b.y);
     });
-
+    await loadGarden();
 
     async function saveGarden() {
         const gardenState = getTileState();
@@ -292,4 +293,6 @@ document.addEventListener("DOMContentLoaded", async function () {
             selectedTile.destroy(); // Remove tile
         }
     });
+
+
 });
