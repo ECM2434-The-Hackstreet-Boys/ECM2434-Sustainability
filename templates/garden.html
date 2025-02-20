@@ -1,7 +1,20 @@
+<!--
+    Author: Ethan Clapham
+    Date: 20/02/2025
+    Description: Page containing a user's garden.
+-->
+
 {% extends 'base.html' %}
 {% load static %}
+
+{% block extra_css %}
+    <!--Link to the CSS file for the page-->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/garden.css' %}">
+{% endblock %}
+
 {% block content %}
-    <p>Welcome to your Garden</p>
+    <!--Main content of the page-->
+    <h1>My Garden</h1>
 
     <!-- Container for Pixi.js -->
     <div id="game-wrapper">
