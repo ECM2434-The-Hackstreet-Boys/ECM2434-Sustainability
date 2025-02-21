@@ -1,3 +1,5 @@
+# @Author:  Edward Pratt
+
 import os.path
 
 from django.db import models

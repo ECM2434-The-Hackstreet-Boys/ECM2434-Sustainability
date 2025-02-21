@@ -1,15 +1,27 @@
+//Author: Edward Pratt
+
+
+//Function: Creates a PIXI.js application for the garden, and creates a base isometric grid when the page is loaded.
+// The grid is created using a for loop to create a 10x10 grid of isometric tiles. The tiles are created using the PIXI.Sprite class
+// and are added to a PIXI.Container. The tiles are then rendered in the correct order to ensure the correct depth sorting.
+// The grid is then displayed on the screen by appending the PIXI canvas to the game container element.
+// When the page is loaded a call is made to django to retrieve the garden state which is then loaded onto the created canvas.
 document.addEventListener("DOMContentLoaded", async function () {
     console.log("Script loaded and DOM fully parsed!");
 
-
+    // Retrieves the game container element and the game wrapper element from the HTML document
     const gameContainer = document.getElementById('game-container');
     const gameWrapper = document.getElementById('game-wrapper');
 
+
+    // If the game container element is not found, an error message is displayed in the console and the function is returned
     if (!gameContainer) {
         console.error("The game container element was not found!");
         return;
     }
 
+
+    // Creates a new PIXI application and initializes it with the specified width, height and background color
     const app = new PIXI.Application();
     await app.init({
         width: 800,
@@ -17,21 +29,29 @@ document.addEventListener("DOMContentLoaded", async function () {
         backgroundColor: 0x1099bb,
     });
 
+    // Appends the PIXI canvas to the game container element
     console.log("Pixi app initialized and canvas appended!");
     gameContainer.appendChild(app.canvas);
 
+
+    // Creates a gridContainer for storing the isometric tiles
     const gridContainer = new PIXI.Container();
     app.stage.addChild(gridContainer);
 
-    // Load the isometric texture without using PIXI.Loader
+    // Load the isometric textures for the blocks
     console.log("Loading isometric texture...");
-    const grasstexture = await PIXI.Assets.load('../static/resources/grass.png?v=${Date.now()}');
-    const treetexture = await PIXI.Assets.load('../static/resources/grassWithTree.png?v=${Date.now()}');
+    const grasstexture = await PIXI.Assets.load('../static/resources/tileGrass.png?v=${Date.now()}');
+    const treetexture = await PIXI.Assets.load('../static/resources/tileTree.png?v=${Date.now()}');
+    const flowertexture = await PIXI.Assets.load('../static/resources/tileFlower.png?v=${Date.now()}');
+    const flowerPinkTexture = await PIXI.Assets.load('../static/resources/tileFlowerPink.png?v=${Date.now()}');
+
 
     // Store the textures in an object for easy access
     const textures = {
         grass: grasstexture,
         tree: treetexture,
+        flower: flowertexture,
+        flowerPink: flowerPinkTexture,
     };
 
     console.log("Texture loaded:", grasstexture);
@@ -44,27 +64,35 @@ document.addEventListener("DOMContentLoaded", async function () {
     const mapHeight = 10;
     const SPACING = 0;
 
+
+    // Initialises the tileData object which will store the tile data for each tile
     let tileData = {};
 
     // Loop through rows and columns to create the isometric grid
     for (let isoY = 0; isoY < mapHeight; isoY++) {
         for (let isoX = 0; isoX < mapWidth; isoX++) {
             const isoZ = 0; // Fixed height (1)
+
+            // Calculate the screen position based on the isometric coordinates
             const screenX = (isoX - isoY) * (TILE_WIDTH / 2) + SPACING;
             const screenY = (isoX + isoY) * (TILE_HEIGHT / 2) - (isoZ * TILE_DEPTH) + SPACING;
 
+            // Create a new tile sprite
             let tile = new PIXI.Sprite(textures.grass);
             tile.width = TILE_WIDTH;
             tile.height = TILE_HEIGHT + TILE_DEPTH;
 
+            // Set the tile location to the correct place
             tile.anchor.set(0.5, 1);
             tile.x = screenX + 400; // Add offset for better positioning on screen
             tile.y = screenY + 100; // Add offset for better positioning on screen
             tile.zIndex = isoZ; // Store the z-index for depth sorting
 
+            // Enable interactivity
             tile.interactive = true;
             tile.buttonMode = true; // Enable clickable functionality
 
+            // Store the isometric coordinates for later use
             tile.isoX = isoX;
             tile.isoY = isoY;
 
@@ -80,8 +108,12 @@ document.addEventListener("DOMContentLoaded", async function () {
     app.ticker.add(() => {
         gridContainer.children.sort((a, b) => a.y - b.y);
     });
+
+    // Loads the garden on page load
     await loadGarden();
 
+
+    // Function to save the garden state to the database
     async function saveGarden() {
         const gardenState = getTileState();
         const response = await fetch('save_garden/', {
@@ -99,6 +131,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     }
 
+
+    // Function to load the garden state from the database
     async function loadGarden() {
         const response = await fetch('load_garden/');
         if (response.ok) {
@@ -110,10 +144,14 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     }
 
+
+    // Function to retrieve the CSRF token from the page
     function getCSRFToken() {
         return document.querySelector('[name=csrfmiddlewaretoken]').value;
     }
 
+
+    // Event listeners for the save and load garden buttons
     document.getElementById('save-button').addEventListener('click', saveGarden);
     document.getElementById('load-button').addEventListener('click', loadGarden);
 
@@ -121,6 +159,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     console.log("Tiles created and added to grid container.");
     console.log("Tile Data:", tileData);
 
+
+    // Function to get the current state of the tiles useful for saving the garden state
     function getTileState() {
         let state = {};
         for (let key in tileData) {
@@ -130,6 +170,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         return state;
     }
 
+
+    // Function to load the tile state from the database
     function loadTileState(savedState) {
         console.log('Loading Tile State', savedState);
         for (let key in savedState) {
@@ -210,22 +252,22 @@ document.addEventListener("DOMContentLoaded", async function () {
         const touch = e.touches[0];
         startDrag(touch.pageX, touch.pageY);
     });
-
     gameWrapper.addEventListener('touchmove', (e) => {
         e.preventDefault(); // Prevent scrolling while dragging
         const touch = e.touches[0];
         moveDrag(touch.pageX, touch.pageY);
     });
-
     gameWrapper.addEventListener('touchend', stopDrag);
     gameWrapper.addEventListener('touchcancel', stopDrag);
 
-
+    // ** Context Menu **
     let contextMenu = document.getElementById('context-menu');
     let selectedTile = null;
 
     document.addEventListener("contextmenu", (event) => event.preventDefault()); // Disable default menu
 
+
+    // Right-click event listeners for each tile
     gridContainer.children.forEach(tile => {
         tile.on("rightdown", (event) => { // 'rightdown' detects right-click in Pixi.js
             event.stopPropagation(); // Prevents event from bubbling up
@@ -243,6 +285,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
     });
 
+
+    // Function to show the context menu when tile pressed
     function showContextMenu(x, y, tile) {
         selectedTile = tile;
         contextMenu.style.display = 'block';
@@ -250,6 +294,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         contextMenu.style.top = y + 'px';
     }
 
+
+    // Hide context menu when clicking outside
     document.addEventListener("click", (event) => {
         if (!contextMenu.contains(event.target) && !document.getElementById("texture-submenu").contains(event.target)) {
             contextMenu.style.display = "none";
@@ -257,6 +303,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     });
 
+
+    // Event listener for the edit tile button
     document.getElementById("edit-tile").addEventListener("click", (event) => {
         event.stopPropagation(); // Prevents the click event from propagating
         if (selectedTile) {
@@ -288,6 +336,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         submenu.appendChild(button);
     }
 
+
+    // Event listener for the delete tile button
     document.getElementById("delete-tile").addEventListener("click", () => {
         if (selectedTile) {
             selectedTile.destroy(); // Remove tile

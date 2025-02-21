@@ -19,6 +19,7 @@ from django.core.management.utils import get_random_secret_key
 from dotenv import load_dotenv
 from django.middleware.clickjacking import XFrameOptionsMiddleware
 
+
 load_dotenv()
 
 mimetypes.add_type("text/css", ".css", True)
@@ -39,7 +40,7 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", get_random_secret_key())
 DEBUG = os.getenv("DJANGO_DEBUG", "False") == "True"
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 
-ALLOWED_HOSTS = ['130.162.180.61', '127.0.0.1', 'www.edward-pratt.live', 'edward-pratt.live']
+ALLOWED_HOSTS = ['130.162.180.61', '127.0.0.1', 'www.edward-pratt.live', 'edward-pratt.live', 'www.ecoworld.dev', 'ecoworld.dev']
 
 
 # Application definition
@@ -179,7 +180,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGOUT_REDIRECT_URL = "home"
 
 #Allows CSRF verification on the production server
-CSRF_TRUSTED_ORIGINS = ["https://edward-pratt.live", "https://www.edward-pratt.live"]
+CSRF_TRUSTED_ORIGINS = ["https://edward-pratt.live", "https://www.edward-pratt.live", "https://ecoworld.dev", "https://www.ecoworld.dev"]
 
 # Add this setting to allow embedding in iframes
 X_FRAME_OPTIONS = 'SAMEORIGIN'
