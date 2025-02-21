@@ -8,7 +8,8 @@ WORKDIR /app
 
 # Copy only requirements first to leverage Docker cache
 COPY requirements.txt /app/
-RUN dnf install -y zbar
+RUN apt-get update && apt-get install -y libzbar0
+
 
 
 RUN python -m pip install --upgrade pip
