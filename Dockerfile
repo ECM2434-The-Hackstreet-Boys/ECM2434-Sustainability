@@ -8,11 +8,15 @@ WORKDIR /app
 
 # Copy only requirements first to leverage Docker cache
 COPY requirements.txt /app/
+RUN apt-get update && apt-get install -y libzbar0
+
+
 
 RUN python -m pip install --upgrade pip
 # Install dependencies
 RUN pip install -r requirements.txt
 RUN pip install gunicorn
+
 
 
 
@@ -35,4 +39,4 @@ RUN python manage.py migrate
 # Start the Django application with Gunicorn using the virtual environment's Python
 
 #CMD ["python", "-m", "SustainabililityApp/manage.py", "collectstatic", "--noinput", "&&", "gunicorn", "--bind", "0.0.0.0:8000", "apps.wsgi:application"]
-CMD python mange.py makemigrations; python manage.py migrate; python manage.py collectstatic --noinput; gunicorn --bind 0.0.0.0:8000 SustainabilityApp.wsgi:application
+CMD python manage.py makemigrations; python manage.py migrate; python manage.py collectstatic --noinput; gunicorn --bind 0.0.0.0:8000 SustainabilityApp.wsgi:application
