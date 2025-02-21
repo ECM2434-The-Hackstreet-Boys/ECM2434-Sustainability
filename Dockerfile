@@ -8,11 +8,14 @@ WORKDIR /app
 
 # Copy only requirements first to leverage Docker cache
 COPY requirements.txt /app/
+RUN dnf install -y zbar
+
 
 RUN python -m pip install --upgrade pip
 # Install dependencies
 RUN pip install -r requirements.txt
 RUN pip install gunicorn
+
 
 
 
