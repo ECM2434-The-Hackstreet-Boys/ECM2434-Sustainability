@@ -49,7 +49,47 @@ class QRCodeScan(TemplateView):
         data = self.qrcodeReader(img)
         if data == False :
             # your error message
-            return HttpResponse('No QR code has been found!')
+            return HttpResponse('''
+                <html>
+                    <head>
+                        <style>
+                            body {
+                                font-family: Arial, sans-serif;
+                                background-color: #f4f4f9;
+                            }
+                            .container {
+                                text-align: center;
+                                margin-top: 50px;
+                            }
+                            .message {
+                                font-size: 20px;
+                                margin-bottom: 20px;
+                            }
+                            .button {
+                                background-color: #4CAF50; /* Green */
+                                border: none;
+                                color: white;
+                                padding: 15px 32px;
+                                text-align: center;
+                                text-decoration: none;
+                                display: inline-block;
+                                font-size: 16px;
+                                margin: 4px 2px;
+                                cursor: pointer;
+                            }
+                            .button:hover {
+                                background-color: #45a049;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="container">
+                            <p class="message">No QR code has been found!</p>
+                            <button onclick="window.history.back()" class="button">Go Back</button>
+                        </div>
+                    </body>
+                </html>
+            ''')
         return HttpResponse(data)
         # Alternate way to send data to another page
         # return redirect("/add/?qrdata={}".format(data))
