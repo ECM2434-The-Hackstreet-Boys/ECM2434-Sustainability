@@ -1,0 +1,16 @@
+/*
+    Author: Ethan Clapham
+    Date: 21/02/2025
+    Description: CSS for the quiz page
+*/
+
+/* General styling for the quiz page */
+
+.question-container {
+    text-align: left;
+    margin: 20px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}

@@ -1,0 +1,32 @@
+<!--
+    Author: Ethan Clapham
+    Date: 21/02/2025
+    Description: Quiz Page
+-->
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/quiz.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h1>Quiz</h1>
+
+    <form method="post" action="{% url 'submit_quiz' %}">
+        {% csrf_token %}
+        
+        {% for q in questions %}
+        <div class="question-container">
+            <p><strong>{{ q.question }}</strong></p>
+            <input type="radio" name="q{{ q.quizID }}" value="{{ q.answer }}" required> {{ q.answer }}<br>
+            <input type="radio" name="q{{ q.quizID }}" value="{{ q.other1 }}"> {{ q.other1 }}<br>
+            <input type="radio" name="q{{ q.quizID }}" value="{{ q.other2 }}"> {{ q.other2 }}<br>
+            <input type="radio" name="q{{ q.quizID }}" value="{{ q.other3 }}"> {{ q.other3 }}<br>
+        </div>
+        {% endfor %}
+    
+        <button type="submit">Submit</button>
+    </form>
+{% endblock %}

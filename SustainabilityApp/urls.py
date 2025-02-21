@@ -34,6 +34,7 @@ urlpatterns =[
     path('recycling/', include('apps.recycling.urls')),
     path('stats/', include('apps.stats.urls')),
     path('leaderboard/', include('apps.leaderboard.urls')),
+    path('quiz/', include('apps.quiz.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + \
                static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
