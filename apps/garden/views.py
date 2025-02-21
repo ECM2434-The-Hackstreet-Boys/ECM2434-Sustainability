@@ -1,3 +1,5 @@
+# @Author:  Edward Pratt
+
 import json
 import os
 
