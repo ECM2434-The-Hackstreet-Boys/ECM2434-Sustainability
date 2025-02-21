@@ -1,0 +1,59 @@
+/*
+    Author: Ethan Clapham & Edward Pratt
+    Date: 20/02/2025
+    Description: Styling for the contents of the my garden page   
+*/
+
+#game-wrapper {
+    width: 75%;     /* Visible area size */
+    height: 400px;    /* Visible area size */
+    max-width: 800px;
+    overflow: hidden; /* Hide scrollbars */
+    position: relative;
+    margin: 0 auto;
+    border-radius: 8px;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+}
+
+/* Make the game container (Pixi.js canvas) larger than the visible area */
+#game-container {
+    width: 800px;  /* Larger than the visible area */
+    height: 500px; /* Larger than the visible area */
+    cursor: grab;  /* Indicate it's draggable */
+    position: absolute;  /* Position relative to the wrapper */
+}
+
+#context-menu {
+    position: absolute;
+    display: none;
+    background: white;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+    z-index: 200; /* Higher than canvas */
+}
+
+#context-menu button {
+    display: flex;
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 5px 0;
+}
+
+#context-menu button:hover {
+    background: #ddd;
+}
+
+.store {
+    width: 80%;
+    height: auto;
+    margin: 30px auto;
+    text-align: left;
+    padding: 10px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+}
