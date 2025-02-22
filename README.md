@@ -1,6 +1,13 @@
 # ECM2434-Sustainability
 
 ## Introduction
+![Ecoworld](https://ecoworld.dev/static/resources/Logo.webp)
+### Plant A Greener Future
+
+The prototype of our web app brings sustainability to life through an engaging, interactive experience that rewards eco-friendly actions with a gamified progression system. Players can earn points by participating in sustainable activities, completing quizzes, and interacting with real-world sustainability initiatives.
+
+## Requirements
+- Python 3.12
 
 ## Installation
 Clone the repository using the following command:
@@ -15,7 +22,7 @@ cd ECM2434-Sustainability
 
 ### Automatic Setup
 #### Windows
-Run the following command to automatically setup and run the application:
+Run the following command to automatically set up and run the application:
 ```Console
 ./setup.bat
 ```
@@ -56,3 +63,10 @@ Run the following command to start the server:
 python manage.py runserver
 ```
 After this you should be able to access the server at http://127.0.0.1:8000/
+
+
+## Testing
+Run the following command to run the tests:
+```bash 
+python manage.py test
+```
