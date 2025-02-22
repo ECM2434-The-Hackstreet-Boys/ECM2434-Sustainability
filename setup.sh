@@ -3,10 +3,10 @@
 set -e  # Exit immediately if a command exits with a non-zero status
 
 echo "Creating virtual environment..."
-python3 -m venv venv
+python3 -m venv .venv
 
 echo "Activating virtual environment..."
-source venv/bin/activate
+source .venv/bin/activate
 
 echo "Installing dependencies..."
 pip install -r requirements.txt
