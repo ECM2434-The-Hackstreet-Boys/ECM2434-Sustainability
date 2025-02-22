@@ -20,6 +20,8 @@
         function onScanSuccess(decodedText, decodedResult) {
             document.getElementById("result").innerText = `Scanned Code: ${decodedText}`;
             console.log(`Code matched = ${decodedText}`, decodedResult);
+
+            window.location.href = decodedText;
         }
 
         function onScanFailure(error) {
