@@ -2,10 +2,10 @@
 setlocal enabledelayedexpansion
 
 echo Creating virtual environment...
-python -m venv venv
+python -m venv .venv
 
 echo Activating virtual environment...
-call venv\Scripts\activate
+call .venv\Scripts\activate
 
 echo Installing dependencies...
 pip install -r requirements.txt
