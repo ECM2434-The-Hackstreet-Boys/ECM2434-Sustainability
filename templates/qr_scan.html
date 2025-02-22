@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <!--Link to the CSS file for the page-->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/qr_scan.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="center-container">
+        <h1>QR Code Scanner</h1>
+        <div id="reader" style="width: 600px;"></div>
+        <p id="result"></p>
+    </div>
+
+    <!-- Load the HTML5 QR Code Library -->
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+
+    <script>
+        function onScanSuccess(decodedText, decodedResult) {
+            document.getElementById("result").innerText = `Scanned Code: ${decodedText}`;
+            console.log(`Code matched = ${decodedText}`, decodedResult);
+        }
+
+        function onScanFailure(error) {
+            console.warn(`Code scan error = ${error}`);
+        }
+
+        let html5QrcodeScanner = new Html5QrcodeScanner(
+            "reader",
+            { fps: 10, qrbox: { width: 400, height: 400 } },
+            false
+        );
+        html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+    </script>
+{% endblock %}
