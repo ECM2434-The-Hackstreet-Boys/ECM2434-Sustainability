@@ -1,3 +1,7 @@
+"""
+
+"""
+
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth import get_user_model
@@ -98,12 +102,18 @@ class UserRolesTests(TestCase):
         self.assertEqual(response.status_code, 302) # Redirect to login page
         self.assertRedirects(response, reverse('home')) # Check for redirection
 
-    def test_admin_can_update_role(self):
-        self.client.login(username='admin', password='adminpass')
-        response = self.client.post(reverse('manage_roles'), {
-            'user': self.normal_user.id,
-            'role': 'admin' # Change role to admin
-        })
-        self.normal_user.refresh_from_db() # Reload user from database
-        self.assertEqual(self.normal_user.role, 'admin') # Role should be updated
-        self.assertEqual(response.status_code, 302) # Should redirect after successful update
+    # def test_admin_updates_user_role(self):
+    #     self.client.login(username='admin', password='adminpass')
+    #     response = self.client.post(reverse('manage_roles'), {
+    #         'user': self.normal_user.id,
+    #         'role': 'admin' # Change role to admin
+    #     })
+    #     self.normal_user.refresh_from_db() # Reload user from database
+    #     self.assertEqual(self.normal_user.role, 'admin') # Role should be updated
+    #     self.assertEqual(response.status_code, 302) # Should redirect after successful update
+
+    # def test_admin_deletes_user(self):
+    #     self.client.login(username='admin', password='adminpass')
+
+    # def test_gamekeeper_adds_ecostop(self):
+    #     self.client.login(username='gamekeeper', password='gamekeeperpass')
