@@ -30,6 +30,7 @@ urlpatterns =[
     path('play_screen/', include('apps.play_screen.urls')),
     path('map/', include('apps.map.urls')),
     path('garden/', include('apps.garden.urls')),
+    path('qr/', include('apps.qr_scan.urls')),
     path('recycling/', include('apps.recycling.urls')),
     path('stats/', include('apps.stats.urls')),
     path('leaderboard/', include('apps.leaderboard.urls')),
