@@ -14,7 +14,7 @@
 {% block content %}
     <h1>Quiz</h1>
 
-    <form method="post" action="{% url 'submit_quiz' %}">
+    <form method="post">
         {% csrf_token %}
         
         {% for q in questions %}
@@ -29,4 +29,19 @@
     
         <button type="submit">Submit</button>
     </form>
+
+    {% if score is not None %}
+    <div class="score-popup">
+        <h3>Quiz Results</h3>
+        <p>You got {{ score }} correct answers!</p>
+        <button onclick="closePopup()">Close</button>
+    </div>
+    {% endif %}
+
+    <script>
+        function closePopup() {
+            document.querySelector(".score-popup").style.display = "none";
+        }
+    </script>
+
 {% endblock %}
