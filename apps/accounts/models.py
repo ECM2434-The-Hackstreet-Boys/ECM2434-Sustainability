@@ -2,7 +2,9 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 # Create your models here.
-# Custom user model extending AbstractUser
+
+
+# Custom user model extending AbstractUser to add a roles category
 class CustomUser(AbstractUser):
     ROLE_CHOICES = (
         ('admin', 'Admin'),

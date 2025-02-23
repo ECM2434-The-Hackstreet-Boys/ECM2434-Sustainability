@@ -14,6 +14,9 @@ class RoleUpdateForm(forms.ModelForm):
         fields = ['role']
 
 # Create your views here.
+
+
+# View for registering new users with the form
 def register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
@@ -25,7 +28,7 @@ def register(request):
         form = RegisterForm()
     return render(request, 'register.html', {'form': form})
 
-
+# View for allowing registered users to login
 def user_login(request):
     form = AuthenticationForm(data=request.POST) if request.method == "POST" else AuthenticationForm()
 
@@ -43,8 +46,9 @@ def user_login(request):
 def is_admin(user):
     return bool(user.role == "admin")
 
-@login_required
 
+# View for access to page to manage user roles for admin users
+@login_required
 def manage_roles(request):
     if not is_admin(request.user):
         messages.warning(request, "You are not authorized to access this page.")

@@ -1,5 +1,5 @@
 <!--
-    Author: Ethan Clapham
+    Author: Ethan Clapham, Edward Pratt
     Date: 20/02/2025
     Description: Contents of the leaderboard page.
 -->
@@ -8,10 +8,48 @@
 {% load static %}
 
 {% block extra_css %}
-    <!--Link to the CSS file for the dashboard page-->
+    <!-- Link to the CSS file for the dashboard page -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/leaderboard.css' %}">
+    <!-- Link to DataTables CSS for table styling -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 {% endblock %}
 
 {% block content %}
-    <p>Leaderboard element here</p>
+    <!-- Generating a leaderboard with users stats !-->
+    <h1>Leaderboard</h1>
+
+    <!-- Table displaying the leaderboard -->
+    <table id="sustainabilityTable" class="display">
+        <thead>
+        <tr>
+            <th>User</th>
+            <th>CO₂ Saved (kg)</th>
+            <th>Plastic Saved (kg)</th>
+            <th>Points</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Loop through each record in the database and display the user's stats -->
+        {% for record in records %}
+            <tr>
+                <td>{{ record.userID }}</td>
+                <td>{{ record.co2Saved }}</td>
+                <td>{{ record.plasticSaved }}</td>
+                <td>{{ record.yourPoints }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Link to the DataTables JavaScript library for displaying a sortable table -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+    <!-- Initialize the DataTables sorting functionality -->
+    <script>
+        $(document).ready(function() {
+            $('#sustainabilityTable').DataTable();
+        });
+    </script>
+
 {% endblock %}

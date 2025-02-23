@@ -3,8 +3,9 @@
 import json
 import os
 
+from django.contrib import messages
 from django.http import JsonResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.csrf import csrf_exempt
 
 from SustainabilityApp import settings
@@ -15,16 +16,28 @@ from django.shortcuts import render
 
 # Create your views here.
 
-
+# View for loading the garden page
 @login_required
 def get_garden_page(request):
     return render(request, 'garden.html')
 
 
+def is_admin(user):
+    return bool(user.role == "admin")
+
+
+# View for loading the admin garden page
+@login_required
 def get_admin_page(request):
-    return render(request, 'admin_garden.html')
+    if not is_admin(request.user):
+        messages.warning(request, "You are not authorized to access this page.")
+        return redirect("home")
 
+    else:
+        return render(request, 'admin_garden.html')
 
+# View for loading the garden data and sending it to the webpage
+@login_required
 def load_garden(request):
     try:
         user = request.user  # Ensure user is authenticated
@@ -44,7 +57,9 @@ def load_garden(request):
         return JsonResponse({"success": False, "error": str(e)}, status=400)
 
 
+# View for saving the garden to a file and adding it to the database
 @csrf_exempt
+@login_required
 def save_garden(request):
     if request.method == "POST":
         try:

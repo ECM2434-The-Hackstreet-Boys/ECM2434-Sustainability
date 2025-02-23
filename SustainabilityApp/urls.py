@@ -22,6 +22,8 @@ from django.views.generic import TemplateView
 
 from SustainabilityApp import settings
 
+
+# Maps all url patterns for each app
 urlpatterns =[
     path('', include('apps.home.urls')),
     path('admin/', admin.site.urls),
