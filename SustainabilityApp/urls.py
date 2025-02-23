@@ -29,7 +29,6 @@ urlpatterns =[
     path('dashboard/', include('apps.dashboard.urls')),
     path('play_screen/', include('apps.play_screen.urls')),
     path('map/', include('apps.map.urls')),
-    path('qr/', include('apps.qrscanner.urls')),
     path('garden/', include('apps.garden.urls')),
     path('recycling/', include('apps.recycling.urls')),
     path('stats/', include('apps.stats.urls')),
