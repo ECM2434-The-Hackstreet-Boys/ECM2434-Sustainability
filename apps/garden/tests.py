@@ -95,8 +95,8 @@ class SaveGardenTest(TestCase):
 
         response = self.client.post(reverse("save_garden"), json.dumps(garden_data), content_type="application/json")
         
-        # Expecting a 400 (Bad response error) status code
-        self.assertEqual(response.status_code, 400)
+        # Expecting a 302 (Redirect to login) status code
+        self.assertEqual(response.status_code, 302)
 
     def tearDown(self):
         """Clean up created test files."""
@@ -155,8 +155,8 @@ class LoadGardenTests(TestCase):
 
         response = self.client.get(reverse("load_garden"))
 
-        # Expecting a 400 (Bad Request) status code
-        self.assertEqual(response.status_code, 400)
+        # Expecting a 302 (Redirect to login) status code
+        self.assertEqual(response.status_code, 302)
 
     def tearDown(self):
         """Clean up created test files."""
