@@ -1,6 +1,9 @@
 from django.db import models
 
 # Create your models here.
+
+
+# Stats model to store relevant statistics for each user
 class Stats(models.Model):
     statsID = models.AutoField(primary_key=True)
     userID = models.ForeignKey('accounts.CustomUser', on_delete=models.CASCADE)

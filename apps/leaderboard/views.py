@@ -5,6 +5,8 @@ from apps.stats.models import Stats
 
 
 # Create your views here.
+
+# Leaderboard page view, sends all the stats to the template
 @login_required
 def leaderboardpage(request):
     records = Stats.objects.all()

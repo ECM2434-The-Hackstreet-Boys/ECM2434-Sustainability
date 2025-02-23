@@ -6,6 +6,10 @@
 
 The prototype of our web app brings sustainability to life through an engaging, interactive experience that rewards eco-friendly actions with a gamified progression system. Players can earn points by participating in sustainable activities, completing quizzes, and interacting with real-world sustainability initiatives.
 
+
+## Production Server
+The production server is hosted at https://ecoworld.dev/ and is managed by the team. The server is running the latest version of the application and is available for public use.
+
 ## Requirements
 - Python 3.12
 
@@ -58,11 +62,29 @@ Run the following command to collect the staticfiles:
 ```bash
 python manage.py collectstatic
 ```
+Run the following command to import the quiz questions to the database
+```bash
+python manage.py import_questions
+```
+Run the following command to add a default admin and user to the database
+```bash
+python manage.py import_user
+```
 Run the following command to start the server:
 ```bash
 python manage.py runserver
 ```
+
+### Accessing the server
 After this you should be able to access the server at http://127.0.0.1:8000/
+The default admin username is `admin` and the password is `admin`
+The default user account is `user` and the password is `user`
+
+### Accessing Admin Pages
+Current admin pages have url:
+```djangourlpath
+127.0.0.1:8000/accounts/manage_roles/
+```
 
 
 ## Testing

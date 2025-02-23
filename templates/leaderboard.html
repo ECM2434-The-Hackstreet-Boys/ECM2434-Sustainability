@@ -1,5 +1,5 @@
 <!--
-    Author: Ethan Clapham
+    Author: Ethan Clapham, Edward Pratt
     Date: 20/02/2025
     Description: Contents of the leaderboard page.
 -->
@@ -15,6 +15,7 @@
 {% endblock %}
 
 {% block content %}
+    <!-- Generating a leaderboard with users stats !-->
     <h1>Leaderboard</h1>
 
     <!-- Table displaying the leaderboard -->
@@ -28,6 +29,7 @@
         </tr>
         </thead>
         <tbody>
+        <!-- Loop through each record in the database and display the user's stats -->
         {% for record in records %}
             <tr>
                 <td>{{ record.userID }}</td>

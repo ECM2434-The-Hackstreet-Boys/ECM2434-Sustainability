@@ -3,6 +3,7 @@
 from django.urls import path
 from . import views
 
+# URL patterns for the garden app /garden/
 urlpatterns = [
     path('', views.get_garden_page, name='garden'),
     path('admin/', views.get_admin_page, name='admin'),

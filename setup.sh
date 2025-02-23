@@ -42,6 +42,7 @@ python manage.py migrate
 echo "Collecting static files..."
 python manage.py collectstatic --noinput
 python manage.py import_quiz
+python manage.py import_user
 
 # Start the server
 echo "Starting the server..."
