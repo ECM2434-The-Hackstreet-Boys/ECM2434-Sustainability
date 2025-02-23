@@ -54,9 +54,13 @@ Run the following command to create the database:
 ```bash
 python manage.py migrate
 ```
-Run the following command to collect the staticfiles
+Run the following command to collect the staticfiles:
 ```bash
 python manage.py collectstatic
+```
+Run the following command to add the questions to the database:
+```bash
+python manage.py import_quiz
 ```
 Run the following command to start the server:
 ```bash
