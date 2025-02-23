@@ -13,7 +13,7 @@ class Command(BaseCommand):
         with open(file_path, newline='', encoding='utf-8') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                quiz.objects.create(
+                quiz.objects.get_or_create(
                     question=row["question"],
                     answer=row["answer"],
                     other1=row["other1"],
