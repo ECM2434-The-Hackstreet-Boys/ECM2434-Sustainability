@@ -1,9 +1,3 @@
-<!--
-    Author: Ethan Clapham & Edward Pratt
-    Date: 05/02/2025
-    Description: This is the register page for the website. It allows users to register for an account.
--->
-
 {% extends 'base.html' %}
 {% load static %}
 
@@ -13,28 +7,33 @@
 
 {% block content %}
     <!--Main content of the register page-->
-
-
     <h1>Register</h1>
-    
-    <!--Display error messages if present-->
-    {% if form.non_field_errors %}
-        <div class="error">
-            {% for error in form.non_field_errors %}
-                <p>{{ error }}</p>
-            {% endfor %}
-        </div>
-    {% endif %}
 
     <!--Form for user to register-->
-    <form method="post" class = "register-form">
+    <form method="post" class="register-form">
         {% csrf_token %}
 
+        <!--Username Field-->
         <label for="{{ form.username.id_for_label }}">Username:</label><br>
-        {{ form.username }} <br>  <!-- Render the first name field -->
+        {{ form.username }} <br>  <!-- Render the username field -->
+        {% if form.username.errors %}
+            <div class="error">
+                {% for error in form.username.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
 
+        <!--Email Field-->
         <label for="{{ form.email.id_for_label }}">Email:</label><br>
         {{ form.email }} <br>  <!-- Render the email field -->
+        {% if form.email.errors %}
+            <div class="error">
+                {% for error in form.email.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
 
         <ul>
             <li>Your password can't be too similar to your other personal information.</li>
@@ -43,15 +42,31 @@
             <li>Your password can't be entirely numeric.</li>
         </ul>
 
-        <label for="{{ form.password.id_for_label }}">Password:</label><br>
+        <!--Password Field-->
+        <label for="{{ form.password1.id_for_label }}">Password:</label><br>
         {{ form.password1 }} <br>  <!-- Render the password field -->
+        {% if form.password1.errors %}
+            <div class="error">
+                {% for error in form.password1.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
 
         <p>
             Enter the same password as before, for verification
         </p>
 
-        <label for="{{ form.password_confirm.id_for_label }}">Confirm Password:</label><br>
+        <!--Password Confirmation Field-->
+        <label for="{{ form.password2.id_for_label }}">Confirm Password:</label><br>
         {{ form.password2 }} <br>  <!-- Render the password confirmation field -->
+        {% if form.password2.errors %}
+            <div class="error">
+                {% for error in form.password2.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
 
         <button type="submit" class="submit-btn">Register</button>
     </form>
