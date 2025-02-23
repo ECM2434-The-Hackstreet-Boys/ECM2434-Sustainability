@@ -1,10 +1,10 @@
+from random import sample
+
 from django.shortcuts import render, redirect
 from .models import quiz
 from ..stats.models import Stats
 from ..accounts.models import CustomUser
-from django.db.models import F
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 
 # Create your views here.
 @login_required
@@ -13,16 +13,27 @@ def quizpage(request):
 
 @login_required
 def quiz_view(request):
-    questions = quiz.objects.all()
-    score = None
 
+    # Get 5 random questions from the database
+    questions = list(quiz.objects.all())
+    score = None
+    number_of_questions = len(questions)
+    questions = sample(questions, min(5, number_of_questions))
+
+
+    # Triggered request when the user submits the quiz
     if request.method == "POST":
         correct_count = 0
+        print(request.POST)
 
-        for q in questions:
-            user_answer = request.POST.get(f"q{q.quizID}")
-            if user_answer == q.answer:
-                correct_count += 1
+
+        # Check if the user's answer is correct by comparing it to the answer in the database
+        for key, value in request.POST.items():
+            if key.startswith("q"):
+                question_id = int(key[1:])
+                answer = quiz.objects.get(quizID=question_id).answer
+                if value == answer:
+                    correct_count += 1
 
         # Ensure Stats model stores points correctly
         user = CustomUser.objects.get(id=request.user.id)  # Get user instance
@@ -31,5 +42,6 @@ def quiz_view(request):
         user_stats.save()
 
         score = correct_count
-    
+
+    # Render the quiz page with the questions and the score on page load
     return render(request, "quiz.html", {"questions": questions, "score": score})
