@@ -9,5 +9,6 @@ class Stats(models.Model):
     plasticSaved = models.IntegerField(default=0)
 
 
+
     def __str__(self):
         return self.statsID
