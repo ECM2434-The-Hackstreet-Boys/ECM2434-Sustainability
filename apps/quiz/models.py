@@ -1,6 +1,8 @@
 from django.db import models
 
 # Create your models here.
+
+# Quiz model stores, question, answer and 3 other options
 class quiz(models.Model):
     quizID = models.AutoField(primary_key=True)
     question = models.CharField(max_length=512)
@@ -13,7 +15,7 @@ class quiz(models.Model):
     def __str__(self):
         return self.quizID
 
-
+# QuizTimeout model stores the timeout for each quiz for each user
 class quizTimeout(models.Model):
     timeoutID = models.AutoField(primary_key=True)
     userID = models.ForeignKey('accounts.CustomUser', on_delete=models.CASCADE)

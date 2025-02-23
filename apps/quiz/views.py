@@ -7,10 +7,16 @@ from ..accounts.models import CustomUser
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+
+
+# Function to render the quiz page
 @login_required
 def quizpage(request):
     return render(request, "quiz.html")
 
+
+
+# Function to render the quiz page with the questions and the score
 @login_required
 def quiz_view(request):
 
