@@ -14,4 +14,25 @@
 
 {% block content %}
     <p>Leaderboard element here</p>
+    <table id="leaderboardTable" class = "display">
+        <thead>
+        <tr>
+            <th>User</th>
+            <th>Points</th>
+            <th>CO₂ Saved (kg)</th>
+            <th>Plastic Saved (kg)</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for record in records %}
+            <tr>
+                <td>{{ record.username }}</td>
+                <td>{{ record.points }}</td>
+                <td>{{ record.co2_saved }}</td>
+                <td>{{ record.plastic_saved }}</td>
+            </tr>
+        {% endfor %}
+
+    </table>
+
 {% endblock %}
