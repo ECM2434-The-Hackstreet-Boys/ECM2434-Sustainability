@@ -69,7 +69,7 @@ python manage.py collectstatic
 ```
 Run the following command to import the quiz questions to the database
 ```bash
-python manage.py import_questions
+python manage.py import_quiz
 ```
 Run the following command to add a default admin and user to the database
 ```bash
