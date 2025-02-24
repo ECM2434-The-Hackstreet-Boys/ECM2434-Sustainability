@@ -1,3 +1,6 @@
+# Author: Edward Pratt
+# Last Modified: 2025-02-23
+
 from django.core.management.base import BaseCommand
 from apps.accounts.models import CustomUser
 
