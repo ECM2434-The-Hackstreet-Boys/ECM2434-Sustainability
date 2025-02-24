@@ -9,4 +9,4 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def recyclepage(request):
 
-    return render(request, ecycling.html")
+    return render(request, recycling.html")
