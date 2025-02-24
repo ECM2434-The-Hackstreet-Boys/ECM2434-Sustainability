@@ -41,6 +41,8 @@ Execute the setup file
 ./setup.sh
 ```
 
+#### Secret Key Generation
+When asked you can select any random combination of characters to generate a secret key for the Django application.
 
 ## Manual Setup
 
