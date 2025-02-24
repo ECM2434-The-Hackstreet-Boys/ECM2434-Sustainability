@@ -4,6 +4,7 @@ Tests to check if user registration, login, logout, and role management are
 working as expected.
 
 @version: 1.0
+@date: 2021-04-07
 @author: Sandy Hay
 """
 

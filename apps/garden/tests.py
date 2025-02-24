@@ -1,10 +1,11 @@
 """Tests for the garden apps.
 
-    Tests if the garden page is accessible when logged in, if the garden can save correctly, and if the garden load
-    can load correctly from an existing save file.
+Tests if the garden page is accessible when logged in, if the garden can save correctly, and 
+if the garden load can load correctly from an existing save file.
 
-    @version: 1.0
-    @author: Sandy Hay
+@version: 1.0
+@date: 2021-04-07
+@author: Sandy Hay
 """
 
 import os
