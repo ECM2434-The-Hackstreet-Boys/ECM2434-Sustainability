@@ -2,14 +2,13 @@
 
 Tests to see if the user can access the leaderboard page, if the leaderboard is
 displayed correctly and that the new players can be added to the leaderboard.
-It must also verify that the leaderboard can be sorted by the user's score.
 
 @version: 1.0
 @date: 2021-04-07
 @author: Sandy Hay
 """
-
-from django.test import TestCase
+import apps.stats.models
+from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 
@@ -31,5 +30,27 @@ class LeaderboardPageTests(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('login') + '?next=' + reverse('leaderboardpage'))
 
-# class LeaderboardTests(TestCase):
-#     def setUp(self):
+class LeaderboardTableTest(TestCase):
+    def test_leaderboard_contains_table(self):
+        response = self.client.get(reverse('leaderboardpage'))
+        self.assertContains(response, '<table id="sustainabilityTable"')
+
+class LeaderboardUserTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='leaderboarduser', password='leaderboardpassword#123')
+        self.client = Client()
+        self.client.login(username='leaderboarduser', password='leaderboardpassword#123')
+    
+    def test_user_in_leaderboard(self):
+        response = self.client.get(reverse('leaderboardpage'))
+        self.assertContains(response, 'leaderboarduser')
+
+    def test_user_points_gained_on_leaderboard(self):
+        points = apps.stats.models.Stats.objects.get(userID=self.user).yourPoints
+        points += 10
+        response = self.client.get(reverse('leaderboardpage'))
+        self.assertContains(response, (points == 10))
+
+    # class LeaderboardfsfdTests(TestCase):
+
+
