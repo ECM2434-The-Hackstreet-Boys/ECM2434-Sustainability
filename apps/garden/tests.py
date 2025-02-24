@@ -1,3 +1,12 @@
+"""Tests for the garden apps.
+
+    Tests if the garden page is accessible when logged in, if the garden can save correctly, and if the garden load
+    can load correctly from an existing save file.
+
+    @version: 1.0
+    @author: Sandy Hay
+"""
+
 import os
 import json
 from django.conf import settings
@@ -11,11 +20,14 @@ User = get_user_model()
 # Create your tests here.
 
 class GardenPageTests(TestCase):
+    """Tests if the garden page can be accessed."""
     def setUp(self):
+        """Sets up a user for testing the garden access."""
         # Create a user to test logged-in behaviour
         self.user = User.objects.create_user(username='testuser', password='testpassword#123')
 
     def test_garden_page_logged_in(self):
+        """Tests if a logged in user can access the garden page."""
         # Test if the garden page is accessible when logged in
         self.client.login(username='testuser', password='testpassword#123') # Log in with the created user
         response = self.client.get(reverse('garden')) # Make a GET request to the garden page
@@ -23,15 +35,23 @@ class GardenPageTests(TestCase):
         self.assertTemplateUsed(response, 'garden.html') # Check if the correct template is used
 
     def test_garden_page_logged_out(self):
+        """Tests if a logged out user cannot access the garden page."""
         # Test if the garden page is inaccessible when logged out
         response = self.client.get(reverse('garden'))
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('login') + '?next=' + reverse('garden')) # Check if the user is redirected to the login page
 
-        # Create a test garden
-
 class SaveGardenTest(TestCase):
+    """Tests if the garden saved safely and correctly"""
     def setUp(self):
+        """Set ups a test garden from a logged in user to saves to a set file path
+        
+            - Sets up a test user
+            - Sets up a client
+            - Logs the user into the website
+            - Creates a name for the garden for the test user
+            - Sets up the file path location for the garden to be saved and stored in
+        """
         # Create a user to test saving functionality
         self.user = User.objects.create_user(username='testuser', password='testpassword#123')
         self.client = Client()
@@ -104,7 +124,16 @@ class SaveGardenTest(TestCase):
             os.remove(self.file_path)
 
 class LoadGardenTests(TestCase):
+    """Tests if the garden can be loaded from an existing garden save from a test user"""
     def setUp(self):
+        """Sets up a save garden file, ready to be loaded in from a test user
+
+            (Same steps for the save garden tests set-up except)
+            - Creates the test garden ready to be saved
+            - Makes a directory for the test garden
+            - Adds data to the test garden
+            - Saves the garden to the directory
+        """
         # Create a user to test loading functionality
         self.user = User.objects.create_user(username='testuser', password='testpassword#123')
         self.client = Client()
