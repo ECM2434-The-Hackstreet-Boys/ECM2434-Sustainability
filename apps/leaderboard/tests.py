@@ -1,3 +1,14 @@
+"""Tests for the leaderboard page
+
+Tests to see if the user can access the leaderboard page, if the leaderboard is
+displayed correctly and that the new players can be added to the leaderboard.
+It must also verify that the leaderboard can be sorted by the user's score.
+
+@version: 1.0
+@date: 2021-04-07
+@author: Sandy Hay
+"""
+
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth import get_user_model
@@ -20,10 +31,5 @@ class LeaderboardPageTests(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('login') + '?next=' + reverse('leaderboardpage'))
 
-class LeaderboardTests(TestCase):
-    def setUp(self):
-
-
-
-
-
+# class LeaderboardTests(TestCase):
+#     def setUp(self):
