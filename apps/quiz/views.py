@@ -1,3 +1,5 @@
+# Authors: Edward Pratt, Ethan Clapham
+
 from random import sample
 
 from django.shortcuts import render, redirect
@@ -5,8 +7,6 @@ from .models import quiz
 from ..stats.models import Stats
 from ..accounts.models import CustomUser
 from django.contrib.auth.decorators import login_required
-
-# Create your views here.
 
 
 # Function to render the quiz page

@@ -1,14 +1,16 @@
-# @Author:  Edward Pratt
+# Author:  Edward Pratt
 
 import os.path
 
 from django.db import models
 
 
-# Model for linking the user to their garden file, also stores a rating for gardens
+# Helper function for garden pathing
 def garden_file_path(instance, filename):
     return os.path.join('gardens', f'{instance.userID.username}_{instance.name}.json')
-# Create your models here.
+
+
+# Model for linking the user to their garden file, also stores a rating for gardens
 class Garden(models.Model):
     gardenID = models.AutoField(primary_key=True)
     userID = models.ForeignKey('accounts.CustomUser', on_delete=models.CASCADE)
@@ -23,7 +25,7 @@ class Garden(models.Model):
 class Inventory(models.Model):
     inventoryID = models.AutoField(primary_key=True)
     userID = models.ForeignKey('accounts.CustomUser', on_delete=models.CASCADE)
-    blockID = models.ForeignKey('block', on_delete=models.CASCADE)
+    blockID = models.ForeignKey('Block', on_delete=models.CASCADE)
     quantity = models.IntegerField(default=0)
 
 
