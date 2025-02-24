@@ -24,7 +24,7 @@ cd ECM2434-Sustainability
 ```
 
 
-### Automatic Setup
+## Automatic Setup
 #### Windows
 Run the following command to automatically set up and run the application:
 ```Console
@@ -37,7 +37,7 @@ Run the following command to automatically set up and run the application:
 ```
 
 
-### Manual Setup
+## Manual Setup
 
 Install the required packages using the following command:
 ```bash
@@ -45,8 +45,6 @@ python pip install -r requirements.txt
 ```
 
 
-
-## Local Setup
 ### .env Setup
 Create a .env file in the root directory of the project and add the following variables:
 ```dotenv
