@@ -37,7 +37,7 @@ class LeaderboardUserTests(TestCase):
         self.client = Client()
         self.client.login(username='testuser', password='testpassword#123')
 
-        Stats = apps.get_model('stats', 'Stats')  # Correct way to get model
+        Stats = apps.get_model('stats', 'Stats')
         self.stats = Stats.objects.create(userID=self.user, yourPoints=0)
     
     def test_user_in_leaderboard(self):
@@ -51,6 +51,24 @@ class LeaderboardUserTests(TestCase):
         response = self.client.get(reverse('leaderboardpage')) # Changed from post() to get()
         self.assertContains(response, '10')
 
-    # class LeaderboardfsfdTests(TestCase):
+class LeaderboardMultipleUsersTests(TestCase):
+    def setUp(self):
+        # Make 3 users
+        self.user1 = User.objects.create_user(username='testuser1', password='testpassword#1')
+        self.user2 = User.objects.create_user(username='testuser2', password='testpassword#2')
+        self.user3 = User.objects.create_user(username='testuser3', password='testpassword#3')
+        self.client = Client()
+        self.client.login(username='testuser1', password='testpassword#1')
+
+        Stats = apps.get_model('stats', 'Stats')
+        self.stats1 = Stats.objects.create(userID=self.user1, yourPoints=25)
+        self.stats2 = Stats.objects.create(userID=self.user2, yourPoints=18)
+        self.stats3 = Stats.objects.create(userID=self.user3, yourPoints=1)
+    
+    def test_multiple_users_in_leaderboard(self):
+        response = self.client.get(reverse('leaderboardpage'))
+        self.assertContains(response, '25')
+        self.assertContains(response, '18')
+        self.assertContains(response, '1')
 
 
