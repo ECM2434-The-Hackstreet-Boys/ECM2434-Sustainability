@@ -1,3 +1,5 @@
+# Author: Edward Pratt
+
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
@@ -11,14 +13,17 @@ from apps.quiz.views import quiz_view
 
 User = get_user_model()
 
+# Class for testing quiz submission
 class EarnPointsFromQuiz(TestCase):
 
+    # Sets up the test by creating a user and quiz object
     def setUp(self):
         self.user = User.objects.create_user(username='testuser', password='testpassword#123')
         self.quiz = quiz.objects.create(question="Test", answer="CorrectAnswer", other1="WrongAnswer1", other2="WrongAnswer2", other3="WrongAnswer3")
         self.client.login(username='testuser', password='testpassword#123')
 
 
+    # Tests the submission of a quiz form
     def test_submit_quiz_form(self):
         url = reverse(quiz_view)
         data = {
@@ -27,6 +32,8 @@ class EarnPointsFromQuiz(TestCase):
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 200)
 
+
+    # Tests that the user's points increase after submitting a quiz form
     def test_check_points_increase(self):
         url = reverse(quiz_view)
         data = {
