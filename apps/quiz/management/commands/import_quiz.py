@@ -1,3 +1,6 @@
+# Author: Louis Pampin
+# Last modified: 2025-02-22
+
 import os
 import csv
 from django.core.management.base import BaseCommand
