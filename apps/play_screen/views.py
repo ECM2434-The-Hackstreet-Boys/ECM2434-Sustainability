@@ -13,4 +13,3 @@ def play_screen(request):
 @login_required
 def map_view(request):
     return render(request, 'map.html')
-
