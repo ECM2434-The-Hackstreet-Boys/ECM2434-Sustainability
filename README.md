@@ -32,6 +32,11 @@ Run the following command to automatically set up and run the application:
 ```
 
 #### MacOS/Linux
+Run the following command to make the setup file executable
+```Console
+chmod 755 setup.sh
+```
+Execute the setup file
 ```Console
 ./setup.sh
 ```
