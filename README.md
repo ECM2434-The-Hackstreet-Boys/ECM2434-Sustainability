@@ -4,21 +4,21 @@
 ![Ecoworld](https://ecoworld.dev/static/resources/Logo.webp)
 ### Plant A Greener Future
 
-The prototype of our web app brings sustainability to life through an engaging, interactive experience that rewards eco-friendly actions with a gamified progression system. Players can earn points by participating in sustainable activities, completing quizzes, and interacting with real-world sustainability initiatives.
+The first prototype of our web application brings sustainability to life through an engaging, interactive experience that rewards eco-friendly actions with a gamified progression system. Players are tasked with participating in eco-friendly activities, completing sustainability quizzes, and interacting with real-world sustainability initiatives around campus. Doing these activities allows players to earn points, which they can later spend to their very own, fully-customisable isometric garden, which grows and blossoms the more sustainable actions they make.
 
 
 ## Production Server
-The production server is hosted at https://ecoworld.dev/ and is managed by the team. The server is running the latest version of the application and is available for public use.
+Our production server is hosted on the internet via https://ecoworld.dev/ and is managed by the development team. The server is running the latest version of the application and is available for public use!
 
-## Requirements
+## Requirements (for running locally)
 - Python 3.12
 
-## Installation
-Clone the repository using the following command:
+## Local Installation
+Please open a terminal or command prompt, and clone the repository by entering the following command:
 ```bash
 git clone https://github.com/ECM2434-The-Hackstreet-Boys/ECM2434-Sustainability.git
 ```
-Use CD to access the repository
+Next, use CD to access the repository:
 ```bash
 cd ECM2434-Sustainability
 ```
@@ -32,17 +32,17 @@ Run the following command to automatically set up and run the application:
 ```
 
 #### MacOS/Linux
-Run the following command to make the setup file executable
+Run the following command to make the setup file executable on your device:
 ```Console
 chmod 755 setup.sh
 ```
-Execute the setup file
+Execute the setup file:
 ```Console
 ./setup.sh
 ```
 
 #### Secret Key Generation
-When asked you can select any random combination of characters to generate a secret key for the Django application.
+After running the commands above, you will be prompted to enter a a secret key for the Django application. You can input any combination of characters you'd like, and then hit ENTER! 
 
 ## Manual Setup
 
@@ -80,13 +80,13 @@ Run the following command to start the server:
 python manage.py runserver
 ```
 
-### Accessing the server
-After this you should be able to access the server at http://127.0.0.1:8000/
+### Accessing the Local Server
+After completing the local setup (whether you chose to do it automatically or manually), you should be able to access the server at http://127.0.0.1:8000/
 The default admin username is `admin` and the password is `admin`
 The default user account is `user` and the password is `user`
 
 ### Accessing Admin Pages
-Current admin pages have url:
+If you wish to access the current admin web page, please enter the following url into your web browser:
 ```djangourlpath
 127.0.0.1:8000/accounts/manage_roles/
 ```
