@@ -1,3 +1,4 @@
+# Author: Edward Pratt
 from django.db import models
 
 # Create your models here.

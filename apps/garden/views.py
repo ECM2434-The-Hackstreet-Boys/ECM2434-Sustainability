@@ -29,11 +29,11 @@ def is_admin(user):
 # View for loading the admin garden page
 @login_required
 def get_admin_page(request):
-    if not is_admin(request.user):
+    if not is_admin(request.user): # Ensure user is an admin
         messages.warning(request, "You are not authorized to access this page.")
         return redirect("home")
 
-    else:
+    else: # Load the admin garden page
         return render(request, 'admin_garden.html')
 
 # View for loading the garden data and sending it to the webpage
@@ -43,6 +43,7 @@ def load_garden(request):
         user = request.user  # Ensure user is authenticated
         garden = get_object_or_404(Garden, userID=user)
 
+        # Set file path to garden
         file_path = os.path.join(settings.MEDIA_ROOT, str(garden.file_path))
 
         if not os.path.exists(file_path):
@@ -63,7 +64,7 @@ def load_garden(request):
 def save_garden(request):
     if request.method == "POST":
         try:
-            data = json.loads(request.body)
+            data = json.loads(request.body) # Loads the JSON data from the request
             garden_name = data.get("name", "default_garden")
             tile_data = data.get("garden", {})
 

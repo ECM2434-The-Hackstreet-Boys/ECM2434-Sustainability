@@ -1,9 +1,3 @@
-document.addEventListener('DOMContentLoaded', function () {
-    // will open a qr scanner in the future
-    document.getElementById('my-button').addEventListener('click', function () {
-        alert("Open Camera button clicked!");
-    });
-});
 
 // Function to handle the quiz link click event
 function quizClicked(e) {
