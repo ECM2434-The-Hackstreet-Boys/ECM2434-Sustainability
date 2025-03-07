@@ -37,24 +37,47 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Creates a gridContainer for storing the isometric tiles
     const gridContainer = new PIXI.Container();
     app.stage.addChild(gridContainer);
+    //
+    // // Load the isometric textures for the blocks
+    // console.log("Loading isometric texture...");
+    // const grasstexture = await PIXI.Assets.load('../static/resources/tileGrass.png?v=${Date.now()}');
+    // const treetexture = await PIXI.Assets.load('../static/resources/tileTree.png?v=${Date.now()}');
+    // const flowertexture = await PIXI.Assets.load('../static/resources/tileFlower.png?v=${Date.now()}');
+    // const flowerPinkTexture = await PIXI.Assets.load('../static/resources/tileFlowerPink.png?v=${Date.now()}');
+    //
+    //
+    // // Store the textures in an object for easy access
+    // const textures = {
+    //     grass: grasstexture,
+    //     tree: treetexture,
+    //     flower: flowertexture,
+    //     flowerPink: flowerPinkTexture,
+    // };
+    //
+    // console.log("Texture loaded:", grasstexture);
+    const textures = {};
+    async function loadAssets() {
+        const response = await fetch('/api/assets/');
+        const data = await response.json();
+        console.log("API RESPONSE:", data);
 
-    // Load the isometric textures for the blocks
-    console.log("Loading isometric texture...");
-    const grasstexture = await PIXI.Assets.load('../static/resources/tileGrass.png?v=${Date.now()}');
-    const treetexture = await PIXI.Assets.load('../static/resources/tileTree.png?v=${Date.now()}');
-    const flowertexture = await PIXI.Assets.load('../static/resources/tileFlower.png?v=${Date.now()}');
-    const flowerPinkTexture = await PIXI.Assets.load('../static/resources/tileFlowerPink.png?v=${Date.now()}');
+
+        for(const asset of data.assets){
+            if (!asset.blockPath) {
+                console.error(`Missing file path for asset: ${asset.name}`);
+                continue;
+            }
+
+            const assetPath = `../${asset.blockPath}?v=${Date.now()}`;
+            console.log(`Loading: ${assetPath}`);
+            textures[asset.name] = await PIXI.Assets.load(assetPath);
 
 
-    // Store the textures in an object for easy access
-    const textures = {
-        grass: grasstexture,
-        tree: treetexture,
-        flower: flowertexture,
-        flowerPink: flowerPinkTexture,
-    };
+        }
+        return textures;
+    }
 
-    console.log("Texture loaded:", grasstexture);
+    await loadAssets()
 
     // Tile configuration
     const TILE_WIDTH = 64;
@@ -67,6 +90,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Initialises the tileData object which will store the tile data for each tile
     let tileData = {};
+
 
     // Loop through rows and columns to create the isometric grid
     for (let isoY = 0; isoY < mapHeight; isoY++) {

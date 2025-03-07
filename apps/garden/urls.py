@@ -9,5 +9,6 @@ urlpatterns = [
     path('admin/', views.get_admin_page, name='admin'),
     path('save_garden/', views.save_garden, name='save_garden'),
     path('load_garden/', views.load_garden, name='load_garden'),
+    path('assets/', views.asset_list, name='assets'),
 ]
 

@@ -36,5 +36,6 @@ class Inventory(models.Model):
 class Block(models.Model):
     blockID = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
+    blockPath = models.FileField(upload_to='blocks/', null=True, blank=True)
     cost = models.IntegerField(default=0)
     value = models.IntegerField(default=0)
