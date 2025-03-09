@@ -9,7 +9,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.csrf import csrf_exempt
 
 from SustainabilityApp import settings
-from .models import Garden, Block
+from .models import Garden, Block, Inventory
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
@@ -96,4 +96,44 @@ def save_garden(request):
 def asset_list(request):
     assets = list(Block.objects.values("name", 'blockPath'))
     return JsonResponse({"assets": assets})
+
+
+@csrf_exempt
+@login_required
+def place_block(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        print(data)
+        user = request.user
+        block_name = data.get("blockName")
+        block_id = Block.objects.get(name=block_name)
+        try:
+            inventory = Inventory.objects.get(userID=user.id, blockID=block_id)
+            if inventory.remove_block():
+                remove_block(request)
+                return JsonResponse({"success": True, "message": "Block placed!"})
+            else:
+                return JsonResponse({"success": False, "message": "Not enough blocks in inventory!"}, status=200)
+
+        except Inventory.DoesNotExist:
+            print(request.user, block_name, block_id)
+            Inventory.objects.get_or_create(userID=user, blockID=block_id)
+            place_block(request)
+            # return JsonResponse({"success": False, "message": "Block not found in inventory!"}, status=200)
+
+    return JsonResponse({"success": False, "message": "Invalid request!"}, status=400)
+
+
+@csrf_exempt
+@login_required
+def remove_block(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        user = request.user
+        block_name = data.get("currentTile")
+
+        inventory = Inventory.objects.get(userID=user, blockID=Block.objects.get(name=block_name))
+        inventory.add_block()
+        #return JsonResponse({"success": True, "message": "Block removed and added to inventory!"})
+
 
