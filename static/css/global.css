@@ -131,3 +131,19 @@ p {
     font-size: 16px;
     color: black;
 }
+
+footer {
+    background-color: #5b5b5b;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+}
+
+footer p {
+    color: white;
+}
+
+footer a {
+    color: lightblue;
+    text-decoration: underline;
+}
