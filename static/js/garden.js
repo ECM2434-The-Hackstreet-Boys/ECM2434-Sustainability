@@ -329,12 +329,14 @@ document.addEventListener("DOMContentLoaded", async function () {
         tile.on("rightdown", (event) => { // 'rightdown' detects right-click in Pixi.js
             event.stopPropagation(); // Prevents event from bubbling up
             event.preventDefault();  // Stops browser menu
+
             showContextMenu(event.global.x, event.global.y, tile);
         });
 
         // Long press (Mobile)
         tile.on("pointerdown", (event) => {
             pressTimer = setTimeout(() => {
+
                 showContextMenu(event.global.x, event.global.y, tile);
             }, 500); // Hold for 500ms to trigger
             tile.on("pointerup", () => clearTimeout(pressTimer)); // Cancel if released early
@@ -346,6 +348,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Function to show the context menu when tile pressed
     function showContextMenu(x, y, tile) {
         selectedTile = tile;
+        tile.tint = 0x999999; // Change color to indicate long press
         contextMenu.style.display = 'block';
         contextMenu.style.left = x + 'px';
         contextMenu.style.top = y + 'px';
@@ -356,6 +359,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     document.addEventListener("click", (event) => {
         if (!contextMenu.contains(event.target) && !document.getElementById("texture-submenu").contains(event.target)) {
             contextMenu.style.display = "none";
+            selectedTile.tint = 0xFFFFFF; // Back to normal
             document.getElementById("texture-submenu").style.display = "none";
         }
     });
