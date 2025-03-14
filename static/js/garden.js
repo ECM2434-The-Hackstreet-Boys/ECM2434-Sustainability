@@ -326,6 +326,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Right-click event listeners for each tile
     gridContainer.children.forEach(tile => {
+        tile.interactive = true;
+
         tile.on("rightdown", (event) => { // 'rightdown' detects right-click in Pixi.js
             event.stopPropagation(); // Prevents event from bubbling up
             event.preventDefault();  // Stops browser menu
@@ -342,13 +344,22 @@ document.addEventListener("DOMContentLoaded", async function () {
             tile.on("pointerup", () => clearTimeout(pressTimer)); // Cancel if released early
             tile.on("pointerout", () => clearTimeout(pressTimer));
         });
+
+        tile.on("pointerover", () => {
+            tile.tint = 0xAAAAAA;
+        });
+
+        tile.on("pointerout", () => {
+            tile.tint = 0xFFFFFF;
+        });
+
     });
 
 
     // Function to show the context menu when tile pressed
     function showContextMenu(x, y, tile) {
         selectedTile = tile;
-        tile.tint = 0x999999; // Change color to indicate long press
+        //tile.tint = 0x999999; // Change color to indicate long press
         contextMenu.style.display = 'block';
         contextMenu.style.left = x + 'px';
         contextMenu.style.top = y + 'px';

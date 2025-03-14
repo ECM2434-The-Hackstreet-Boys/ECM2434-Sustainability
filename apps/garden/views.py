@@ -98,42 +98,78 @@ def asset_list(request):
     return JsonResponse({"assets": assets})
 
 
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+import json
+from .models import Inventory, Block
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+import json
+from .models import Inventory, Block
+
 @csrf_exempt
 @login_required
 def place_block(request):
     if request.method == "POST":
         data = json.loads(request.body)
-        print(data)
         user = request.user
         block_name = data.get("blockName")
-        block_id = Block.objects.get(name=block_name)
-        try:
-            inventory = Inventory.objects.get(userID=user.id, blockID=block_id)
-            if inventory.remove_block():
-                remove_block(request)
-                return JsonResponse({"success": True, "message": "Block placed!"})
-            else:
-                return JsonResponse({"success": False, "message": "Not enough blocks in inventory!"}, status=200)
+        removed_block_name = data.get("currentTile")  # Block being swapped out
 
-        except Inventory.DoesNotExist:
-            print(request.user, block_name, block_id)
-            Inventory.objects.get_or_create(userID=user, blockID=block_id)
-            place_block(request)
-            # return JsonResponse({"success": False, "message": "Block not found in inventory!"}, status=200)
+        # Ensure the block being placed exists
+        block = Block.objects.filter(name=block_name).first()
+        if not block:
+            return JsonResponse({"success": False, "message": f"Block '{block_name}' does not exist!"}, status=400)
+
+        # Ensure the block being removed exists
+        removed_block = Block.objects.filter(name=removed_block_name).first()
+
+        # Get or create the inventory entry for the placed block
+        inventory, created = Inventory.objects.get_or_create(userID=user, blockID=block)
+
+        if inventory.quantity > 0:
+            inventory.quantity -= 1
+            inventory.save()
+
+            # Add back the removed block (if valid)
+            if removed_block:
+                add_block_to_inventory(user, removed_block)
+
+            return JsonResponse({"success": True, "message": "Block placed!"}, status=200)
+        else:
+            return JsonResponse({"success": False, "message": "Not enough blocks in inventory!"}, status=200)
 
     return JsonResponse({"success": False, "message": "Invalid request!"}, status=400)
 
 
+def add_block_to_inventory(user, block):
+    """
+    Adds a block to the user's inventory if it exists.
+    If the block is not in the inventory, it is added with quantity 1.
+    """
+    inventory, created = Inventory.objects.get_or_create(userID=user, blockID=block)
+
+    if not created:
+        inventory.quantity += 1
+        inventory.save()
+
+
 @csrf_exempt
 @login_required
-def remove_block(request):
+def remove_block_from_inventory(request):
     if request.method == "POST":
         data = json.loads(request.body)
         user = request.user
         block_name = data.get("currentTile")
 
-        inventory = Inventory.objects.get(userID=user, blockID=Block.objects.get(name=block_name))
-        inventory.add_block()
-        #return JsonResponse({"success": True, "message": "Block removed and added to inventory!"})
+        try:
+            block = Block.objects.get(name=block_name)
+            add_block_to_inventory(user, block)  # Now correctly adds block if not in inventory
+            return JsonResponse({"success": True, "message": "Block removed and added to inventory!"}, status=200)
+        except Block.DoesNotExist:
+            return JsonResponse({"success": False, "message": "Block does not exist!"}, status=400)
 
-
+    return JsonResponse({"success": False, "message": "Invalid request!"}, status=400)

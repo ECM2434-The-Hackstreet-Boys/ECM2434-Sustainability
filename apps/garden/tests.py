@@ -14,7 +14,7 @@ from django.conf import settings
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth import get_user_model
-from .models import Garden
+from .models import Garden, Block, Inventory
 
 User = get_user_model()
 
@@ -193,3 +193,64 @@ class LoadGardenTests(TestCase):
         if os.path.exists(self.file_path):
             os.remove(self.file_path)
         self.garden.delete()
+
+
+class BlockPlacementTests(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.user = User.objects.create_user(username='testuser', password='testpassword')
+        self.client.login(username='testuser', password='testpassword')
+        self.block = Block.objects.create(name='test_block', cost=10, value=5)
+        self.inventory = Inventory.objects.create(userID=self.user, blockID=self.block, quantity=5)
+
+    def test_place_block_success(self):
+        self.client.login(username='testuser', password='testpassword')
+        response = self.client.post(reverse('place_block'), json.dumps({"blockName": "test_block"}), content_type='application/json')
+
+        self.assertEqual(response.status_code, 200)
+        self.assertJSONEqual(response.content, {"success": True, "message": "Block placed!"})
+        self.inventory.refresh_from_db()
+        self.assertEqual(self.inventory.quantity, 4)
+
+    def test_place_block_not_in_inventory(self):
+        self.client.login(username='testuser', password='testpassword')
+        Inventory.objects.filter(userID=self.user, blockID=self.block).delete()  # Remove block from inventory
+        response = self.client.post(reverse('place_block'), json.dumps({"blockName": "test_block"}), content_type='application/json')
+
+        self.assertEqual(response.status_code, 200)
+        self.assertJSONEqual(response.content, {"success": False, "message": "Not enough blocks in inventory!"})
+
+    def test_place_block_invalid_request(self):
+        self.client.login(username='testuser', password='testpassword')
+        response = self.client.get(reverse('place_block'))  # GET instead of POST
+
+        self.assertEqual(response.status_code, 400)
+        self.assertJSONEqual(response.content, {"success": False, "message": "Invalid request!"})
+
+
+
+
+class InventoryTestCase(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username="testuser", password="password")
+        self.client.login(username="testuser", password="password")
+
+        # Create some blocks
+        self.block1 = Block.objects.create(name="Dirt", cost=1, value=1)
+        self.block2 = Block.objects.create(name="Stone", cost=2, value=2)
+
+        # Add block1 (Dirt) to user's inventory with quantity 2
+        self.inventory1 = Inventory.objects.create(userID=self.user, blockID=self.block1, quantity=2)
+
+
+    def test_place_block_no_inventory(self):
+        """Test placing a block when not enough quantity exists."""
+        Inventory.objects.filter(userID=self.user, blockID=self.block1).update(quantity=0)
+
+        response = self.client.post(reverse("place_block"), data=json.dumps({
+            "blockName": "Dirt",  # Placing Dirt
+            "currentTile": "Stone"  # Removing Stone
+        }), content_type="application/json")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("Not enough blocks in inventory!", response.json()["message"])
