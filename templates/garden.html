@@ -41,4 +41,25 @@
 
     <!-- Include your custom garden.js script, defer loading -->
     <script src="{% static 'js/garden.js' %}" defer></script>
+
+
+    <h1>Store</h1>
+        <div id="store-container">
+            <div id="store-grid"></div>
+        </div>
+    {% block extra_js %}
+        <script>
+            window.MEDIA_URL = "{% get_media_prefix %}";  // Pass MEDIA_URL from Django to JS
+        </script>
+        <script src="{% static 'js/store.js' %}" defer></script>
+    {% endblock %}
+
+
+
+
+
+
+
+
+
 {% endblock %}

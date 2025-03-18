@@ -10,6 +10,7 @@ class Stats(models.Model):
     statsID = models.AutoField(primary_key=True)
     userID = models.ForeignKey('accounts.CustomUser', on_delete=models.CASCADE)
     yourPoints = models.IntegerField(default=0)
+    yourTotalPoints = models.IntegerField(default=0)
     co2Saved = models.IntegerField(default=0)
     plasticSaved = models.IntegerField(default=0)
 

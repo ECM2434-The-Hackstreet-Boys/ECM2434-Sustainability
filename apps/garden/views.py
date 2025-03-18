@@ -9,6 +9,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.csrf import csrf_exempt
 
 from SustainabilityApp import settings
+from apps.stats.models import Stats
 from .models import Garden, Block, Inventory
 
 from django.contrib.auth.decorators import login_required
@@ -173,3 +174,54 @@ def remove_block_from_inventory(request):
             return JsonResponse({"success": False, "message": "Block does not exist!"}, status=400)
 
     return JsonResponse({"success": False, "message": "Invalid request!"}, status=400)
+
+@login_required
+def get_store_items(request):
+    user_inventory = {item["blockID"]: item["quantity"] for item in Inventory.objects.filter(userID=request.user).values("blockID", "quantity")}
+
+    items = list(Block.objects.values("blockID", "name", "blockPath", "cost", "value"))
+
+    for item in items:
+        item["owned"] = user_inventory.get(item["blockID"], 0)  # Get owned count or default to 0
+
+    return JsonResponse({"items": items})
+
+@login_required
+def buy_item(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        item_id = data.get("itemId")
+        user = request.user
+        cost = data.get("cost")
+        quantity = data.get("quantity")
+
+        if not item_id or cost is None or quantity is None:
+            return JsonResponse({"success": False, "message": "Invalid data"})
+
+        try:
+            block = Block.objects.get(blockID=item_id)
+            userStats = Stats.objects.get(userID=user)
+        except Block.DoesNotExist:
+            return JsonResponse({"success": False, "message": "Block not found"}, status=404)
+
+        total_cost = cost*quantity
+
+        if userStats.yourPoints < total_cost:
+            return JsonResponse({"success": False, "message": "Insufficient funds"}, status=404)
+
+        userStats.yourPoints -= total_cost
+        userStats.save()
+
+        inventory, created = Inventory.objects.get_or_create(userID=user, blockID=block)
+        inventory.quantity += quantity
+        inventory.save()
+
+        return JsonResponse({"success": True, "message": "Item(s) purchased!"})
+
+    return JsonResponse({"success": False, "message": "Invalid request!"}, status=400)
+
+
+
+
+
+
