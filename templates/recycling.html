@@ -8,13 +8,47 @@
 {% load static %}
 
 {% block extra_css %}
-    <!--Link to the CSS file for the recycle page-->
+    <!-- CSS files for styling -->
+    <link rel="stylesheet" href="{% static 'css/recycling.css' %}">
     
 {% endblock %}
 
 {% block content %}
-    <p>
-        Recycle form page
-        Can only get here by scanning qr code
-    </p>
+    <h1>Recycling Bin Tracker</h1>
+
+    <div class = "counter">
+        <div class = "item">
+            <h3>Food Packaging</h3>
+            <p id = "food-packaging">0</p>
+            <button onclick="increment('food-packaging')">+</button>
+            <button onclick="decrement('food-packaging')">-</button>
+        </div>
+
+        <div class = "item">
+            <h3>Plastic Bottles</h3>
+            <p id = "plastic-bottles">0</p>
+            <button onclick="increment('plastic-bottles')">+</button>
+            <button onclick="decrement('plastic-bottles')">-</button>
+        </div>
+
+        <div class = "item">
+            <h3>Metal Cans</h3>
+            <p id = "metal-cans">0</p>
+            <button onclick="increment('metal-cans')">+</button>
+            <button onclick="decrement('metal-cans')">-</button>
+        </div>
+
+        <div class = "item">
+            <h3>Paper</h3>
+            <p id = "paper">0</p>
+            <button onclick="increment('paper')">+</button>
+            <button onclick="decrement('paper')">-</button>
+        </div>
+    </div>
+
+    <button id = "submit">Submit</button>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/recycling.js' %}"></script>
 {% endblock %}
