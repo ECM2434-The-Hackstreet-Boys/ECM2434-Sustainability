@@ -16,37 +16,47 @@
 {% block content %}
     <h1>Recycling Bin Tracker</h1>
 
-    <div class = "counter">
-        <div class = "item">
-            <h3>Food Packaging</h3>
-            <p id = "food-packaging">0</p>
-            <button onclick="increment('food-packaging')">+</button>
-            <button onclick="decrement('food-packaging')">-</button>
-        </div>
+    <form method = "POST" action = "{% url 'submit_recycling' %}">
+        {% csrf_token %}
 
-        <div class = "item">
-            <h3>Plastic Bottles</h3>
-            <p id = "plastic-bottles">0</p>
-            <button onclick="increment('plastic-bottles')">+</button>
-            <button onclick="decrement('plastic-bottles')">-</button>
-        </div>
+        <div class = "content">
+            <div class = "counter">
+                <div class = "item">
+                    <h3>Food Packaging</h3>
+                    <p id = "food-packaging">0</p>
+                    <input type="hidden" id="food-packaging-value" name="food-packaging" value="0">
+                    <button type = "button" onclick="increment('food-packaging')">+</button>
+                    <button type = "button" onclick="decrement('food-packaging')">-</button>
+                </div>
 
-        <div class = "item">
-            <h3>Metal Cans</h3>
-            <p id = "metal-cans">0</p>
-            <button onclick="increment('metal-cans')">+</button>
-            <button onclick="decrement('metal-cans')">-</button>
-        </div>
+                <div class = "item">
+                    <h3>Plastic Bottles</h3>
+                    <p id = "plastic">0</p>
+                    <input type="hidden" id="plastic-value" name="plastic" value="0">
+                    <button type = "button" onclick="increment('plastic')">+</button>
+                    <button type = "button" onclick="decrement('plastic')">-</button>
+                </div>
 
-        <div class = "item">
-            <h3>Paper</h3>
-            <p id = "paper">0</p>
-            <button onclick="increment('paper')">+</button>
-            <button onclick="decrement('paper')">-</button>
-        </div>
-    </div>
+                <div class = "item">
+                    <h3>Metal Cans</h3>
+                    <p id = "metal">0</p>
+                    <input type="hidden" id="metal-value" name="metal" value="0">
+                    <button type = "button" onclick="increment('metal')">+</button>
+                    <button type = "button" onclick="decrement('metal')">-</button>
+                </div>
 
-    <button id = "submit">Submit</button>
+                <div class = "item">
+                    <h3>Paper</h3>
+                    <p id = "paper">0</p>
+                    <input type="hidden" id="paper-value" name="paper" value="0">
+                    <button type = "button" onclick="increment('paper')">+</button>
+                    <button type = "button" onclick="decrement('paper')">-</button>
+                </div>
+            </div>
+
+            <button id = "submit" type = "submit">Submit</button>
+        </div>
+    </form>
 {% endblock %}
 
 {% block extra_js %}
