@@ -168,6 +168,39 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     }
 
+    async function placeBlock(tile, blockName){
+        let response = await fetch('/api/place_block/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+
+            body: JSON.stringify({blockName: blockName, currentTile: tileData[`${tile.isoX},${tile.isoY}`].textureType}),
+        });
+        let data = await response.json();
+        if (data.success){
+            console.log("Block Placed Successfully")
+        } else {
+            alert(data.message);
+        }
+        return data;
+
+    }
+
+    async function removeBlock(tile, blockID) {
+        let response = await fetch("/api/remove_block/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ block_id: blockID })
+        });
+
+        let data = await response.json();
+        if (data.success) {
+            console.log("Block removed and added to inventory!");
+        } else {
+            alert(data.message);
+        }
+    }
 
     // Function to retrieve the CSRF token from the page
     function getCSRFToken() {
@@ -293,26 +326,40 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Right-click event listeners for each tile
     gridContainer.children.forEach(tile => {
+        tile.interactive = true;
+
         tile.on("rightdown", (event) => { // 'rightdown' detects right-click in Pixi.js
             event.stopPropagation(); // Prevents event from bubbling up
             event.preventDefault();  // Stops browser menu
+
             showContextMenu(event.global.x, event.global.y, tile);
         });
 
         // Long press (Mobile)
         tile.on("pointerdown", (event) => {
             pressTimer = setTimeout(() => {
+
                 showContextMenu(event.global.x, event.global.y, tile);
             }, 500); // Hold for 500ms to trigger
             tile.on("pointerup", () => clearTimeout(pressTimer)); // Cancel if released early
             tile.on("pointerout", () => clearTimeout(pressTimer));
         });
+
+        tile.on("pointerover", () => {
+            tile.tint = 0xAAAAAA;
+        });
+
+        tile.on("pointerout", () => {
+            tile.tint = 0xFFFFFF;
+        });
+
     });
 
 
     // Function to show the context menu when tile pressed
     function showContextMenu(x, y, tile) {
         selectedTile = tile;
+        //tile.tint = 0x999999; // Change color to indicate long press
         contextMenu.style.display = 'block';
         contextMenu.style.left = x + 'px';
         contextMenu.style.top = y + 'px';
@@ -323,6 +370,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     document.addEventListener("click", (event) => {
         if (!contextMenu.contains(event.target) && !document.getElementById("texture-submenu").contains(event.target)) {
             contextMenu.style.display = "none";
+            selectedTile.tint = 0xFFFFFF; // Back to normal
             document.getElementById("texture-submenu").style.display = "none";
         }
     });
@@ -342,31 +390,34 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Create submenu for texture options
     const submenu = document.getElementById("texture-submenu");
+    submenu.innerHTML = ""; // Clear any existing buttons
+
     for (let key in textures) {
         const button = document.createElement("button");
         button.textContent = key;
-        button.addEventListener("click", () => {
+
+        button.addEventListener("click", async () => {
             if (selectedTile) {
-                selectedTile.texture = textures[key];
                 let isoX = selectedTile.isoX;
                 let isoY = selectedTile.isoY;
 
-                console.log("Selected tile:", selectedTile);
-                console.log("Selected Tile X,Y:", selectedTile.x, selectedTile.y);
-                tileData[`${isoX},${isoY}`].textureType = key;
-                submenu.style.display = "none";
+                // Send request to place block, check if user has inventory
+                placeBlock(selectedTile, key).then(response => {
+                    console.log(response);
+                    if (response.success) {
+                        selectedTile.texture = textures[key]; // Update texture on frontend
+                        tileData[`${isoX},${isoY}`].textureType = key;
+                        submenu.style.display = "none";
+                    } else {
+                        alert(response.message); // Show error if block cannot be placed
+                    }
+                });
             }
         });
+
         submenu.appendChild(button);
     }
 
-
-    // Event listener for the delete tile button
-    document.getElementById("delete-tile").addEventListener("click", () => {
-        if (selectedTile) {
-            selectedTile.destroy(); // Remove tile
-        }
-    });
 
 
 });

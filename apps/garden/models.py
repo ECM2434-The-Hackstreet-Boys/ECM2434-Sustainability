@@ -29,6 +29,21 @@ class Inventory(models.Model):
     quantity = models.IntegerField(default=0)
 
 
+    def has_block(self):
+        return self.quantity > 0
+
+    def add_block(self):
+        self.quantity += 1
+        self.save()
+
+    def remove_block(self, amount=1):
+        if self.quantity >= amount:
+            self.quantity -= amount
+            self.save()
+            return True
+        return False
+
+
     def __str__(self):
         return self.inventoryID
 
@@ -39,3 +54,6 @@ class Block(models.Model):
     blockPath = models.FileField(upload_to='blocks/', null=True, blank=True)
     cost = models.IntegerField(default=0)
     value = models.IntegerField(default=0)
+
+
+
