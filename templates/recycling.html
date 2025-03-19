@@ -14,9 +14,16 @@
 {% endblock %}
 
 {% block content %}
+    <!-- JavaScript variables for the bin's latitude and longitude -->
+    <script>
+        const BIN_LAT = {{ bin_lat }};
+        const BIN_LON = {{ bin_long }};
+    </script>
+
     <h1>Recycling Bin Tracker</h1>
 
-    <form method = "POST" action = "{% url 'submit_recycling' %}">
+    <!-- Form for the input of items a user has recycled -->
+    <form id = "recycling-form" method = "POST" action = "{% url 'submit_recycling' %}" style = "display: none;">
         {% csrf_token %}
 
         <div class = "content">
@@ -60,5 +67,6 @@
 {% endblock %}
 
 {% block extra_js %}
+    <!-- JavaScript files for the page -->
     <script src="{% static 'js/recycling.js' %}"></script>
 {% endblock %}
