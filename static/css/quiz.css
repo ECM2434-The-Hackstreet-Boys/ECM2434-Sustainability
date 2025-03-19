@@ -14,3 +14,42 @@
     border-radius: 5px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 }
+
+button {
+    width: 25%;
+    padding: 10px;
+    background-color: #505050;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.5s ease;
+    border: solid 1px #505050;
+}
+
+button:hover {
+    background-color: #757575;
+}
+
+h3 {
+    color: #10583b;
+}
+
+ul {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
+
+li {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    list-style-type: none;
+    margin: 10px 0;
+    width: 50%;
+    text-align: left;
+}
