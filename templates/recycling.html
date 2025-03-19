@@ -8,13 +8,65 @@
 {% load static %}
 
 {% block extra_css %}
-    <!--Link to the CSS file for the recycle page-->
+    <!-- CSS files for styling -->
+    <link rel="stylesheet" href="{% static 'css/recycling.css' %}">
     
 {% endblock %}
 
 {% block content %}
-    <p>
-        Recycle form page
-        Can only get here by scanning qr code
-    </p>
+    <!-- JavaScript variables for the bin's latitude and longitude -->
+    <script>
+        const BIN_LAT = {{ bin_lat }};
+        const BIN_LON = {{ bin_long }};
+    </script>
+
+    <h1>Recycling Bin Tracker</h1>
+
+    <!-- Form for the input of items a user has recycled -->
+    <form id = "recycling-form" method = "POST" action = "{% url 'submit_recycling' %}" style = "display: none;">
+        {% csrf_token %}
+
+        <div class = "content">
+            <div class = "counter">
+                <div class = "item">
+                    <h3>Food Packaging</h3>
+                    <p id = "food-packaging">0</p>
+                    <input type="hidden" id="food-packaging-value" name="food-packaging" value="0">
+                    <button type = "button" onclick="increment('food-packaging')">+</button>
+                    <button type = "button" onclick="decrement('food-packaging')">-</button>
+                </div>
+
+                <div class = "item">
+                    <h3>Plastic Bottles</h3>
+                    <p id = "plastic">0</p>
+                    <input type="hidden" id="plastic-value" name="plastic" value="0">
+                    <button type = "button" onclick="increment('plastic')">+</button>
+                    <button type = "button" onclick="decrement('plastic')">-</button>
+                </div>
+
+                <div class = "item">
+                    <h3>Metal Cans</h3>
+                    <p id = "metal">0</p>
+                    <input type="hidden" id="metal-value" name="metal" value="0">
+                    <button type = "button" onclick="increment('metal')">+</button>
+                    <button type = "button" onclick="decrement('metal')">-</button>
+                </div>
+
+                <div class = "item">
+                    <h3>Paper</h3>
+                    <p id = "paper">0</p>
+                    <input type="hidden" id="paper-value" name="paper" value="0">
+                    <button type = "button" onclick="increment('paper')">+</button>
+                    <button type = "button" onclick="decrement('paper')">-</button>
+                </div>
+            </div>
+
+            <button id = "submit" type = "submit">Submit</button>
+        </div>
+    </form>
+{% endblock %}
+
+{% block extra_js %}
+    <!-- JavaScript files for the page -->
+    <script src="{% static 'js/recycling.js' %}"></script>
 {% endblock %}
