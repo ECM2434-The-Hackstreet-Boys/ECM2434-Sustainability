@@ -54,7 +54,8 @@ def quiz_view(request):
         # Ensure Stats model stores points correctly
         user = CustomUser.objects.get(id=request.user.id)  # Get user instance
         user_stats, created = Stats.objects.get_or_create(userID=user)  # Fix reference
-        user_stats.yourPoints += correct_count  # Assuming yourPoints stores points
+        user_stats.yourPoints += correct_count  # Increments your Points used in store
+        user_stats.yourTotalPoints += correct_count  # Increments your Total Points
         user_stats.save()
 
         score = correct_count
