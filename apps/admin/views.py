@@ -1,11 +1,14 @@
 # Author: Ethan Clapham
 
 from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test
 
 # Create your views here.
+def superuser_check(user):
+    return user.is_authenticated and user.is_superuser
+
 # Dashboard view
-@login_required
-def admin(request):
+@user_passes_test(superuser_check, login_url='/login/')
+def adminDashboard(request):
 
     return render(request, "admin.html")

@@ -38,7 +38,7 @@ urlpatterns =[
     path('leaderboard/', include('apps.leaderboard.urls')),
     path('quiz/', include('apps.quiz.urls')),
     path('api/', include('apps.garden.urls')),
-    path('admin/', include('apps.admin.urls'))
+    path('admin-dashboard/', include('apps.admin.urls'))
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + \
                static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
