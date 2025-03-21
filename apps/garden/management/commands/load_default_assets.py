@@ -7,8 +7,8 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         default_assets = [
             {"name": "Grass", "visibleName":"Grass", "blockPath": "media/blocks/tileGrass.png", "cost": 0, "value": 0},
-            {"name": "tree", "visibleName":"Tree", "blockPath": "media/blocks/tileTree.png", "cost": 10, "value": 5},
-            {"name": "flower", "visibleName":"Flowers", "blockPath": "media/blocks/tileFlower.png", "cost": 20, "value": 10},
+            {"name": "Tree", "visibleName":"Tree", "blockPath": "media/blocks/tileTree.png", "cost": 10, "value": 5},
+            {"name": "Flower", "visibleName":"Flowers", "blockPath": "media/blocks/tileFlower.png", "cost": 20, "value": 10},
             {"name": "Pink Flower", "visibleName":"Pink Flower", "blockPath": "media/blocks/tileFlowerPink.png", "cost": 30, "value": 15},
         ]
 

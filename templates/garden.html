@@ -30,7 +30,7 @@
     </div>
 
     <!-- Submenu for texture options -->
-    <div id="texture-submenu" style="position: absolute; display: none; background-color: #fff; border: 1px solid #ccc; padding: 10px;">
+    <div id="texture-submenu">
         <!-- Buttons for texture options will be dynamically added here -->
     </div>
 
@@ -44,9 +44,11 @@
 
 
     <h1>Store</h1>
-        <div id="store-container">
-            <div id="store-grid"></div>
-        </div>
+    <div id="store-container">
+        <div id="store-grid"></div>
+    </div>
+
+
     {% block extra_js %}
         <script>
             window.MEDIA_URL = "{% get_media_prefix %}";  // Pass MEDIA_URL from Django to JS

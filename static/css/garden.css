@@ -26,26 +26,64 @@
 #context-menu {
     position: absolute;
     display: none;
-    background: white;
     border-radius: 8px;
     padding: 10px;
-    box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
     z-index: 200; /* Higher than canvas */
 }
 
 #context-menu button {
     display: flex;
-    width: 100%;
-    padding: 10px;
-    text-align: center;
-    border-radius: 8px;
+    padding: 5px 10px;
+    color: white;
+    border-radius: 5px;
+    background-color: #505050;
+    transition: background-color 0.5s ease;
     cursor: pointer;
-    margin: 5px 0;
+    border: solid 1px #505050;
+}
+
+#texture-submenu {
+    display: none;
+    position: absolute;
+    z-index: 200; /* Higher than canvas */
+    border-radius: 8px;
+    padding: 10px;
+}
+
+#texture-submenu button {
+    display: flex;
+    padding: 5px 10px;
+    color: white;
+    border-radius: 5px;
+    background-color: #505050;
+    transition: background-color 0.5s ease;
+    cursor: pointer;
+    border: solid 1px #505050;
 }
 
 #context-menu button:hover {
     background: #ddd;
 }
+
+#texture-submenu button:hover {
+    background: #ddd;
+}
+
+button {
+    flex: auto;
+    flex-direction: row;
+    margin: 5px;
+    padding: 10px;
+    background-color: #505050;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.5s ease;
+    border: solid 1px #505050;
+}
+
 
 .store {
     width: 80%;
@@ -59,15 +97,18 @@
 }
 
 #store-container {
-    width: 100%;
+    width: 40%;
     background: #f0f0f0;
     padding: 10px;
+    margin: 0 auto;
 }
 
 #store-grid {
-    display: grid;
+    display: flex;
+    flex-wrap: wrap;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
+    justify-items: center;
 }
 
 .store-item {
@@ -75,6 +116,25 @@
     padding: 10px;
     border-radius: 8px;
     text-align: center;
+    width: 150px;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+
+}
+
+.store-item img {
+    width: 100%;  /* Make image fit inside the item */
+    max-width: 80px;  /* Limit the image size */
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.store-item h3 {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.store-item p {
+    font-size: 14px;
 }
 
 .quantity-controls {
@@ -86,8 +146,10 @@
 
 .quantity-controls button {
     padding: 5px 10px;
-    background: green;
     color: white;
-    border: none;
+    border-radius: 5px;
+    background-color: #505050;
+    transition: background-color 0.5s ease;
     cursor: pointer;
+    border: solid 1px #505050;
 }

@@ -22,8 +22,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 let imagePath = item.blockPath.startsWith("media/") ? item.blockPath.substring(6) : item.blockPath;
 
                 itemDiv.innerHTML = `
-                    <img src="${mediaUrl}${imagePath}" alt="${item.visibleName}" width="50" height="50"/>
-                    <h3>${item.visibleName}</h3>
+                    <img src="${mediaUrl}${imagePath}" alt="${item.name}" width="50" height="50"/>
+                    <h3>${item.name}</h3>
                     <p>Price: ${item.cost} Points</p>
                     <p><strong>Currently Owned:</strong> <span id="owned-count-${item.name}">${item.owned || 0}</span></p>
                     <div class="quantity-controls">
@@ -81,7 +81,7 @@ function buyItem(itemId, cost, itemName) {
         .then(data => {
             if (data.success) {
                 alert("Purchase successful!");
-                // Optionally, update the cart or inventory UI here
+                updateOwnedQuantity(itemName);
                 cart[itemName] = 0;  // Reset the cart for the item after purchase
                 document.getElementById(`cart-count-${itemName}`).textContent = 0;
             } else {
@@ -89,4 +89,19 @@ function buyItem(itemId, cost, itemName) {
             }
         })
         .catch(error => console.error("Error buying item:", error));
+
+
+
+    function updateOwnedQuantity(itemName) {
+        fetch("/api/get_store_items/")  // Fetch updated owned quantities
+            .then(response => response.json())
+            .then(data => {
+                let ownedCount = data.items.find(item => item.name === itemName)?.owned || 0;
+                let ownedElement = document.getElementById(`owned-count-${itemName}`);
+                if (ownedElement) {
+                    ownedElement.textContent = ownedCount;
+                }
+            })
+            .catch(error => console.error("Error fetching owned quantities:", error));
+    }
 }
