@@ -1,0 +1,41 @@
+<!--
+    Author: Ethan Clapham
+    Description: HTML code for the admin page
+-->
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/admin.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h1>ADMIN</h1>
+
+    <div class = "content">
+        <div class = "section">
+            <h2>Section for quiz adding</h2>
+        </div>
+
+        <div class = "section">
+            <h2>Section for Adding locations</h2>
+        </div>
+
+        <div class = "section">
+            <h2>Section for adding recycling bins</h2>
+        </div>
+
+        <div class = "section">
+            <h2>Section for garden admin</h2>
+        </div>
+
+        <div class = "section">
+            <h2>Section for editting users</h2>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <!-- Link to JS if needed -->
+{% endblock %}
