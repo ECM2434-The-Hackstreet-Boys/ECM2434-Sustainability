@@ -1,12 +1,5 @@
-<!--
-    Author: Ethan clapham, Matt McCree
-    Date: 14/02/2025
-    Description: A page for displaying the play screen
--->
-
 {% extends "base.html" %}
 {% load static %}
-
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/play.css' %}">
@@ -16,13 +9,15 @@
     <div id="container">
         <iframe src="{% url 'map' %}" frameborder="0" style="width: 100%; height: 75vh;"></iframe>
         <div id="button-container">
+            <button id="toggleQuizzes">Show Quizzes</button>
+            <button id="toggleBins">Show Bins</button>
             <a href="{% url 'qr_scan' %}">
-                <button id="my-button" >Open Camera</button>
+                <button id="my-button">Open Camera</button>
             </a>
         </div>
     </div>
 {% endblock %}
 
 {% block extra_js %}
-    <script src="{% static 'js/play_screen.js' %}"></script>
+    <script src="{% static 'js/map.js' %}"></script>
 {% endblock %}

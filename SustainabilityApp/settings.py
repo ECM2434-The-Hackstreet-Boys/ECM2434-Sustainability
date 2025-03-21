@@ -58,7 +58,8 @@ INSTALLED_APPS = [
     'apps.garden',
     'apps.stats',
     'apps.quiz',
-    'apps.recycling'
+    'apps.recycling',
+    'apps.play_screen'
 ]
 
 MIDDLEWARE = [
