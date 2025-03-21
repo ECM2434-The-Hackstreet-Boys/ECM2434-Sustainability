@@ -16,7 +16,7 @@ function initializeMap(iconUrl) {
 
         // Custom icon for bins (Red)
         var binIcon = L.icon({
-            iconUrl: '/path/to/bin-icon.png', // Replace with your bin icon path
+            iconUrl: '/static/resources/bin-marker.png', // Update the path to your icon
             iconSize: [38, 38], // Size of the icon
             iconAnchor: [19, 19], // Point of the icon which will correspond to marker's location
             popupAnchor: [0, -19] // Point from which the popup should open relative to the iconAnchor
@@ -43,7 +43,7 @@ function initializeMap(iconUrl) {
 
                     // Add bin locations to the map
                     data.bin_data.forEach(function(location) {
-                        var marker = L.marker(location.coordinates).addTo(map).bindPopup("Bin");
+                        var marker = L.marker(location.coordinates, {icon: binIcon}).addTo(map).bindPopup("Bin");
                     });
                 });
         }
