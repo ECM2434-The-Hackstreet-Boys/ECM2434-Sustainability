@@ -22,9 +22,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 let imagePath = item.blockPath.startsWith("media/") ? item.blockPath.substring(6) : item.blockPath;
 
                 itemDiv.innerHTML = `
-                    <img src="${mediaUrl}${imagePath}" alt="${item.name}" width="50" height="50"/>
-                    <h3>${item.name}</h3>
-                    <p>Price: £${item.cost}</p>
+                    <img src="${mediaUrl}${imagePath}" alt="${item.visibleName}" width="50" height="50"/>
+                    <h3>${item.visibleName}</h3>
+                    <p>Price: ${item.cost} Points</p>
                     <p><strong>Currently Owned:</strong> <span id="owned-count-${item.name}">${item.owned || 0}</span></p>
                     <div class="quantity-controls">
                         <button onclick="updateCart('${item.name}', -1)">-</button>
