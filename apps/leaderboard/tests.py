@@ -43,7 +43,7 @@ class LeaderboardUserTests(TestCase):
         self.client.login(username='testuser', password='testpassword#123')
 
         Stats = apps.get_model('stats', 'Stats')
-        self.stats = Stats.objects.create(userID=self.user, yourPoints=0)
+        self.stats = Stats.objects.create(userID=self.user, yourTotalPoints=0)
     
     def test_user_in_leaderboard(self):
         """Tests if the user is displayed in the leaderboard"""
@@ -52,7 +52,7 @@ class LeaderboardUserTests(TestCase):
 
     def test_user_points_gained_on_leaderboard(self):
         """Tests if the user's points are updated on the leaderboard"""
-        self.stats.yourPoints += 10
+        self.stats.yourTotalPoints += 10
         self.stats.save() # Save the updated points
 
         response = self.client.get(reverse('leaderboardpage')) # Changed from post() to get()
@@ -70,9 +70,9 @@ class LeaderboardMultipleUsersTests(TestCase):
         self.client.login(username='testuser1', password='testpassword#1')
 
         Stats = apps.get_model('stats', 'Stats')
-        self.stats1 = Stats.objects.create(userID=self.user1, yourPoints=25)
-        self.stats2 = Stats.objects.create(userID=self.user2, yourPoints=18)
-        self.stats3 = Stats.objects.create(userID=self.user3, yourPoints=1)
+        self.stats1 = Stats.objects.create(userID=self.user1, yourTotalPoints=25)
+        self.stats2 = Stats.objects.create(userID=self.user2, yourTotalPoints=18)
+        self.stats3 = Stats.objects.create(userID=self.user3, yourTotalPoints=1)
     
     def test_multiple_users_in_leaderboard(self):
         """Tests if multiple users are displayed in the leaderboard"""
