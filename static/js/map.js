@@ -32,7 +32,7 @@ function initializeMap(iconUrl) {
                 .then(data => {
                     // Add quiz locations to the map
                     data.quiz_data.forEach(function(location) {
-                        var quizButton = "<button onclick='triggerQuizEvent()'>Take the quiz</button>"; // Replace with your quiz page link
+                        var quizButton = `<button onclick='triggerQuizEvent(${location.locationID})'>Take the quiz</button>`; // Replace with your quiz page link
                         var DistantPopup = location.locationName;
                         var closePopup = location.locationName + ". " + quizButton;
 
@@ -74,7 +74,7 @@ function initializeMap(iconUrl) {
             markers.forEach(function(item) {
                 var distance = userLocation.distanceTo(item.marker.getLatLng());
 
-                if (distance <= 500000) {
+                if (distance <= 10000) {
                     item.marker.setPopupContent(item.closePopup).openPopup();
                 } else {
                     item.marker.setPopupContent(item.DistantPopup).openPopup();
@@ -104,10 +104,6 @@ function initializeMap(iconUrl) {
 }
 
 // Function to handle when the quiz button is clicked
-function triggerQuizEvent() {
-    console.log("Quiz link clicked");
-    var quizEvent = new CustomEvent('quizLinkClicked', {
-        detail: { message: 'Quiz link clicked' }
-    });
-    window.parent.quizClicked(quizEvent);
+function triggerQuizEvent(locationID) {
+    window.location.href = `/quiz/${locationID}`;
 }

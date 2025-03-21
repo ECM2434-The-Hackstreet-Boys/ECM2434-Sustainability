@@ -23,6 +23,7 @@ def get_locations(request):
 
     quiz_data = [
         {
+            'locationID': quiz.locationID,
             'locationName': quiz.locationName,
             'coordinates': [quiz.latitude, quiz.longitude],
             'quizID': quiz.quizID
