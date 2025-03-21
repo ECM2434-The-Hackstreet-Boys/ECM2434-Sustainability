@@ -179,7 +179,7 @@ def remove_block_from_inventory(request):
 def get_store_items(request):
     user_inventory = {item["blockID"]: item["quantity"] for item in Inventory.objects.filter(userID=request.user).values("blockID", "quantity")}
 
-    items = list(Block.objects.values("blockID", "name", "blockPath", "cost", "value"))
+    items = list(Block.objects.values("blockID", "name", "visibleName", "blockPath", "cost", "value"))
 
     for item in items:
         item["owned"] = user_inventory.get(item["blockID"], 0)  # Get owned count or default to 0

@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             const screenY = (isoX + isoY) * (TILE_HEIGHT / 2) - (isoZ * TILE_DEPTH) + SPACING;
 
             // Create a new tile sprite
-            let tile = new PIXI.Sprite(textures.grass);
+            let tile = new PIXI.Sprite(textures.Grass);
             tile.width = TILE_WIDTH;
             tile.height = TILE_HEIGHT + TILE_DEPTH;
 
