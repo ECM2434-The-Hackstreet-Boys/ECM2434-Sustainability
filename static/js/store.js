@@ -13,9 +13,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.warn("No items found in API response.");
                 return;
             }
+            let points = data.points;
 
             let storeGrid = document.getElementById("store-grid");
             storeGrid.innerHTML = "";  // Clear previous items
+
+            let pointsDiv = document.getElementById("your-points");
+            pointsDiv.innerHTML = `
+                <p>Your Current Points - ${points}</p>
+            `
 
             const mediaUrl = window.MEDIA_URL;  // Get MEDIA_URL from Django
 
@@ -96,7 +102,7 @@ function buyItem(itemId, cost, itemName) {
     // Calculate total cost
     const totalCost = cost * quantity;
 
-    fetch("buy_item/", {
+    fetch("/api/buy_item/", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
