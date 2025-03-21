@@ -74,7 +74,7 @@ function initializeMap(iconUrl) {
             markers.forEach(function(item) {
                 var distance = userLocation.distanceTo(item.marker.getLatLng());
 
-                if (distance <= 10000) {
+                if (distance <= 100) {
                     item.marker.setPopupContent(item.closePopup).openPopup();
                 } else {
                     item.marker.setPopupContent(item.DistantPopup).openPopup();
