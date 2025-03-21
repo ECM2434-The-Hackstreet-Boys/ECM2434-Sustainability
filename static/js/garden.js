@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             tile.isoY = isoY;
 
             // Store the tile data for later reference
-            tileData[`${isoX},${isoY}`] = {type: 'block', sprite: tile, textureType: 'grass'};
+            tileData[`${isoX},${isoY}`] = {type: 'block', sprite: tile, textureType: 'Grass'};
 
             // Add the tile to the grid container
             gridContainer.addChild(tile);
