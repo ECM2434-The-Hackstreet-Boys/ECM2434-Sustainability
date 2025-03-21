@@ -1,3 +1,7 @@
+import { updateOwnedQuantity } from "./updateOwnedQuantity.js";
+
+
+
 let cart = {};
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -27,17 +31,40 @@ document.addEventListener("DOMContentLoaded", function () {
                     <p>Price: ${item.cost} Points</p>
                     <p><strong>Currently Owned:</strong> <span id="owned-count-${item.name}">${item.owned || 0}</span></p>
                     <div class="quantity-controls">
-                        <button onclick="updateCart('${item.name}', -1)">-</button>
+                        <button class="decrease" data-item="${item.name}">-</button>
                         <span id="cart-count-${item.name}">0</span>
-                        <button onclick="updateCart('${item.name}', 1)">+</button>
+                        <button class="increase" data-item="${item.name}">+</button>
                     </div>
-                    <button onclick="buyItem('${item.blockID}', ${item.cost}, '${item.name}')">Buy</button>
-
-  <!-- Buy button -->
+                    <button class="buy" data-item-id="${item.blockID}" data-cost="${item.cost}" data-item-name="${item.name}">Buy</button>
                 `;
 
                 storeGrid.appendChild(itemDiv);
             });
+
+            // Attach event listeners to the buttons after the DOM content is loaded
+            document.querySelectorAll('.decrease').forEach(button => {
+                button.addEventListener('click', function() {
+                    const itemName = this.getAttribute('data-item');
+                    updateCart(itemName, -1);
+                });
+            });
+
+            document.querySelectorAll('.increase').forEach(button => {
+                button.addEventListener('click', function() {
+                    const itemName = this.getAttribute('data-item');
+                    updateCart(itemName, 1);
+                });
+            });
+
+            document.querySelectorAll('.buy').forEach(button => {
+                button.addEventListener('click', function() {
+                    const itemId = this.getAttribute('data-item-id');
+                    const cost = parseInt(this.getAttribute('data-cost'));
+                    const itemName = this.getAttribute('data-item-name');
+                    buyItem(itemId, cost, itemName);
+                });
+            });
+
         })
         .catch(error => console.error("Error fetching store items:", error));
 });
@@ -91,17 +118,4 @@ function buyItem(itemId, cost, itemName) {
         .catch(error => console.error("Error buying item:", error));
 
 
-
-    function updateOwnedQuantity(itemName) {
-        fetch("/api/get_store_items/")  // Fetch updated owned quantities
-            .then(response => response.json())
-            .then(data => {
-                let ownedCount = data.items.find(item => item.name === itemName)?.owned || 0;
-                let ownedElement = document.getElementById(`owned-count-${itemName}`);
-                if (ownedElement) {
-                    ownedElement.textContent = ownedCount;
-                }
-            })
-            .catch(error => console.error("Error fetching owned quantities:", error));
-    }
 }
