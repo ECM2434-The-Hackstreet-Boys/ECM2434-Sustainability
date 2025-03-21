@@ -13,5 +13,24 @@
 {% endblock %}
 
 {% block content %}
-    <p>Statistics page</p>
+    <h1>Statistics</h1>
+
+    <div class = "content">
+        <div class = "grid">
+            <div class = "item">
+                <h3>Your Points</h3>
+                <p id = "points">{{ user_points }}</p>
+            </div>
+
+            <div class = "item">
+                <h3>KG of CO2 Saved</h3>
+                <p id = "co2">{{ plastic_saved }}</p>
+            </div>
+
+            <div class = "item">
+                <h3>KG of Plastic Saved</h3>
+                <p id = "plastic">{{ co2_saved }}</p>
+            </div>
+        </div>
+    </div>
 {% endblock %}

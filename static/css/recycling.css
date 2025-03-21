@@ -1,0 +1,71 @@
+/*
+    Author: Ethan Clapham
+    Description: Recycling page styles
+*/
+.content {
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.counter {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+    justify-content: center;
+    margin: 15px auto;
+    background-color: white;
+    border-radius: 10px;
+    padding: 5px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+    width: 50%;
+    padding-bottom: 15px;
+}
+
+button {
+    width: 10%;
+    min-width: 50px;
+    background-color: #9b9b9b;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    font-size: 20px;
+    transition: background-color 0.5s ease;
+    border: solid 1px #9b9b9b;
+}
+
+button:hover {
+    background-color: #c4c4c4;
+    border: 1px solid #c4c4c4;
+}
+
+/* Style the submit button */
+#submit {
+    width: 25%;
+    padding: 10px;
+    background-color: #505050;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.5s ease;
+    border: solid 1px #505050;
+}
+
+#submit:hover {
+    background-color: #9b9b9b;
+    border: 1px solid #9b9b9b;
+}
+
+h3 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+p {
+    margin: 5px;
+}

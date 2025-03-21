@@ -10,6 +10,9 @@ body {
     padding: 0;
     font-family: Arial, sans-serif;
     background-color: whitesmoke;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 /* Styling for the header of all pages */
@@ -115,6 +118,7 @@ main {
     padding: 20px;
     align-items: center;
     text-align: center;
+    flex-grow: 1;
 }
 
 /* Styling for the text in the main content */
@@ -130,4 +134,22 @@ h2 {
 p {
     font-size: 16px;
     color: black;
+}
+
+footer {
+    background-color: #5b5b5b;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    position: relative;
+    bottom: 0;
+}
+
+footer p {
+    color: white;
+}
+
+footer a {
+    color: lightblue;
+    text-decoration: underline;
 }

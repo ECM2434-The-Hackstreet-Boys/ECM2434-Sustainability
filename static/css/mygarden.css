@@ -57,3 +57,38 @@
     border-radius: 8px;
     box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
 }
+
+
+#store-container {
+    width: 100%;
+    background: #f0f0f0;
+    padding: 10px;
+}
+
+#store-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.store-item {
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.quantity-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.quantity-controls button {
+    padding: 5px 10px;
+    background: green;
+    color: white;
+    border: none;
+    cursor: pointer;
+}

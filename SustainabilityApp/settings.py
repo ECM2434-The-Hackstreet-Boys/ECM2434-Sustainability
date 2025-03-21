@@ -40,7 +40,7 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", get_random_secret_key())
 DEBUG = os.getenv("DJANGO_DEBUG", "False") == "True"
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 
-ALLOWED_HOSTS = ['130.162.180.61', '127.0.0.1', 'www.edward-pratt.live', 'edward-pratt.live', 'www.ecoworld.dev', 'ecoworld.dev']
+ALLOWED_HOSTS = ['localhost','130.162.180.61', '127.0.0.1', 'www.edward-pratt.live', 'edward-pratt.live', 'www.ecoworld.dev', 'ecoworld.dev']
 
 
 # Application definition

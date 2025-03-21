@@ -20,20 +20,35 @@
         {% for q in questions %}
         <div class="question-container">
             <p><strong>{{ q.question }}</strong></p>
-            <input type="radio" name="q{{ q.quizID }}" value="{{ q.answer }}" required> {{ q.answer }}<br>
-            <input type="radio" name="q{{ q.quizID }}" value="{{ q.other1 }}"> {{ q.other1 }}<br>
-            <input type="radio" name="q{{ q.quizID }}" value="{{ q.other2 }}"> {{ q.other2 }}<br>
-            <input type="radio" name="q{{ q.quizID }}" value="{{ q.other3 }}"> {{ q.other3 }}<br>
+            {% for choice in q.choices %}
+                <input type="radio" name="q{{ q.quizID }}" value="{{ choice }}" required> {{ choice }}<br>
+            {% endfor %}
         </div>
         {% endfor %}
     
         <button type="submit">Submit</button>
     </form>
 
-    {% if score is not None %}
+    {% if score is not None and request.method == "POST" %}
     <div class="score-popup">
         <h3>Quiz Results</h3>
         <p>You got {{ score }} correct answers!</p>
+
+        {% if incorrect_answers %}
+            <div class="incorrect-answers">
+                <h3>Incorrect Answers</h3>
+                <ul>
+                    {% for item in incorrect_answers %}
+                        <li>
+                            <strong>Question:</strong> {{ item.question }}<br>
+                            <strong style = "color: red;">Answer:</strong> {{ item.your_answer }}<br>
+                            <strong style = "color: green;">Correct Answer:</strong> {{ item.correct_answer }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
         <button onclick="closePopup()">Close</button>
     </div>
     {% endif %}

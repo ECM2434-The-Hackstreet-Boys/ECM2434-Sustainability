@@ -9,7 +9,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.csrf import csrf_exempt
 
 from SustainabilityApp import settings
-from .models import Garden, Block
+from apps.stats.models import Stats
+from .models import Garden, Block, Inventory
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
@@ -96,4 +97,131 @@ def save_garden(request):
 def asset_list(request):
     assets = list(Block.objects.values("name", 'blockPath'))
     return JsonResponse({"assets": assets})
+
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+import json
+from .models import Inventory, Block
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+import json
+from .models import Inventory, Block
+
+@csrf_exempt
+@login_required
+def place_block(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        user = request.user
+        block_name = data.get("blockName")
+        removed_block_name = data.get("currentTile")  # Block being swapped out
+
+        # Ensure the block being placed exists
+        block = Block.objects.filter(name=block_name).first()
+        if not block:
+            return JsonResponse({"success": False, "message": f"Block '{block_name}' does not exist!"}, status=400)
+
+        # Ensure the block being removed exists
+        removed_block = Block.objects.filter(name=removed_block_name).first()
+
+        # Get or create the inventory entry for the placed block
+        inventory, created = Inventory.objects.get_or_create(userID=user, blockID=block)
+
+        if inventory.quantity > 0:
+            inventory.quantity -= 1
+            inventory.save()
+
+            # Add back the removed block (if valid)
+            if removed_block:
+                add_block_to_inventory(user, removed_block)
+
+            return JsonResponse({"success": True, "message": "Block placed!"}, status=200)
+        else:
+            return JsonResponse({"success": False, "message": "Not enough blocks in inventory!"}, status=200)
+
+    return JsonResponse({"success": False, "message": "Invalid request!"}, status=400)
+
+
+def add_block_to_inventory(user, block):
+    """
+    Adds a block to the user's inventory if it exists.
+    If the block is not in the inventory, it is added with quantity 1.
+    """
+    inventory, created = Inventory.objects.get_or_create(userID=user, blockID=block)
+
+    if not created:
+        inventory.quantity += 1
+        inventory.save()
+
+
+@csrf_exempt
+@login_required
+def remove_block_from_inventory(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        user = request.user
+        block_name = data.get("currentTile")
+
+        try:
+            block = Block.objects.get(name=block_name)
+            add_block_to_inventory(user, block)  # Now correctly adds block if not in inventory
+            return JsonResponse({"success": True, "message": "Block removed and added to inventory!"}, status=200)
+        except Block.DoesNotExist:
+            return JsonResponse({"success": False, "message": "Block does not exist!"}, status=400)
+
+    return JsonResponse({"success": False, "message": "Invalid request!"}, status=400)
+
+@login_required
+def get_store_items(request):
+    user_inventory = {item["blockID"]: item["quantity"] for item in Inventory.objects.filter(userID=request.user).values("blockID", "quantity")}
+
+    items = list(Block.objects.values("blockID", "name", "blockPath", "cost", "value"))
+
+    for item in items:
+        item["owned"] = user_inventory.get(item["blockID"], 0)  # Get owned count or default to 0
+
+    return JsonResponse({"items": items})
+
+@login_required
+def buy_item(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        item_id = data.get("itemId")
+        user = request.user
+        cost = data.get("cost")
+        quantity = data.get("quantity")
+
+        if not item_id or cost is None or quantity is None:
+            return JsonResponse({"success": False, "message": "Invalid data"})
+
+        try:
+            block = Block.objects.get(blockID=item_id)
+            userStats = Stats.objects.get(userID=user)
+        except Block.DoesNotExist:
+            return JsonResponse({"success": False, "message": "Block not found"}, status=404)
+
+        total_cost = cost*quantity
+
+        if userStats.yourPoints < total_cost:
+            return JsonResponse({"success": False, "message": "Insufficient funds"}, status=404)
+
+        userStats.yourPoints -= total_cost
+        userStats.save()
+
+        inventory, created = Inventory.objects.get_or_create(userID=user, blockID=block)
+        inventory.quantity += quantity
+        inventory.save()
+
+        return JsonResponse({"success": True, "message": "Item(s) purchased!"})
+
+    return JsonResponse({"success": False, "message": "Invalid request!"}, status=400)
+
+
+
+
+
 
