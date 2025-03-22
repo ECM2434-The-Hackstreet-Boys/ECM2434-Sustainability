@@ -4,7 +4,7 @@ Tests to see if the user can access the leaderboard page, if the leaderboard is
 displayed correctly and that the new players can be added to the leaderboard.
 
 @version: 1.0
-@date: 2021-04-07
+@date: 2025-03-07
 @author: Sandy Hay
 """
 
