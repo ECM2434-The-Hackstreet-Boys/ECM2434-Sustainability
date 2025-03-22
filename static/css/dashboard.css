@@ -36,7 +36,6 @@ img {
 .button-play {
     width: 150px;
     padding: 10px 20px;
-    border: none;
     border-radius: 5px;
     cursor: pointer;
     color: white;

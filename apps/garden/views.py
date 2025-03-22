@@ -178,13 +178,14 @@ def remove_block_from_inventory(request):
 @login_required
 def get_store_items(request):
     user_inventory = {item["blockID"]: item["quantity"] for item in Inventory.objects.filter(userID=request.user).values("blockID", "quantity")}
+    user_points = Stats.objects.get(userID=request.user).yourPoints
 
-    items = list(Block.objects.values("blockID", "name", "blockPath", "cost", "value"))
+    items = list(Block.objects.values("blockID", "name", "visibleName", "blockPath", "cost", "value"))
 
     for item in items:
         item["owned"] = user_inventory.get(item["blockID"], 0)  # Get owned count or default to 0
 
-    return JsonResponse({"items": items})
+    return JsonResponse({"items": items, "points": user_points})
 
 @login_required
 def buy_item(request):
@@ -204,7 +205,7 @@ def buy_item(request):
         except Block.DoesNotExist:
             return JsonResponse({"success": False, "message": "Block not found"}, status=404)
 
-        total_cost = cost*quantity
+        total_cost = cost
 
         if userStats.yourPoints < total_cost:
             return JsonResponse({"success": False, "message": "Insufficient funds"}, status=404)

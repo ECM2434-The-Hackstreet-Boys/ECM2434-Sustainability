@@ -30,28 +30,34 @@
     </div>
 
     <!-- Submenu for texture options -->
-    <div id="texture-submenu" style="position: absolute; display: none; background-color: #fff; border: 1px solid #ccc; padding: 10px;">
+    <div id="texture-submenu">
         <!-- Buttons for texture options will be dynamically added here -->
     </div>
 
     <button id="save-button">Save Garden</button>
     <button id="load-button">Load Garden</button>
     <!-- Include PixiJS from CDN, defer loading -->
-    <script src="https://pixijs.download/release/pixi.js" defer></script>
 
-    <!-- Include your custom garden.js script, defer loading -->
-    <script src="{% static 'js/garden.js' %}" defer></script>
+
 
 
     <h1>Store</h1>
-        <div id="store-container">
-            <div id="store-grid"></div>
-        </div>
+
+    <div id="store-container">
+        <p id="your-points"></p>
+        <div id="store-grid"></div>
+    </div>
+
+
     {% block extra_js %}
         <script>
             window.MEDIA_URL = "{% get_media_prefix %}";  // Pass MEDIA_URL from Django to JS
         </script>
-        <script src="{% static 'js/store.js' %}" defer></script>
+        <script src="https://pixijs.download/release/pixi.js" defer></script>
+        <script type="module" src="{% static 'js/store.js' %}"></script>
+        <script type="module" src="{% static 'js/updateOwnedQuantity.js' %}"></script>
+        <script src="{% static 'js/garden.js'%}" defer></script>
+
     {% endblock %}
 
 

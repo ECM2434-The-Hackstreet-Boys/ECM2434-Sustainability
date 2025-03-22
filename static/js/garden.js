@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             const screenY = (isoX + isoY) * (TILE_HEIGHT / 2) - (isoZ * TILE_DEPTH) + SPACING;
 
             // Create a new tile sprite
-            let tile = new PIXI.Sprite(textures.grass);
+            let tile = new PIXI.Sprite(textures.Grass);
             tile.width = TILE_WIDTH;
             tile.height = TILE_HEIGHT + TILE_DEPTH;
 
@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             tile.isoY = isoY;
 
             // Store the tile data for later reference
-            tileData[`${isoX},${isoY}`] = {type: 'block', sprite: tile, textureType: 'grass'};
+            tileData[`${isoX},${isoY}`] = {type: 'block', sprite: tile, textureType: 'Grass'};
 
             // Add the tile to the grid container
             gridContainer.addChild(tile);

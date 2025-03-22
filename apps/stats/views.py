@@ -30,7 +30,7 @@ def statspage(request):
     )
 
     content = {
-        'user_points' : stats.yourPoints,
+        'user_points' : stats.yourTotalPoints,
         'plastic_saved' : plastic_saved_kg,
         'co2_saved' : co2_saved_kg,
     }
