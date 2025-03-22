@@ -12,6 +12,7 @@ class quiz(models.Model):
     other1 = models.CharField(max_length=512)
     other2 = models.CharField(max_length=512)
     other3 = models.CharField(max_length=512)
+    locationID = models.IntegerField(null=True, blank=True, default = 0)
 
 
     def __str__(self):
