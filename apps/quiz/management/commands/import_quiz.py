@@ -21,7 +21,8 @@ class Command(BaseCommand):
                     answer=row["answer"],
                     other1=row["other1"],
                     other2=row["other2"],
-                    other3=row["other3"]
+                    other3=row["other3"],
+                    landmark_id=row["landmark_id"]
                 )
 
         self.stdout.write(self.style.SUCCESS("Successfully imported quiz data!"))

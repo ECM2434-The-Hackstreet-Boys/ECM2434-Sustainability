@@ -11,6 +11,7 @@ class quiz(models.Model):
     other1 = models.CharField(max_length=512)
     other2 = models.CharField(max_length=512)
     other3 = models.CharField(max_length=512)
+    landmark_id = models.IntegerField()
 
 
     def __str__(self):

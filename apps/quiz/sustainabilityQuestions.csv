@@ -1,61 +1,97 @@
-question,answer,other1,other2,other3
-What is the main cause of global warming?,Greenhouse gases,Deforestation,Plastic pollution,Oil spills
-Which renewable energy source uses the sun�s rays to generate electricity?,Solar energy,Wind energy,Hydropower,Geothermal energy
-Which gas do plants absorb from the atmosphere?,Carbon dioxide,Oxygen,Nitrogen,Hydrogen
-What is the most common material found in ocean pollution?,Plastic,Glass,Metal,Paper
-Which of the following is a fossil fuel?,Coal,Wood,Wind,Sunlight
-What does the "three Rs" in waste management stand for?,"Reduce, Reuse, Recycle","Renew, Refurbish, Recycle","Replenish, Restore, Reuse","Remove, Rebuild, Replace"
-Which of these contributes most to ocean acidification?,Carbon dioxide emissions,Oil spills,Plastic waste,Overfishing
-What is the process by which trees and plants remove CO? from the air?,Photosynthesis,Respiration,Evaporation,Transpiration
-Which of the following is a major consequence of deforestation?,Habitat loss,Increased biodiversity,More oxygen in the air,Decrease in carbon dioxide
-What is the main cause of rising sea levels?,Melting polar ice caps,Increased rainfall,More ships in the ocean,Decreased evaporation
-Which of these materials is the hardest to recycle?,Styrofoam,Paper,Aluminum cans,Glass bottles
-What is the main component of air pollution in cities?,Carbon monoxide,Ozone,Nitrogen,Hydrogen
-Which of the following is NOT a renewable energy source?,Coal,Solar energy,Wind energy,Geothermal energy
-What is the largest source of freshwater on Earth?,Glaciers,Rivers,Lakes,Groundwater
-Which layer of the atmosphere contains the ozone layer?,Stratosphere,Troposphere,Mesosphere,Thermosphere
-Which country produces the most carbon emissions?,China,USA,India,Russia
-What type of energy is harnessed from the movement of water?,Hydropower,Solar energy,Wind energy,Nuclear energy
-What does "biodegradable" mean?,Breaks down naturally,Persists for years,Requires industrial processing,Is made of plastic
-Which gas is responsible for the greenhouse effect?,Carbon dioxide,Oxygen,Helium,Hydrogen
-Which of these is a natural greenhouse gas?,Water vapor,Chlorofluorocarbons,Argon,Helium
-Which biome has the highest biodiversity?,Tropical rainforest,Desert,Tundra,Grassland
-What is the main cause of acid rain?,Sulfur dioxide emissions,Carbon monoxide,Deforestation,Ozone depletion
-Which renewable energy source relies on heat from the Earth�s core?,Geothermal energy,Solar energy,Biomass,Wind energy
-What is the biggest contributor to deforestation?,Agriculture,Mining,Urban expansion,Transportation
-Which type of plastic is most commonly recycled?,PET,PVC,LDPE,PS
-What is the largest source of ocean pollution?,Plastic waste,Oil spills,Chemical runoff,Sewage
-Which type of waste takes the longest to decompose?,Glass,Paper,Food waste,Aluminum cans
-What is the process of turning waste materials into new products called?,Recycling,Composting,Upcycling,Incineration
-What is the largest cause of species extinction?,Habitat destruction,Climate change,Overfishing,Pollution
-Which of these is NOT a consequence of climate change?,More oxygen in the air,Sea level rise,More extreme weather events,Changes in ecosystems
-What is the purpose of a carbon tax?,Reduce CO? emissions,Encourage deforestation,Increase fossil fuel use,Reduce recycling efforts
-Which of the following gases is NOT a greenhouse gas?,Nitrogen,Methane,Carbon dioxide,Water vapor
-What percentage of the Earth's water is freshwater?,3%,10%,20%,50%
-Which of these is an example of sustainable living?,Using public transport,Driving a gas-guzzling car,Buying single-use plastics,Wasting food
-What is the main reason for coral bleaching?,Warming ocean temperatures,Oil spills,Overfishing,Pollution
-Which energy source is the cleanest?,Solar energy,Coal,Natural gas,Diesel
-What is the biggest source of methane emissions?,Livestock farming,Volcanic eruptions,Car exhausts,Nuclear power plants
-What type of ecosystem is most threatened by rising sea levels?,Coastal wetlands,Deserts,Tundra,Grasslands
-Which human activity contributes most to soil erosion?,Deforestation,Urban development,Mining,Overfishing
-What is the main goal of conservation efforts?,Protect biodiversity,Increase industrialization,Expand cities,Produce more plastics
-Which of these is NOT a consequence of deforestation?,Increased oxygen levels,Loss of biodiversity,Climate change,Disrupted water cycle
-Which pollutant is primarily responsible for ozone layer depletion?,CFCs,Carbon dioxide,Methane,Nitrous oxide
-What is the main reason for species endangerment?,Habitat loss,Space exploration,Planting trees,Using solar energy
-Which of these can help combat climate change?,Reducing fossil fuel use,Increasing landfill waste,Cutting down more trees,Using plastic bags
-What is a common consequence of oil spills?,Marine life death,Increased fish populations,Cleaner oceans,Better drinking water
-Which human activity has the greatest impact on climate change?,Burning fossil fuels,Recycling,Planting trees,Using cloth bags
-Which of these is an example of an invasive species?,Kudzu vine,Elephant,Tiger,Bald eagle
-What is the primary benefit of composting?,Reduces landfill waste,Increases air pollution,Consumes large amounts of water,Slows plant growth
-What is the term for animals losing their habitats due to human activity?,Habitat destruction,Overpopulation,Natural selection,Climate adaptation
-Which farming practice is better for the environment?,Organic farming,Monocropping,Slash-and-burn agriculture,Overgrazing
-What is the biggest benefit of reforestation?,Absorbs CO?,Increases desertification,Removes oxygen from the air,Leads to soil erosion
-Which of these is a major contributor to deforestation?,Palm oil production,Wind farms,Solar panels,Recycling centers
-Which of the following is the best way to save energy at home?,Using LED bulbs,Keeping appliances plugged in all the time,Leaving lights on overnight,Using inefficient heating systems
-What is the primary cause of water scarcity?,Overuse and pollution,Too much rainfall,Overfishing,Lack of desalination
-Which of the following best describes sustainable fishing?,Catching fish at a rate they can reproduce,Overfishing until stocks are depleted,Using large nets that catch all marine life,Destroying marine habitats
-What type of energy is produced by wind turbines?,Wind energy,Nuclear energy,Coal energy,Natural gas energy
-What does an ecosystem consist of?,Living and non-living things,Only plants,Only animals,Only water
-What is the most environmentally friendly way to travel?,Bicycle,Car,Airplane,Motorcycle
-Which of these is a way to reduce carbon footprint?,Eating less meat,Driving everywhere,Throwing away recyclables,Using more plastic bags
-Which material is most commonly recycled worldwire?,Paper,Plastic,Glass,Metal
+question,answer,other1,other2,other3,landmark_id
+What is the main cause of global warming?,Greenhouse gases,Deforestation,Plastic pollution,Oil spills,0
+Which renewable energy source uses the sun�s rays to generate electricity?,Solar energy,Wind energy,Hydropower,Geothermal energy,0
+Which gas do plants absorb from the atmosphere?,Carbon dioxide,Oxygen,Nitrogen,Hydrogen,0
+What is the most common material found in ocean pollution?,Plastic,Glass,Metal,Paper,0
+Which of the following is a fossil fuel?,Coal,Wood,Wind,Sunlight,0
+"What does the ""three Rs"" in waste management stand for?","Reduce, Reuse, Recycle","Renew, Refurbish, Recycle","Replenish, Restore, Reuse","Remove, Rebuild, Replace",0
+Which of these contributes most to ocean acidification?,Carbon dioxide emissions,Oil spills,Plastic waste,Overfishing,0
+What is the process by which trees and plants remove CO? from the air?,Photosynthesis,Respiration,Evaporation,Transpiration,0
+Which of the following is a major consequence of deforestation?,Habitat loss,Increased biodiversity,More oxygen in the air,Decrease in carbon dioxide,0
+What is the main cause of rising sea levels?,Melting polar ice caps,Increased rainfall,More ships in the ocean,Decreased evaporation,0
+Which of these materials is the hardest to recycle?,Styrofoam,Paper,Aluminum cans,Glass bottles,0
+What is the main component of air pollution in cities?,Carbon monoxide,Ozone,Nitrogen,Hydrogen,0
+Which of the following is NOT a renewable energy source?,Coal,Solar energy,Wind energy,Geothermal energy,0
+What is the largest source of freshwater on Earth?,Glaciers,Rivers,Lakes,Groundwater,0
+Which layer of the atmosphere contains the ozone layer?,Stratosphere,Troposphere,Mesosphere,Thermosphere,0
+Which country produces the most carbon emissions?,China,USA,India,Russia,0
+What type of energy is harnessed from the movement of water?,Hydropower,Solar energy,Wind energy,Nuclear energy,0
+"What does ""biodegradable"" mean?",Breaks down naturally,Persists for years,Requires industrial processing,Is made of plastic,0
+Which gas is responsible for the greenhouse effect?,Carbon dioxide,Oxygen,Helium,Hydrogen,0
+Which of these is a natural greenhouse gas?,Water vapor,Chlorofluorocarbons,Argon,Helium,0
+Which biome has the highest biodiversity?,Tropical rainforest,Desert,Tundra,Grassland,0
+What is the main cause of acid rain?,Sulfur dioxide emissions,Carbon monoxide,Deforestation,Ozone depletion,0
+Which renewable energy source relies on heat from the Earth�s core?,Geothermal energy,Solar energy,Biomass,Wind energy,0
+What is the biggest contributor to deforestation?,Agriculture,Mining,Urban expansion,Transportation,0
+Which type of plastic is most commonly recycled?,PET,PVC,LDPE,PS,0
+What is the largest source of ocean pollution?,Plastic waste,Oil spills,Chemical runoff,Sewage,0
+Which type of waste takes the longest to decompose?,Glass,Paper,Food waste,Aluminum cans,0
+What is the process of turning waste materials into new products called?,Recycling,Composting,Upcycling,Incineration,0
+What is the largest cause of species extinction?,Habitat destruction,Climate change,Overfishing,Pollution,0
+Which of these is NOT a consequence of climate change?,More oxygen in the air,Sea level rise,More extreme weather events,Changes in ecosystems,0
+What is the purpose of a carbon tax?,Reduce CO? emissions,Encourage deforestation,Increase fossil fuel use,Reduce recycling efforts,0
+Which of the following gases is NOT a greenhouse gas?,Nitrogen,Methane,Carbon dioxide,Water vapor,0
+What percentage of the Earth's water is freshwater?,3%,10%,20%,50%,0
+Which of these is an example of sustainable living?,Using public transport,Driving a gas-guzzling car,Buying single-use plastics,Wasting food,0
+What is the main reason for coral bleaching?,Warming ocean temperatures,Oil spills,Overfishing,Pollution,0
+Which energy source is the cleanest?,Solar energy,Coal,Natural gas,Diesel,0
+What is the biggest source of methane emissions?,Livestock farming,Volcanic eruptions,Car exhausts,Nuclear power plants,0
+What type of ecosystem is most threatened by rising sea levels?,Coastal wetlands,Deserts,Tundra,Grasslands,0
+Which human activity contributes most to soil erosion?,Deforestation,Urban development,Mining,Overfishing,0
+What is the main goal of conservation efforts?,Protect biodiversity,Increase industrialization,Expand cities,Produce more plastics,0
+Which of these is NOT a consequence of deforestation?,Increased oxygen levels,Loss of biodiversity,Climate change,Disrupted water cycle,0
+Which pollutant is primarily responsible for ozone layer depletion?,CFCs,Carbon dioxide,Methane,Nitrous oxide,0
+What is the main reason for species endangerment?,Habitat loss,Space exploration,Planting trees,Using solar energy,0
+Which of these can help combat climate change?,Reducing fossil fuel use,Increasing landfill waste,Cutting down more trees,Using plastic bags,0
+What is a common consequence of oil spills?,Marine life death,Increased fish populations,Cleaner oceans,Better drinking water,0
+Which human activity has the greatest impact on climate change?,Burning fossil fuels,Recycling,Planting trees,Using cloth bags,0
+Which of these is an example of an invasive species?,Kudzu vine,Elephant,Tiger,Bald eagle,0
+What is the primary benefit of composting?,Reduces landfill waste,Increases air pollution,Consumes large amounts of water,Slows plant growth,0
+What is the term for animals losing their habitats due to human activity?,Habitat destruction,Overpopulation,Natural selection,Climate adaptation,0
+Which farming practice is better for the environment?,Organic farming,Monocropping,Slash-and-burn agriculture,Overgrazing,0
+What is the biggest benefit of reforestation?,Absorbs CO?,Increases desertification,Removes oxygen from the air,Leads to soil erosion,0
+Which of these is a major contributor to deforestation?,Palm oil production,Wind farms,Solar panels,Recycling centers,0
+Which of the following is the best way to save energy at home?,Using LED bulbs,Keeping appliances plugged in all the time,Leaving lights on overnight,Using inefficient heating systems,0
+What is the primary cause of water scarcity?,Overuse and pollution,Too much rainfall,Overfishing,Lack of desalination,0
+Which of the following best describes sustainable fishing?,Catching fish at a rate they can reproduce,Overfishing until stocks are depleted,Using large nets that catch all marine life,Destroying marine habitats,0
+What type of energy is produced by wind turbines?,Wind energy,Nuclear energy,Coal energy,Natural gas energy,0
+What does an ecosystem consist of?,Living and non-living things,Only plants,Only animals,Only water,0
+What is the most environmentally friendly way to travel?,Bicycle,Car,Airplane,Motorcycle,0
+Which of these is a way to reduce carbon footprint?,Eating less meat,Driving everywhere,Throwing away recyclables,Using more plastic bags,0
+Which material is most commonly recycled worldwire?,Paper,Plastic,Glass,Metal,0
+What traditional feature borders the Community Garden Field?,Devon Bank,River Exe,Old Quarry,Meadowland,1
+What type of waste is recycled at the Community Garden Field?,Green waste,Plastic waste,Food waste,Electronic waste,1
+Who helps maintain the Exeter Community Garden?,All of the above,Students,University staff,Local residents,1
+Which structure is found in the Community Garden Field?,Polytunnels,Stone Circle,Beehives,Wind Turbines,1
+What decade was the Taddiforde Valley watercourse created?,1960s,1970s,1980s,1990s,2
+Which small mammal has been recorded in Taddiforde Valley?,Water vole,Hedgehog,Stoat,Weasel,2
+Which plant grows in Taddiforde Valley’s pond system?,Watercress,Algae,Fern,Bog Moss,2
+Which bird is commonly seen at Taddiforde Valley?,Heron,Robin,Sparrowhawk,Jay,2
+Which tree species is found in the Tree Belt?,Oak,Beech,Willow,Maple,3
+Which butterfly species is common in the Tree Belt?,Red Admiral,Brimstone,Monarch,Holly Blue,3
+What insect group benefits from early Blackthorn flowers in the Tree Belt?,Pollinators,Predators,Detritivores,Herbivores,3
+Which mammal is known to inhabit the Tree Belt?,Badger,Squirrel,Otter,Hedgehog,3
+What is a key ecological role of Harrison Bank?,Supports pollinators,Provides fresh water,Hosts migratory birds,Filters air pollution,4
+What type of planting scheme is used at Harrison Bank?,Seasonal pollinator-friendly,Edible plants,Water retention-focused,Rewilded scrubland,4
+What insect group benefits from Harrison Bank’s wildflowers?,Bees,Ants,Flies,Beetles,4
+What describes the maintenance approach for Harrison Bank?,Low-maintenance,High-maintenance,Rewilded,Manicured,4
+Which dragonfly species is found at Laver Pond?,Southern Hawker,Emerald Damselfly,Banded Demoiselle,Black Darters,5
+What type of plants are common in Laver Pond?,Bulrush,Reeds,Lilies,Mosses,5
+Which insect can be found skating on the pond’s surface?,Pond skater,Mayfly,Cricket,Caddisfly,5
+Which bird has been spotted around Laver Pond?,Tree-creeper,Woodpecker,Magpie,Goldfinch,5
+Which exotic plant is found in the Plantation?,Bamboo,Cherry Blossom,Oak,Elm,6
+What insect shelter was built in the Plantation?,Bug hotel,Birdhouse,Wild hive,Ant mound,6
+Which amphibian is commonly found near the Plantation’s watercourse?,Newt,Frog,Toad,Salamander,6
+What type of dragonfly is supported by the Plantation’s watercourse?,Damselfly,Skimmer,Darter,Emperor,6
+What conservation designation does Lower Hoopern Valley hold?,County Wildlife Site,National Nature Reserve,Area of Outstanding Natural Beauty,Local Green Space,7
+Which large mammal has been recorded in Lower Hoopern Valley?,Fox,Deer,Badger,Horse,7
+Which predator has been spotted in Lower Hoopern Valley?,Raptor,Otter,Pine Marten,Weasel,7
+What plant species flowers in late summer at Hatherly Labs banking?,Spiranthes spiralis,Heather,Wild Garlic,Wild Garlic,7
+Which historic site is part of Queen’s Building & Washington Singer?,Old Botanic Garden,Victorian Glasshouse,Medieval Orchard,Edwardian Greenhouse,8
+What tree species is found in the Old Botanic Garden?,Korean Fir,Bristlecone Pine,English Yew,Black Poplar,8
+Which rooftop feature in Sir Henry Wellcome Building supports pollinators?,Wildflower roof,Greenhouse,Beekeeping station,Living wall,8
+Which plant collection in Reed Arboretum dates back to the 19th century?,Original specimens,Modern hybrids,Endangered species,Naturalized imports,8
+What historic feature is found at Reed Pond?,19th-century pond,Medieval well,Ancient stone circle,Geothermal springs,9
+Which bird species has been spotted near Reed Pond?,Kingfisher,Robin,Swallow,Magpie,9
+Which aquatic insect is supported by Reed Pond’s restoration efforts?,Mayfly,Water strider,Springtail,Hoverfly,9
+What is a key conservation effort at Reed Hall Gardens?,Veteran tree care,Beekeeping,Wildflower planting,Orchid conservation,9
