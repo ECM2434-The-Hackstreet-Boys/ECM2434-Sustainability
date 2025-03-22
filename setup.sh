@@ -42,6 +42,7 @@ python manage.py migrate
 echo "Collecting static files..."
 python manage.py collectstatic --noinput
 python manage.py import_quiz
+python manage.py import_locations
 python manage.py import_user
 python manage.py load_default_assets
 
