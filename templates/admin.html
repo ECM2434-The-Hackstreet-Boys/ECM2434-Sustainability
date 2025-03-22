@@ -20,22 +20,37 @@
             <form method = "POST">
                 {% csrf_token %}
 
-                <lable for = "question" class = "form-label">Question:</lable>
+                <label for = "question" class = "form-label">Question:</label>
                 <input type = "text" id = "question" name = "question" class = "form-input" required>
 
-                <lable for = "answer" class = "form-label">Answer:</lable>
+                <label for = "answer" class = "form-label">Answer:</label>
                 <input type = "text" id = "answer" name = "answer" class = "form-input" required>
 
-                <lable for = "incorrect1" class = "form-label">Incorrect Answer 1:</lable>
+                <label for = "incorrect1" class = "form-label">Incorrect Answer 1:</label>
                 <input type = "text" id = "incorrect1" name = "incorrect1" class = "form-input" required>
 
-                <lable for = "incorrect2" class = "form-label">Incorrect Answer 2:</lable>
+                <label for = "incorrect2" class = "form-label">Incorrect Answer 2:</label>
                 <input type = "text" id = "incorrect2" name = "incorrect2" class = "form-input" required>
 
-                <lable for = "incorrect3" class = "form-label">Incorrect Answer 3:</lable>
+                <label for = "incorrect3" class = "form-label">Incorrect Answer 3:</label>
                 <input type = "text" id = "incorrect3" name = "incorrect3" class = "form-input" required>
 
                 <button type = "submit" class = "form-button">Add Question</button>
+            </form>
+
+            <h3>Remove Question</h3>
+            <form method = "POST">
+                {% csrf_token %}
+
+                <label for = "Question" class = "form-label">Question:</label>
+                <select id = "question" name = "question" class = "form-input" required>
+                    <option value = "">Select a question</option>
+                    <!-- Loop through questions -->
+                    {% for question in questions %}
+                        <option value = "{{ question }}">{{ question }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="form-button">Remove Question</button>
             </form>
         </div>
 
@@ -52,6 +67,7 @@
                 <input type = "text" id = "latitude" name = "latitude" class = "form-input" required>
 
                 <label for = "location_name" class = "form-label">Location Name:</label>
+                <input type = "text" id = "location_name" name = "location_name" class = "form-input" required>
 
                 <!-- Loop through 5 questions -->
                 {% for i in "12345" %}
@@ -86,6 +102,7 @@
                         <option value = "{{ location }}">{{ location }}</option>
                     {% endfor %}
                 </select>
+                <button type="submit" class="form-button">Remove Location</button>
             </form>
         </div>
 
