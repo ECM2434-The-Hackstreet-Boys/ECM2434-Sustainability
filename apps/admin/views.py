@@ -8,6 +8,8 @@ from apps.play_screen.models import QuizLocation
 from apps.recycling.models import Bin
 from apps.garden.models import Block
 from apps.garden.forms import BlockForm, EditBlockForm
+from apps.accounts.forms import EditUserForm
+from apps.accounts.models import CustomUser
 
 
 # Create your views here.
@@ -22,6 +24,7 @@ def adminDashboard(request):
     locations = QuizLocation.objects.values_list("locationName", flat=True)
     bins = Bin.objects.values_list("binIdentifier", flat=True)
     blocks = Block.objects.all()
+    users = CustomUser.objects.all()
 
 
 
@@ -110,6 +113,15 @@ def adminDashboard(request):
                 form.save()
                 return redirect("admin-dashboard")
 
+        elif form_type == "edit_user":
+            # Handle editing an existing user (role only)
+            user_id = request.POST.get("user_id")
+            user_obj = get_object_or_404(CustomUser, id=user_id)
+            edit_form = EditUserForm(request.POST, instance=user_obj)
+            if edit_form.is_valid():
+                edit_form.save()  # This updates the user's role
+                return redirect("admin-dashboard")
+
     else:
         form = BlockForm()
 
@@ -124,4 +136,5 @@ def adminDashboard(request):
         'bins': bins,
         'blocks': blocks,
         'block_form': form,
+        'users': users
     })

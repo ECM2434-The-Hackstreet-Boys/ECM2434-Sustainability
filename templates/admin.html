@@ -73,7 +73,7 @@
 
                 <!-- Loop through 5 questions -->
                 {% for i in "12345" %}
-                    <fieldset>
+                    <fieldset class="question-grid">
                         <legend>Question {{ i }}</legend>
 
                         <label for="question_{{ i }}" class="form-label">Question:</label>
@@ -189,7 +189,28 @@
         </div>
 
         <div class = "section">
-            <h2>Section for editing users</h2>
+            <h2>User Editing</h2>
+            <h3>Existing Users</h3>
+            <ul>
+                {% for user in users %}
+                    <li>
+                        <strong>{{ user.username }}</strong> - Email: {{ user.email }} - Role: {{ user.role }}
+                        <!-- Inline form to update the user's role -->
+                        <form method="POST" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="form_type" value="edit_user">
+                            <input type="hidden" name="user_id" value="{{ user.id }}">
+                            <label for="role_{{ user.id }}">Role:</label>
+                            <select name="role" id="role_{{ user.id }}">
+                                <option value="admin" {% if user.role == "admin" %}selected{% endif %}>Admin</option>
+                                <option value="gamekeeper" {% if user.role == "gamekeeper" %}selected{% endif %}>Gamekeeper</option>
+                                <option value="user" {% if user.role == "user" %}selected{% endif %}>User</option>
+                            </select>
+                            <button type="submit" class="form-button">Update Role</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
 {% endblock %}

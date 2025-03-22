@@ -6,3 +6,156 @@
     background-color: white;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
 }
+/*
+    Author: Ethan Clapham & Edward Pratt
+    Date: 20/02/2025
+    Description: Styling for the admin page (single column layout)
+*/
+
+/* General container for the admin content */
+.content {
+    width: 90%;
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 10px;
+    /* Removed flex display to show sections in one column */
+    display: block;
+}
+
+/* Each section on the admin page */
+.section {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+    margin-bottom: 20px;
+    /* Ensure full width within the container */
+    width: 100%;
+}
+
+/* Headings */
+h1, h2, h3 {
+    text-align: center;
+    color: #333;
+}
+
+/* Form styling */
+form {
+    margin-bottom: 15px;
+}
+
+fieldset {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+legend {
+    font-weight: bold;
+    padding: 0 5px;
+}
+
+/* Label styling */
+.form-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Input styling */
+.form-input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+/* Button styling */
+.form-button {
+    padding: 10px 20px;
+    background-color: #505050;
+    color: white;
+    border: solid 1px #505050;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+}
+
+.form-button:hover {
+    background-color: #777;
+}
+
+/* Remove default list styling for unordered lists */
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Styling for list items in admin sections (such as for users or blocks) */
+ul li {
+    background: #f9f9f9;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
+}
+
+/* Inline forms in list items */
+ul li form {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 5px;
+}
+
+/* Styling for select elements */
+select.form-input {
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+/* Additional spacing for inline labels and inputs */
+ul li label {
+    margin-right: 5px;
+}
+
+/* Grid layout for the fieldsets in the location questions form */
+fieldset.question-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;  /* First column for labels, second for inputs */
+    gap: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+/* Make the legend span both columns */
+fieldset.question-grid legend {
+    grid-column: 1 / -1;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Optional: Style labels to align well */
+fieldset.question-grid .form-label {
+    align-self: center;
+    font-weight: bold;
+}
+
+/* Ensure inputs fill their grid cell */
+fieldset.question-grid .form-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
