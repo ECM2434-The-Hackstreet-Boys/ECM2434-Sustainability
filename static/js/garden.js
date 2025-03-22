@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 continue;
             }
 
-            const assetPath = `../${asset.blockPath}?v=${Date.now()}`;
+            const assetPath = `../media/${asset.blockPath}?v=${Date.now()}`;
             console.log(`Loading: ${assetPath}`);
             textures[asset.name] = await PIXI.Assets.load(assetPath);
 

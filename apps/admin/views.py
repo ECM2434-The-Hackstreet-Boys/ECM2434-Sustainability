@@ -1,12 +1,13 @@
 # Author: Ethan Clapham, Edward Pratt
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import user_passes_test
 
 from apps.quiz.models import quiz
 from apps.play_screen.models import QuizLocation
 from apps.recycling.models import Bin
-
+from apps.garden.models import Block
+from apps.garden.forms import BlockForm, EditBlockForm
 
 
 # Create your views here.
@@ -20,8 +21,13 @@ def adminDashboard(request):
     questions = quiz.objects.filter(locationID = '0').values_list("question", flat=True)
     locations = QuizLocation.objects.values_list("locationName", flat=True)
     bins = Bin.objects.values_list("binIdentifier", flat=True)
+    blocks = Block.objects.all()
+
+
 
     if request.method == "POST":
+        form_type = request.POST.get("form_type")
+
         if "question" in request.POST and "answer" in request.POST:
             # Handle adding a new question
             new_question = quiz(
@@ -90,6 +96,32 @@ def adminDashboard(request):
             bin_to_delete = request.POST["bin_identifier"]
             Bin.objects.filter(binIdentifier=bin_to_delete).delete()
 
+        # If the POST contains an 'edit_block' identifier, update an existing block
+        if request.POST.get("form_type") == "edit_block":
+            block = get_object_or_404(Block, blockID=request.POST.get("blockID"))
+            form = EditBlockForm(request.POST, instance=block)
+            if form.is_valid():
+                form.save()
+                return redirect("admin-dashboard")
+        # Otherwise, if the POST contains an 'add_block' identifier, create a new block
+        elif request.POST.get("form_type") == "add_block":
+            form = BlockForm(request.POST, request.FILES)
+            if form.is_valid():
+                form.save()
+                return redirect("admin-dashboard")
+
+    else:
+        form = BlockForm()
 
 
-    return render(request, "admin.html", {'questions': questions, 'locations': locations, 'bins': bins})
+
+
+
+
+    return render(request, "admin.html", {
+        'questions': questions,
+        'locations': locations,
+        'bins': bins,
+        'blocks': blocks,
+        'block_form': form,
+    })

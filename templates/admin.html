@@ -148,7 +148,44 @@
         </div>
 
         <div class = "section">
-            <h2>Section for garden admin</h2>
+            <h2>Manage Blocks</h2>
+
+            <!-- Form to Add a New Block (all fields available) -->
+            <h3>Add New Block</h3>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <!-- Use a hidden field to distinguish the form -->
+                <input type="hidden" name="form_type" value="add_block">
+                {{ block_form.as_p }}
+                <button type="submit" class="form-button">Add Block</button>
+            </form>
+
+            <!-- Display Existing Blocks with Edit Options for Cost and Value -->
+            <h3>Existing Blocks</h3>
+            <ul>
+                {% for block in blocks %}
+                    <li>
+                        <strong>{{ block.name }}</strong> ({{ block.visibleName }})<br>
+                        Cost: {{ block.cost }} - Value: {{ block.value }}
+                        {% if block.blockPath %}
+                            <br>Asset: <a href="{{ block.blockPath.url }}" target="_blank">View File</a>
+                        {% endif %}
+
+                        <!-- Form for editing cost and value only -->
+                        <form method="POST" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="form_type" value="edit_block">
+                            <input type="hidden" name="blockID" value="{{ block.blockID }}">
+                            <!-- Only show fields for cost and value -->
+                            <label for="cost_{{ block.blockID }}">Cost:</label>
+                            <input type="number" name="cost" value="{{ block.cost }}" required>
+                            <label for="value_{{ block.blockID }}">Value:</label>
+                            <input type="number" name="value" value="{{ block.value }}" required>
+                            <button type="submit" class="form-button">Update</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
         </div>
 
         <div class = "section">
