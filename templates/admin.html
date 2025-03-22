@@ -15,11 +15,78 @@
 
     <div class = "content">
         <div class = "section">
-            <h2>Section for quiz adding</h2>
+            <h2>Quiz Questions</h2>
+
+            <form method = "POST">
+                {% csrf_token %}
+
+                <lable for = "question" class = "form-label">Question:</lable>
+                <input type = "text" id = "question" name = "question" class = "form-input" required>
+
+                <lable for = "answer" class = "form-label">Answer:</lable>
+                <input type = "text" id = "answer" name = "answer" class = "form-input" required>
+
+                <lable for = "incorrect1" class = "form-label">Incorrect Answer 1:</lable>
+                <input type = "text" id = "incorrect1" name = "incorrect1" class = "form-input" required>
+
+                <lable for = "incorrect2" class = "form-label">Incorrect Answer 2:</lable>
+                <input type = "text" id = "incorrect2" name = "incorrect2" class = "form-input" required>
+
+                <lable for = "incorrect3" class = "form-label">Incorrect Answer 3:</lable>
+                <input type = "text" id = "incorrect3" name = "incorrect3" class = "form-input" required>
+
+                <button type = "submit" class = "form-button">Add Question</button>
+            </form>
         </div>
 
         <div class = "section">
-            <h2>Section for Adding locations</h2>
+            <h2>Quiz Locations</h2>
+            <form method="POST">
+                <h3>Add Location</h3>
+                {% csrf_token %}
+
+                <label for = "longitude" class = "form-label">Longitude:</label>
+                <input type = "text" id = "longitude" name = "longitude" class = "form-input" required>
+
+                <label for = "latitude" class = "form-label">Latitude:</label>
+                <input type = "text" id = "latitude" name = "latitude" class = "form-input" required>
+
+                <label for = "location_name" class = "form-label">Location Name:</label>
+
+                <!-- Loop through 5 questions -->
+                {% for i in "12345" %}
+                    <fieldset>
+                        <legend>Question {{ i }}</legend>
+
+                        <label for="question_{{ i }}" class="form-label">Question:</label>
+                        <input type="text" id="question_{{ i }}" name="question_{{ i }}" class="form-input" required>
+
+                        <label for="answer_{{ i }}" class="form-label">Answer:</label>
+                        <input type="text" id="answer_{{ i }}" name="answer_{{ i }}" class="form-input" required>
+
+                        {% for j in "123" %}
+                            <label for="incorrect_{{ i }}_{{ j }}" class="form-label">Incorrect Answer {{ j }}:</label>
+                            <input type="text" id="incorrect_{{ i }}_{{ j }}" name="incorrect_{{ i }}_{{ j }}" class="form-input" required>
+                        {% endfor %}
+                    </fieldset>
+                {% endfor %}
+
+                <button type = "submit" class = "form-button">Add Location</button>
+            </form>
+
+            <h3>Remove Location</h3>
+            <form method = "POST">
+                {% csrf_token %}
+
+                <label for = "location_name" class = "form-label">Location Name:</label>
+                <select id = "location_name" name = "location_name" class = "form-input" required>
+                    <option value = "">Select a location</option>
+                    <!-- Loop through locations -->
+                    {% for location in locations %}
+                        <option value = "{{ location }}">{{ location }}</option>
+                    {% endfor %}
+                </select>
+            </form>
         </div>
 
         <div class = "section">
