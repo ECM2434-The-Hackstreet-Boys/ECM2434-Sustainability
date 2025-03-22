@@ -1,14 +1,6 @@
-.section {
-    width: 80%;
-    margin: 20px auto;
-    padding: 10px;
-    border-radius: 8px;
-    background-color: white;
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
-}
 /*
     Author: Ethan Clapham & Edward Pratt
-    Date: 20/02/2025
+    Date: 22/03/2025
     Description: Styling for the admin page (single column layout)
 */
 

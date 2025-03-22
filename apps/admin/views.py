@@ -17,7 +17,7 @@ def superuser_check(user):
     return bool(user.is_authenticated and (user.is_superuser or user.role == 'admin'))
 
 # Dashboard view
-@user_passes_test(superuser_check, login_url='/login/')
+@user_passes_test(superuser_check, login_url='/accounts/login/')
 def adminDashboard(request):
 
     questions = quiz.objects.filter(locationID = '0').values_list("question", flat=True)
