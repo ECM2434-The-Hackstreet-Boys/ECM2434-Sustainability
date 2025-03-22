@@ -39,20 +39,39 @@ def adminDashboard(request):
             quiz.objects.filter(question=question_to_delete).delete()
             return redirect("admin-dashboard")
 
-        elif "longitude" in request.POST and "latitude" in request.POST:
-            # Handle adding a new location
+        elif "longitude" in request.POST and "latitude" in request.POST and "location_name" in request.POST:
+            # Create a new location
             new_location = QuizLocation(
                 longitude=request.POST["longitude"],
                 latitude=request.POST["latitude"],
-                location_name=request.POST["location_name"],
+                locationName=request.POST["location_name"],
             )
             new_location.save()
-            return redirect("admin-dashboard")
+
+            # Loop through 5 questions and save them
+            for i in range(1, 6):  # 1 to 5
+                question_text = request.POST.get(f"question_{i}")
+                answer = request.POST.get(f"answer_{i}")
+                incorrect1 = request.POST.get(f"incorrect_{i}_1")
+                incorrect2 = request.POST.get(f"incorrect_{i}_2")
+                incorrect3 = request.POST.get(f"incorrect_{i}_3")
+
+                if question_text and answer and incorrect1 and incorrect2 and incorrect3:
+                    quiz.objects.create(
+                        locationID=new_location.locationID,
+                        question=question_text,
+                        answer=answer,
+                        other1=incorrect1,
+                        other2=incorrect2,
+                        other3=incorrect3,
+                    )
 
         elif "location_name" in request.POST:
             # Handle deleting a location
             location_to_delete = request.POST["location_name"]
-            QuizLocation.objects.filter(location_name=location_to_delete).delete()
+            locationID = QuizLocation.objects.get(locationName=location_to_delete).locationID
+            quiz.objects.filter(locationID=locationID).delete()
+            QuizLocation.objects.filter(locationName=location_to_delete).delete()
             return redirect("admin-dashboard")
 
 
