@@ -1,3 +1,13 @@
+"""Tests for the Quiz app
+
+Tests the quiz functions and view if a user can earn points from getting
+correct answers on the quizzes
+
+@version: 1.0
+@date: 2025-03-07
+@author: Sandy Hay
+"""
+
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth import get_user_model
