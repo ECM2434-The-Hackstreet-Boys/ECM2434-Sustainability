@@ -71,6 +71,14 @@ Run the following command to import the quiz questions to the database
 ```bash
 python manage.py import_quiz
 ```
+Run the following command to import the locations for the map
+```bash
+python manage.py import_locations
+```
+Run the following command to import the bins for the map
+```bash
+python manage.py import_bins
+```
 Run the following command to add a default admin and user to the database
 ```bash
 python manage.py import_user

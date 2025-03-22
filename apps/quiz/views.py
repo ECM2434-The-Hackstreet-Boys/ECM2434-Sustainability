@@ -62,3 +62,37 @@ def quiz_view(request):
 
     # Render the quiz page with the questions and the score on page load
     return render(request, "quiz.html", {"questions": questions, "score": score, "incorrect_answers": incorrect_answers})
+
+
+@login_required
+def quiz_view_by_location(request, locationID):
+    # Do the quiz based on specific location
+    questions = list(quiz.objects.filter(landmark_id=locationID))  # Filter by locationID
+    number_of_questions = len(questions)
+    questions = sample(questions, min(5, number_of_questions))
+
+    for q in questions:
+        q.choices = [q.answer, q.other1, q.other2, q.other3]
+        shuffle(q.choices)
+
+    score = 0
+    incorrect_answers = []
+
+    if request.method == "POST":
+        correct_count = 0
+        for key, value in request.POST.items():
+            if key.startswith("q"):
+                question_id = int(key[1:])
+                question = quiz.objects.get(quizID=question_id)
+
+                if value == question.answer:
+                    correct_count += 1
+                else:
+                    incorrect_answers.append({"question": question.question, "your_answer": value, "correct_answer": question.answer})
+
+        score = correct_count
+
+    # This will render the quiz for that location
+    return render(request, "quiz.html", {"questions": questions, "score": score, "incorrect_answers": incorrect_answers})
+
+
