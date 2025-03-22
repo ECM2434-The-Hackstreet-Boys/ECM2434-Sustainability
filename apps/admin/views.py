@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import user_passes_test
 
 from apps.quiz.models import quiz
 from apps.play_screen.models import QuizLocation
+from apps.recycling.models import Bin
 
 
 
@@ -18,6 +19,7 @@ def adminDashboard(request):
 
     questions = quiz.objects.filter(locationID = '0').values_list("question", flat=True)
     locations = QuizLocation.objects.values_list("locationName", flat=True)
+    bins = Bin.objects.values_list("binIdentifier", flat=True)
 
     if request.method == "POST":
         if "question" in request.POST and "answer" in request.POST:
@@ -75,5 +77,19 @@ def adminDashboard(request):
             return redirect("admin-dashboard")
 
 
+        elif "longitude" in request.POST and "latitude" in request.POST and "bin_identifier" in request.POST:
+            new_bin = Bin(
+                longitude=request.POST["longitude"],
+                latitude=request.POST["latitude"],
+                binIdentifier=request.POST["bin_identifier"]
+            )
+            new_bin.save()
+            return redirect("admin-dashboard")
 
-    return render(request, "admin.html", {'questions': questions, 'locations': locations})
+        elif "bin_identifier" in request.POST:
+            bin_to_delete = request.POST["bin_identifier"]
+            Bin.objects.filter(binIdentifier=bin_to_delete).delete()
+
+
+
+    return render(request, "admin.html", {'questions': questions, 'locations': locations, 'bins': bins})

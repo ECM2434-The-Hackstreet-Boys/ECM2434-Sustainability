@@ -19,22 +19,24 @@
 
             <form method = "POST">
                 {% csrf_token %}
+                <fieldset>
+                    <label for = "question" class = "form-label">Question:</label>
+                    <input type = "text" id = "question" name = "question" class = "form-input" required>
 
-                <label for = "question" class = "form-label">Question:</label>
-                <input type = "text" id = "question" name = "question" class = "form-input" required>
+                    <label for = "answer" class = "form-label">Answer:</label>
+                    <input type = "text" id = "answer" name = "answer" class = "form-input" required>
 
-                <label for = "answer" class = "form-label">Answer:</label>
-                <input type = "text" id = "answer" name = "answer" class = "form-input" required>
+                    <label for = "incorrect1" class = "form-label">Incorrect Answer 1:</label>
+                    <input type = "text" id = "incorrect1" name = "incorrect1" class = "form-input" required>
 
-                <label for = "incorrect1" class = "form-label">Incorrect Answer 1:</label>
-                <input type = "text" id = "incorrect1" name = "incorrect1" class = "form-input" required>
+                    <label for = "incorrect2" class = "form-label">Incorrect Answer 2:</label>
+                    <input type = "text" id = "incorrect2" name = "incorrect2" class = "form-input" required>
 
-                <label for = "incorrect2" class = "form-label">Incorrect Answer 2:</label>
-                <input type = "text" id = "incorrect2" name = "incorrect2" class = "form-input" required>
+                    <label for = "incorrect3" class = "form-label">Incorrect Answer 3:</label>
+                    <input type = "text" id = "incorrect3" name = "incorrect3" class = "form-input" required>
 
-                <label for = "incorrect3" class = "form-label">Incorrect Answer 3:</label>
-                <input type = "text" id = "incorrect3" name = "incorrect3" class = "form-input" required>
 
+                </fieldset>
                 <button type = "submit" class = "form-button">Add Question</button>
             </form>
 
@@ -107,7 +109,42 @@
         </div>
 
         <div class = "section">
-            <h2>Section for adding recycling bins</h2>
+            <h2>Recycling Bins</h2>
+            <h3>Add Bin</h3>
+            <form method = "POST">
+                {% csrf_token %}
+
+                <fieldset>
+                    <label for = "bin_identifier" class = "form-label">Bin Identifier:</label>
+                    <input type = "text" id = "bin_identifier" name = "bin_identifier" class = "form-input" required>
+
+                    <label for = "longitude" class = "form-label">Longitude:</label>
+                    <input type = "text" id = "longitude" name = "longitude" class = "form-input" required>
+
+                    <label for = "latitude" class = "form-label">Latitude:</label>
+                    <input type = "text" id = "latitude" name = "latitude" class = "form-input" required>
+                </fieldset>
+                <button type="submit" class="form-button">Add Bin</button>
+
+            </form>
+
+
+            <h3>Delete Bin</h3>
+            <form method = "POST">
+                {% csrf_token %}
+
+                <label for = "bin_identifier" class = "form-label">Bin Identifier:</label>
+                <select id = "bin_identifier" name = "bin_identifier" class = "form-input" required>
+                    <option value = "">Select a bin</option>
+                    <!-- Loop through bins -->
+                    {% for bin in bins %}
+                        <option value = "{{ bin }}">{{ bin }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="form-button">Remove Bin</button>
+
+
+            </form>
         </div>
 
         <div class = "section">
@@ -115,7 +152,7 @@
         </div>
 
         <div class = "section">
-            <h2>Section for editting users</h2>
+            <h2>Section for editing users</h2>
         </div>
     </div>
 {% endblock %}
