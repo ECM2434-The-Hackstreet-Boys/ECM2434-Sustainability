@@ -5,13 +5,11 @@ export function updateOwnedQuantity() {
         .then(data => {
             let ownedItems = data.items;  // Array of owned items
             let points = data.points;
-
-
+            
             let pointsDiv = document.getElementById("your-points");
             pointsDiv.innerHTML = `
                 <p>Your Current Points - ${points}</p>
             `
-
             // Loop through all the items in the shop
             ownedItems.forEach(item => {
                 // Get the owned count for the current item

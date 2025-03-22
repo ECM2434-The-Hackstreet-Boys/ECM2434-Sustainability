@@ -6,83 +6,67 @@ function initializeMap(iconUrl) {
             attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
 
-        // Custom icon for quizzes (Blue)
         var userIcon = L.icon({
-            iconUrl: iconUrl, // Update the path to your icon
-            iconSize: [38, 38], // Size of the icon
-            iconAnchor: [19, 19], // Point of the icon which will correspond to marker's location
-            popupAnchor: [0, -19] // Point from which the popup should open relative to the iconAnchor
+            iconUrl: iconUrl,
+            iconSize: [38, 38],
+            iconAnchor: [19, 19],
+            popupAnchor: [0, -19]
         });
 
-        // Custom icon for bins (Red)
         var binIcon = L.icon({
-            iconUrl: '/static/resources/bin-marker.png', // Update the path to your icon
-            iconSize: [38, 38], // Size of the icon
-            iconAnchor: [19, 19], // Point of the icon which will correspond to marker's location
-            popupAnchor: [0, -19] // Point from which the popup should open relative to the iconAnchor
+            iconUrl: '/static/resources/bin-marker.png',
+            iconSize: [38, 38],
+            iconAnchor: [19, 19],
+            popupAnchor: [0, -19] 
         });
 
-        // Array to store marker instances
         var markers = [];
 
-        // Function to load locations from the database
         function loadLocations() {
             fetch('/play_screen/get-locations')
                 .then(response => response.json())
                 .then(data => {
-                    // Add quiz locations to the map
+
                     data.quiz_data.forEach(function(location) {
-                        var quizButton = `<button onclick='triggerQuizEvent(${location.locationID})'>Take the quiz</button>`; // Replace with your quiz page link
-                        var DistantPopup = location.locationName;
-                        var closePopup = location.locationName + ". " + quizButton;
+                        var quizButton = `<button onclick='triggerQuizEvent(${location.locationID})'>Start Quiz</button>`; 
 
-                        var marker = L.marker(location.coordinates).addTo(map).bindPopup(DistantPopup);
+                        var popupContent = `
+                            <div>
+                                <h3>${location.locationName}</h3>
+                                ${quizButton}
+                            </div>
+                        `;
 
-                        markers.push({ marker: marker, closePopup: closePopup, DistantPopup: DistantPopup });
+                        var marker = L.marker(location.coordinates).addTo(map).bindPopup(popupContent);
+
+                        markers.push({ marker: marker });
                     });
 
-                    // Add bin locations to the map
                     data.bin_data.forEach(function(location) {
                         var marker = L.marker(location.coordinates, {icon: binIcon}).addTo(map).bindPopup("Bin");
                     });
                 });
         }
 
-        // Call the function to load locations from the database
         loadLocations();
 
-        // Variables to store user location and marker
         let userMarker = null;
         let userLocation = null;
-        
-        // Function that runs when the user location is found
+
         map.on('locationfound', function(e) {
             userLocation = e.latlng;
 
-            // Remove previous user marker if it exists
             if (userMarker) {
                 map.removeLayer(userMarker);
             } else {
                 map.setView(userLocation, 16);
             }
 
-            // Add new user marker
             userMarker = L.marker(userLocation, { icon: userIcon, opacity: 0.5 }).addTo(map)
                 .bindPopup("You are here").openPopup();
-
-            // Check distance to each marker and update popup content accordingly
-            markers.forEach(function(item) {
-                var distance = userLocation.distanceTo(item.marker.getLatLng());
-
-                if (distance <= 100) {
-                    item.marker.setPopupContent(item.closePopup).openPopup();
-                } else {
-                    item.marker.setPopupContent(item.DistantPopup).openPopup();
-                }
-            });
         });
 
-        // Start locating user
+        // Locate the user
         map.locate({ maxZoom: 16, watch: true, enableHighAccuracy: true });
 
         function onLocationError() {
@@ -91,7 +75,6 @@ function initializeMap(iconUrl) {
 
         map.on('locationerror', onLocationError);
 
-        // Add event listener for recenter button
         document.getElementById('recenter-button').addEventListener('click', function() {
             if (userLocation) {
                 map.setView(userLocation, 16);
