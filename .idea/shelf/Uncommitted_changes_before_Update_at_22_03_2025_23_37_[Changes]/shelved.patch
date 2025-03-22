@@ -1,0 +1,14 @@
+Index: .idea/jsLibraryMappings.xml
+===================================================================
+diff --git a/.idea/jsLibraryMappings.xml b/.idea/jsLibraryMappings.xml
+deleted file mode 100644
+--- a/.idea/jsLibraryMappings.xml	(revision 0f7ee5ba542ded049f2ac5eee58b0884fd8735a4)
++++ /dev/null	(revision 0f7ee5ba542ded049f2ac5eee58b0884fd8735a4)
+@@ -1,6 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="JavaScriptLibraryMappings">
+-    <file url="file://$PROJECT_DIR$" libraries="{html5-qrcode, three.js}" />
+-  </component>
+-</project>
+\ No newline at end of file
