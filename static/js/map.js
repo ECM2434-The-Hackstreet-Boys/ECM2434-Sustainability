@@ -88,5 +88,6 @@ function initializeMap(iconUrl) {
 
 // Function to handle when the quiz button is clicked
 function triggerQuizEvent(locationID) {
-    window.location.href = `/quiz/${locationID}`;
+    console.log("Redirecting to: /quiz/" + locationID);
+    window.top.location.href = `/quiz/${locationID}`;
 }
