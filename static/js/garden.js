@@ -361,8 +361,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         selectedTile = tile;
         //tile.tint = 0x999999; // Change color to indicate long press
         contextMenu.style.display = 'block';
-        contextMenu.style.left = x + 'px';
-        contextMenu.style.top = y + 'px';
+        contextMenu.style.left = x + 200 + 'px';
+        contextMenu.style.top = y + 200 + 'px';
     }
 
 
@@ -407,6 +407,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                     if (response.success) {
                         selectedTile.texture = textures[key]; // Update texture on frontend
                         tileData[`${isoX},${isoY}`].textureType = key;
+                        saveGarden();
                         submenu.style.display = "none";
                     } else {
                         alert(response.message); // Show error if block cannot be placed
