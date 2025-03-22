@@ -33,6 +33,8 @@ def get_locations(request):
     bin_data = [
         {
             'coordinates': [bin.latitude, bin.longitude],
+            'binID': bin.binID,
+            'binIdentifier' : bin.binIdentifier
         } for bin in bins
     ]
 

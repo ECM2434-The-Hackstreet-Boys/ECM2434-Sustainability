@@ -1,4 +1,4 @@
-//Author: Edward Pratt
+//Author: Edward Pratt & Ethan Clapham
 
 
 //Function: Creates a PIXI.js application for the garden, and creates a base isometric grid when the page is loaded.
@@ -340,7 +340,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             pressTimer = setTimeout(() => {
 
                 showContextMenu(event.global.x, event.global.y, tile);
-            }, 500); // Hold for 500ms to trigger
+            }, 250); // Hold for 250ms to trigger
             tile.on("pointerup", () => clearTimeout(pressTimer)); // Cancel if released early
             tile.on("pointerout", () => clearTimeout(pressTimer));
         });
@@ -358,11 +358,29 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Function to show the context menu when tile pressed
     function showContextMenu(x, y, tile) {
-        selectedTile = tile;
-        //tile.tint = 0x999999; // Change color to indicate long press
+        select     //tile.tint = 0x999999; // Change color to indicate long press
         contextMenu.style.display = 'block';
-        contextMenu.style.left = x + 200 + 'px';
-        contextMenu.style.top = y + 200 + 'px';
+        contextMenu.style.display = "block";
+
+        // Get the bounding rectangle of the Pixi canvas relative to the page
+        let canvasBounds = app.view.getBoundingClientRect();
+
+        // Convert Pixi.js coordinates to page coordinates
+        let pageX = canvasBounds.left + x;
+        let pageY = canvasBounds.top + y;
+
+        // Ensure the menu stays within the viewport
+        let menuWidth = contextMenu.offsetWidth;
+        let menuHeight = contextMenu.offsetHeight;
+        let windowWidth = window.innerWidth;
+        let windowHeight = window.innerHeight;
+
+        // Adjust position if it would go off-screen
+        let adjustedX = pageX + menuWidth > windowWidth ? windowWidth - menuWidth - 10 : pageX;
+        let adjustedY = pageY + menuHeight > windowHeight ? windowHeight - menuHeight - 10 : pageY;
+
+        contextMenu.style.left = `${adjustedX}px`;
+        contextMenu.style.top = `${adjustedY}px`;
     }
 
 
