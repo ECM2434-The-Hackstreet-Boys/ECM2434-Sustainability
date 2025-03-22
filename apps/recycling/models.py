@@ -6,7 +6,7 @@ class Bin(models.Model):
     binID = models.AutoField(primary_key=True)
     latitude = models.FloatField(default=0)
     longitude = models.FloatField(default=0)
-    qrCode = models.IntegerField()
+    binIdentifier = models.CharField(max_length=50, default="No identifier")
 
     def __str__(self):
         return self.binID

@@ -43,7 +43,16 @@ function initializeMap(iconUrl) {
                     });
 
                     data.bin_data.forEach(function(location) {
-                        var marker = L.marker(location.coordinates, {icon: binIcon}).addTo(map).bindPopup("Bin");
+                        var binButton = `<button onclick='triggerBinEvent(${location.binID})'>Track Recycling</button>`; 
+
+                        var popupContent = `
+                            <div>
+                                <h3>Bin: ${location.binIdentifier}</h3>
+                                ${binButton}
+                            </div>
+                        `;
+                        var marker = L.marker(location.coordinates, {icon: binIcon}).addTo(map).bindPopup(popupContent);
+
                     });
                 });
         }
@@ -84,6 +93,11 @@ function initializeMap(iconUrl) {
             }
         });
     });
+}
+
+// Function to handle when the bin button is clicked
+function triggerBinEvent(binID) {
+    window.top.location.href = `/recycling/${binID}`
 }
 
 // Function to handle when the quiz button is clicked
