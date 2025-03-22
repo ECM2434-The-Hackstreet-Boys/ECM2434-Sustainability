@@ -86,7 +86,6 @@ class QuizAnswerTest(TestCase):
 
         # Retrieve the updated points after quiz submission
         updated_points = Stats.objects.get(userID=self.user).yourPoints
-        print(f"Updated Points: {updated_points}")
 
         # The user answered 1 question correctly, so points should increase by 1
         self.assertEqual(updated_points, 1)

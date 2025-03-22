@@ -52,7 +52,7 @@ class StatisticsTests(TestCase):
         # Create a Stats object with sample data
         self.stats = apps.stats.models.Stats.objects.create(
             userID=self.user,
-            yourPoints=10,
+            yourTotalPoints=10,
             plasticRecycled=50,   # 50 items * 0.02 kg = 1.0 kg
             metalRecycled=30,     # 30 items * 0.05 kg = 1.5 kg
             paperRecycled=40,     # 40 items * 0.015 kg = 0.6 kg
