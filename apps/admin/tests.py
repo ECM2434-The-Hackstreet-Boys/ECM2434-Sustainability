@@ -52,7 +52,7 @@ class AdminDashboardTests(TestCase):
 class QuizQuestionsTests(TestCase):
     def setUp(self):
         self.admin_user = User.objects.create_user(
-            username='admin', password='pass123', role='admin'
+            username='admin', password='pass123', role='admin', is_superuser=True, is_staff=True,
         )
         # Create a test client and log in as the admin user
         self.client = Client()
@@ -143,13 +143,24 @@ class QuizLocationsTests(TestCase):
         """
         Test editing an existing quiz location.
         """
-        # Create a location to edit.
+        # Create and login an admin user
+        admin_user = User.objects.create_user(
+            username='adminuser',
+            password='adminpassword',
+            is_superuser=True,
+            is_staff=True
+        )
+        logged_in = self.client.login(username='adminuser', password='adminpassword')
+        self.assertTrue(logged_in)
+
+        # Create a location explicitly with valid types
         location = QuizLocation.objects.create(
-            longitude="12.3456",
-            latitude="65.4321",
+            longitude=12.3456,
+            latitude=65.4321,
             locationName="Original Location"
         )
-        # Prepare data for editing (note the inclusion of 'form_type' as expected by the view).
+
+        # Explicitly define your POST data clearly
         edit_data = {
             'form_type': 'edit_location',
             'location_id': location.locationID,
@@ -157,11 +168,24 @@ class QuizLocationsTests(TestCase):
             'latitude': "54.3210",
             'location_name': "Updated Location"
         }
-        response = self.client.post(reverse('admin-dashboard'), edit_data, follow=True)
-        self.assertEqual(response.status_code, 200)
 
-        # Refresh the object from the database and verify the changes.
+        # Check initial location exists correctly
         location.refresh_from_db()
-        self.assertEqual(location.longitude, "98.7654")
-        self.assertEqual(location.latitude, "54.3210")
+        self.assertEqual(location.locationName, "Original Location")
+
+        response = self.client.post(reverse('admin-dashboard'), edit_data)
+
+        # Debug response redirect
+        print("RESPONSE STATUS CODDE: ", response.status_code)
+        if response.status_code == 302:
+            print("REDIRECTED TO: ", response.url)
+
+        # Ensure redirect happened properly
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, reverse('admin-dashboard'))
+
+        # Finally, verify your object's data actually changed
+        location.refresh_from_db()
+        self.assertEqual(location.longitude, 98.7654)
+        self.assertEqual(location.latitude, 54.3210)
         self.assertEqual(location.locationName, "Updated Location")
