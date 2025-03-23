@@ -92,6 +92,50 @@
                 <button type = "submit" class = "form-button">Add Location</button>
             </form>
 
+
+
+            <h3>Edit Existing Locations</h3>
+
+            <!-- Dropdown to select a location -->
+            <label for="locationSelector">Select a location to edit:</label>
+            <select id="locationSelector" class="form-input">
+                <option value="">-- Select a Location --</option>
+                {% for location in allLocations %}
+                    <option value="form_{{ location.locationID }}">{{ location.locationName }}</option>
+                {% endfor %}
+            </select>
+
+            <ul>
+                {% for location in allLocations %}
+                    <li id="form_{{ location.locationID }}" class="edit-location-form-container" style="display: none;">
+                        <div class="location-name"><strong>{{ location.locationName }}</strong></div>
+
+                        <form method="POST" class="edit-location-form">
+                            {% csrf_token %}
+                            <input type="hidden" name="form_type" value="edit_location">
+                            <input type="hidden" name="location_id" value="{{ location.locationID }}">
+
+                            <fieldset class="edit-location-grid">
+                                <legend>Edit Location</legend>
+
+                                <label for="latitude_{{ location.locationID }}" class="form-label">Latitude:</label>
+                                <input type="text" name="latitude" value="{{ location.latitude }}" class="form-input" required>
+
+                                <label for="longitude_{{ location.locationID }}" class="form-label">Longitude:</label>
+                                <input type="text" name="longitude" value="{{ location.longitude }}" class="form-input" required>
+
+                                <label for="location_name_{{ location.locationID }}" class="form-label">Name:</label>
+                                <input type="text" name="location_name" value="{{ location.locationName }}" class="form-input" required>
+
+                                <button type="submit" class="form-button">Update Location</button>
+                            </fieldset>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+
+
+
             <h3>Remove Location</h3>
             <form method = "POST">
                 {% csrf_token %}
@@ -106,6 +150,7 @@
                 </select>
                 <button type="submit" class="form-button">Remove Location</button>
             </form>
+
         </div>
 
         <div class = "section">
@@ -128,6 +173,42 @@
 
             </form>
 
+            <h3>Edit Bins</h3>
+
+            <!-- Dropdown to select a bin -->
+            <label for="binSelector">Select a bin to edit:</label>
+            <select id="binSelector" class="form-input">
+                <option value="">-- Select a Bin --</option>
+                {% for bin in allBins %}
+                    <option value="bin_form_{{ bin.binID }}">{{ bin.binIdentifier }} - ID: {{ bin.binID }}</option>
+                {% endfor %}
+            </select>
+
+            <ul>
+                {% for bin in allBins %}
+                    <li id="bin_form_{{ bin.binID }}" class="edit-bin-form-container">
+                        <div class="bin-name"><strong>{{ bin.binIdentifier }} - ID: {{ bin.binID }}</strong></div>
+
+                        <form method="POST" class="edit-bin-form">
+                            {% csrf_token %}
+                            <input type="hidden" name="form_type" value="edit_bin">
+                            <input type="hidden" name="bin_id" value="{{ bin.binID }}">
+
+                            <label for="bin_identifier_{{ bin.binID }}" class="form-label">Identifier:</label>
+                            <input type="text" name="bin_identifier" id="bin_identifier_{{ bin.binID }}" value="{{ bin.binIdentifier }}" class="form-input" required>
+
+                            <label for="latitude_{{ bin.binID }}" class="form-label">Latitude:</label>
+                            <input type="text" name="latitude" id="latitude_{{ bin.binID }}" value="{{ bin.latitude }}" class="form-input" required>
+
+                            <label for="longitude_{{ bin.binID }}" class="form-label">Longitude:</label>
+                            <input type="text" name="longitude" id="longitude_{{ bin.binID }}" value="{{ bin.longitude }}" class="form-input" required>
+
+                            <button type="submit" class="form-button">Update Bin</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+
 
             <h3>Delete Bin</h3>
             <form method = "POST">
@@ -149,16 +230,16 @@
 
         <div class = "section">
             <h2>Manage Blocks</h2>
-
-            <!-- Form to Add a New Block (all fields available) -->
-            <h3>Add New Block</h3>
-            <form method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                <!-- Use a hidden field to distinguish the form -->
-                <input type="hidden" name="form_type" value="add_block">
-                {{ block_form.as_p }}
-                <button type="submit" class="form-button">Add Block</button>
-            </form>
+{##}
+{#            <!-- Form to Add a New Block (all fields available) -->#}
+{#            <h3>Add New Block</h3>#}
+{#            <form method="POST" enctype="multipart/form-data">#}
+{#                {% csrf_token %}#}
+{#                <!-- Use a hidden field to distinguish the form -->#}
+{#                <input type="hidden" name="form_type" value="add_block">#}
+{#                {{ block_form.as_p }}#}
+{#                <button type="submit" class="form-button">Add Block</button>#}
+{#            </form>#}
 
             <!-- Display Existing Blocks with Edit Options for Cost and Value -->
             <h3>Existing Blocks</h3>
@@ -166,9 +247,8 @@
                 {% for block in blocks %}
                     <li>
                         <strong>{{ block.name }}</strong> ({{ block.visibleName }})<br>
-                        Cost: {{ block.cost }} - Value: {{ block.value }}
                         {% if block.blockPath %}
-                            <br>Asset: <a href="{{ block.blockPath.url }}" target="_blank">View File</a>
+                            <br>Asset: <img src="{{ block.blockPath.url }}" alt="{{ block.blockPath }}">
                         {% endif %}
 
                         <!-- Form for editing cost and value only -->
@@ -222,4 +302,49 @@
 
 {% block extra_js %}
     <!-- Link to JS if needed -->
+
+    <script>
+        document.getElementById("locationSelector").addEventListener("change", function() {
+            const selectedFormId = this.value; // Get the selected value from dropdown
+            console.log("Selected form ID:", selectedFormId); // Debugging output
+
+            // Hide all forms
+            document.querySelectorAll(".edit-location-form-container").forEach(form => {
+                form.style.display = "none";
+            });
+
+            // Show only the selected form if it exists
+            if (selectedFormId) {
+                const selectedForm = document.getElementById(selectedFormId);
+                if (selectedForm) {
+                    selectedForm.style.display = "block";
+                } else {
+                    console.error("Form not found for ID:", selectedFormId);
+                }
+            }
+        });
+
+
+        document.getElementById("binSelector").addEventListener("change", function() {
+            const selectedFormId = this.value.trim();
+            console.log("Selected bin form ID:", selectedFormId);
+
+            // Hide all bin forms
+            document.querySelectorAll(".edit-bin-form-container").forEach(form => {
+                form.style.display = "none";
+            });
+
+            // Display the selected bin form, if one was chosen
+            if (selectedFormId) {
+                const selectedForm = document.getElementById(selectedFormId);
+                if (selectedForm) {
+                    selectedForm.style.display = "block";
+                } else {
+                    console.error("Form not found for ID:", selectedFormId);
+                }
+            }
+        });
+    </script>
+
+
 {% endblock %}

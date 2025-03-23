@@ -22,9 +22,11 @@ def adminDashboard(request):
 
     questions = quiz.objects.filter(locationID = '0').values_list("question", flat=True)
     locations = QuizLocation.objects.values_list("locationName", flat=True)
+    allLocations = QuizLocation.objects.all()
     bins = Bin.objects.values_list("binIdentifier", flat=True)
     blocks = Block.objects.all()
     users = CustomUser.objects.all()
+    allBins = Bin.objects.all()
 
 
 
@@ -49,6 +51,24 @@ def adminDashboard(request):
             question_to_delete = request.POST["question"]
             quiz.objects.filter(question=question_to_delete).delete()
             return redirect("admin-dashboard")
+
+        elif form_type == "edit_location":
+            location_id = request.POST.get("location_id")
+            location = QuizLocation.objects.get(locationID=location_id)
+            location.longitude = request.POST.get("longitude")
+            location.latitude = request.POST.get("latitude")
+            location.name = request.POST.get("location_name")
+            location.save()
+            return redirect("admin-dashboard")
+
+        if request.POST.get('form_type') == 'edit_bin':
+            bin_id = request.POST.get('bin_id')
+            bin_instance = Bin.objects.get(binID=bin_id)
+            bin_instance.binIdentifier = request.POST.get('bin_identifier')
+            bin_instance.latitude = request.POST.get('latitude')
+            bin_instance.longitude = request.POST.get('longitude')
+            bin_instance.save()
+            return redirect('admin-dashboard')  # Update with your URL name or path
 
         elif "longitude" in request.POST and "latitude" in request.POST and "location_name" in request.POST:
             # Create a new location
@@ -122,6 +142,9 @@ def adminDashboard(request):
                 edit_form.save()  # This updates the user's role
                 return redirect("admin-dashboard")
 
+
+
+
     else:
         form = BlockForm()
 
@@ -129,12 +152,14 @@ def adminDashboard(request):
 
 
 
-
+    form = BlockForm()
     return render(request, "admin.html", {
         'questions': questions,
         'locations': locations,
+        'allLocations': allLocations,
         'bins': bins,
         'blocks': blocks,
         'block_form': form,
-        'users': users
+        'users': users,
+        'allBins': allBins
     })

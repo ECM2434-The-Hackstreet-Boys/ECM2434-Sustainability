@@ -15,5 +15,3 @@ class QuizLocation(models.Model):
             self.quizID = self.locationID
         super().save(*args, **kwargs)
 
-    def __str__(self):
-        return self.locationID

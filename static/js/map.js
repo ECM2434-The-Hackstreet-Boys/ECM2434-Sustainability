@@ -16,8 +16,8 @@ function initializeMap(iconUrl) {
 
         // Custom icon for bins (Pink)
         var binIcon = L.icon({
-            iconUrl: '/static/resources/bin-marker.png',
-            iconSize: [38, 38],
+            iconUrl: '/static/resources/bin.png',
+            iconSize: [25, 25],
             iconAnchor: [19, 19],
             popupAnchor: [0, -19] 
         });
@@ -79,7 +79,7 @@ function initializeMap(iconUrl) {
         });
 
         // Locate the user
-        map.locate({ maxZoom: 16, enableHighAccuracy: true });
+        map.locate({ maxZoom: 16, enableHighAccuracy: true, watch: true });
 
         function onLocationError() {
             alert("Location access denied. Please enable location services.");
