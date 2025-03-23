@@ -6,10 +6,12 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         default_assets = [
-            {"name": "Grass", "visibleName":"Grass", "blockPath": "media/blocks/tileGrass.png", "cost": 0, "value": 0},
-            {"name": "Tree", "visibleName":"Tree", "blockPath": "media/blocks/tileTree.png", "cost": 10, "value": 5},
-            {"name": "Flower", "visibleName":"Flowers", "blockPath": "media/blocks/tileFlower.png", "cost": 20, "value": 10},
-            {"name": "Pink Flower", "visibleName":"Pink Flower", "blockPath": "media/blocks/tileFlowerPink.png", "cost": 30, "value": 15},
+
+            {"name": "Grass", "visibleName":"Grass", "blockPath": "blocks/tileGrass.png", "cost": 0, "value": 0},
+            {"name": "Tree", "visibleName":"Tree", "blockPath": "blocks/tileTree.png", "cost": 10, "value": 5},
+            {"name": "Flower", "visibleName":"Flowers", "blockPath": "blocks/tileFlower.png", "cost": 20, "value": 10},
+            {"name": "Pink Flower", "visibleName":"Pink Flower", "blockPath": "blocks/tileFlowerPink.png", "cost": 30, "value": 15},
+
         ]
 
         for asset in default_assets:

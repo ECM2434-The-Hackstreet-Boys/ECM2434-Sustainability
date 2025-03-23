@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 continue;
             }
 
-            const assetPath = `../${asset.blockPath}?v=${Date.now()}`;
+            const assetPath = `../media/${asset.blockPath}?v=${Date.now()}`;
             console.log(`Loading: ${assetPath}`);
             textures[asset.name] = await PIXI.Assets.load(assetPath);
 
@@ -358,7 +358,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Function to show the context menu when tile pressed
     function showContextMenu(x, y, tile) {
-        selectedTile = tile;
+        select     //tile.tint = 0x999999; // Change color to indicate long press
+        contextMenu.style.display = 'block';
         contextMenu.style.display = "block";
 
         // Get the bounding rectangle of the Pixi canvas relative to the page
@@ -424,6 +425,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                     if (response.success) {
                         selectedTile.texture = textures[key]; // Update texture on frontend
                         tileData[`${isoX},${isoY}`].textureType = key;
+                        saveGarden();
                         submenu.style.display = "none";
                     } else {
                         alert(response.message); // Show error if block cannot be placed
