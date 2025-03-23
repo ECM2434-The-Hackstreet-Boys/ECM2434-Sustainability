@@ -79,7 +79,7 @@ function initializeMap(iconUrl) {
         });
 
         // Locate the user
-        map.locate({ maxZoom: 16, enableHighAccuracy: true, watch: true });
+        map.locate({ maxZoom: 16, enableHighAccuracy: true});
 
         function onLocationError() {
             alert("Location access denied. Please enable location services.");
