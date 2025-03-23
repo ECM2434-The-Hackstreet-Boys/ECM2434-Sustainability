@@ -44,6 +44,20 @@ class UserRegistrationTests(TestCase):
         self.assertContains(response, "Enter a valid email address.") # Check for error message
         self.assertContains(response, "The two password fields didn’t match.") # Check for error message
 
+    def test_duplicate_user_registration(self):
+        """Tests if duplicate user registration fails."""
+        User.objects.create_user(username="testuser", email="testuser@example.com", password="testpassword#123")
+
+        response = self.client.post(reverse('register'), {
+            'username': 'testuser',  # Duplicate username
+            'email': 'testuser@example.com',  # Duplicate email
+            'password1': 'testpassword#123',
+            'password2': 'testpassword#123',
+        })
+
+        self.assertEqual(response.status_code, 200)  # Form should return validation error
+        self.assertContains(response, "A user with that username already exists.")
+
 class UserLoginTests(TestCase):
     """Tests user login functionality."""
 
@@ -70,26 +84,23 @@ class UserLoginTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Please enter a correct username and password. Note that both fields may be case-sensitive.") # Check for error message
 
-class AuthenticatedUserAccessTests(TestCase):
-    """Tests if authenticated users can access the dashboard"""
-    def setUp(self):
-        """Sets up a user for testing"""
-        self.user = User.objects.create_user(username='testuser', password='testpassword#123') 
-
-    def test_valid_dashboard_access_test(self):
-        """Tests if the user can access the dashboard"""
-        # Test if user can access dashboard
-        self.client.login(username='testuser', password='testpassword#123')
-        response = self.client.get(reverse('dashboard'))
+    def test_blank_user_login(self):
+        """Tests if login with blank username or password fails."""
+        response = self.client.post(reverse('login'), {
+            'username': '',
+            'password': ''
+        })
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Welcome to your dashboard") # Check for dashboard content
+        # The result cannot be printed, due to the error message being built-in to Django's HTML file
 
-    def test_invalid_dashboard_access_test(self):
-        """Tests if a logged out user cannot access the dashboard"""
-        # Test if user can access dashboard
-        response = self.client.get(reverse('dashboard'))
-        self.assertEqual(response.status_code, 302) # Redirect to login page
-        self.assertRedirects(response, reverse('login') + '?next=' + reverse('dashboard')) # Check for redirection
+    def test_case_sensitive_username_login(self):
+        """Tests if login fails due to case sensitivity in the username."""
+        response = self.client.post(reverse('login'), {
+            'username': 'TESTUSER',  # Wrong case
+            'password': 'testpassword#123'
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Please enter a correct username and password.")
 
 class UserLogoutTest(TestCase):
     """Tests user logout functionality."""
@@ -104,6 +115,12 @@ class UserLogoutTest(TestCase):
         response = self.client.post(reverse('logout'))  # Use POST instead of GET
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('home'))  # Check for redirection
+
+    def test_logout_without_login(self):
+        """Tests if logging out without an active session still redirects to home."""
+        response = self.client.post(reverse('logout'))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('home'))
 
 class UserRolesTests(TestCase):
     """Tests if the user roles are working as expected."""

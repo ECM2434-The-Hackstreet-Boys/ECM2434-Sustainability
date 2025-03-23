@@ -17,30 +17,36 @@ class RoleUpdateForm(forms.ModelForm):
 
 # Create your views here.
 
-
-# View for registering new users with the form
+# View for registering new users
 def register(request):
+    if request.user.is_authenticated:
+        return redirect('dashboard')  # Redirect logged-in users to the dashboard
+
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('home')
+            return redirect('dashboard')  # Redirect to dashboard after registration
     else:
         form = RegisterForm()
+
     return render(request, 'register.html', {'form': form})
 
 # View for allowing registered users to login
 def user_login(request):
+    if request.user.is_authenticated:
+        return redirect('dashboard')  # Redirect logged-in users to the dashboard
+
     form = AuthenticationForm(data=request.POST) if request.method == "POST" else AuthenticationForm()
 
     if request.method == "POST":
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('dashboard')  # Ensure 'dashboard' is defined in your URLs
+            return redirect('dashboard')  # Redirect to dashboard after login
 
-    return render(request, 'login.html', {'form': form})  # Always return a response
+    return render(request, 'login.html', {'form': form})
 
 
 
