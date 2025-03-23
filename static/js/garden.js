@@ -358,7 +358,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Function to show the context menu when tile pressed
     function showContextMenu(x, y, tile) {
-        select     //tile.tint = 0x999999; // Change color to indicate long press
         contextMenu.style.display = 'block';
         contextMenu.style.display = "block";
 
