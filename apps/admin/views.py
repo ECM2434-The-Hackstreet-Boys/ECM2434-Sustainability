@@ -13,13 +13,9 @@ from apps.accounts.models import CustomUser
 
 
 def superuser_check(user):
-    print(f"Checking user: {user}")
-    print(f"Authenticated: {user.is_authenticated}")
-    print(f"Superuser: {user.is_superuser}")
-    print(f"Role: {getattr(user, 'role', None)}")
     return bool(
         user.is_authenticated and
-        (user.is_superuser or getattr(user, 'role', None) == 'admin')
+        (user.is_superuser or getattr(user, 'role', None) in ['admin', 'gamekeeper'])
     )
 
 # Dashboard view
