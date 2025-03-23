@@ -34,7 +34,6 @@ def adminDashboard(request):
 
     if request.method == "POST":
         form_type = request.POST.get("form_type")
-        print(f"FORM TYPE RECEIVED: {form_type}")
 
 
 

@@ -11,13 +11,24 @@ class SettingsPageTests(TestCase):
     def setUp(self):
         """Create a user for authentication."""
         self.user = User.objects.create_user(username="testuser", password="password123")
-        self.client.login(username="testuser", password="password123")
 
-    def test_settings_page_loads(self):
+    def test_authenticated_settings_access(self):
         """Test if the settings page loads correctly."""
+        self.client.login(username="testuser", password="password123")
         response = self.client.get(reverse("settings"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "settings.html")
+
+    def test_unauthenticated_access_to_settings_redirect(self):
+        """Tests if unauthenticated users are redirected from settings page."""
+        response = self.client.get(reverse("settings"))
+        self.assertRedirects(response, "/accounts/login/?next=" + reverse("settings"))
+
+class SettingsTests(TestCase):
+    def setUp(self):
+        """Create a user for testing"""
+        self.user = User.objects.create_user(username="testuser", password="password123")
+        self.client.login(username="testuser", password="password123")
 
     def test_settings_successful(self):
         """Test updating username and password."""
@@ -91,13 +102,7 @@ class SettingsPageTests(TestCase):
         user_exists = User.objects.filter(username="testuser").exists()
         self.assertTrue(user_exists)
 
-    def test_unauthenticated_access_to_settings(self):
-        """Ensure unauthenticated users are redirected from settings page."""
-        self.client.logout()
-        response = self.client.get(reverse("settings"))
-        self.assertRedirects(response, "/accounts/login/?next=" + reverse("settings"))
-
-    def test_unauthenticated_access_to_settings(self):
+    def test_unauthenticated_access_to_settings_post(self):
         """Ensure unauthenticated users cannot update settings."""
         self.client.logout()
         response = self.client.post(reverse("settings"), {
