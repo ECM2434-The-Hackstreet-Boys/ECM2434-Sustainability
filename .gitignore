@@ -170,10 +170,11 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
-/.idea/discord.xml
-/.idea/ECM2434Coursework.iml
+
 /staticfiles/
 /node_modules
 package-lock.json
 package.json
 /media/gardens/
+.github
+
