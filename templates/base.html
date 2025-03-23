@@ -52,6 +52,9 @@
                     <a href="{% url 'stats' %}">Statistics</a>
                     <a href="{% url 'garden' %}">Garden</a>
                     <a href="{% url 'quiz' %}">Quiz</a>
+                    {% if user.role == 'admin' or user.role == 'gamekeeper' %}
+                        <a href="{% url 'admin-dashboard' %}">Admin</a>
+                    {% endif %}
                 {% endif %}
             </div>
         </div>

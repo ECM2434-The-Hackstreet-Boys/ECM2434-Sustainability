@@ -6,6 +6,7 @@ from django.db import models
 # Quiz model stores, question, answer and 3 other options
 class quiz(models.Model):
     quizID = models.AutoField(primary_key=True)
+    locationID = models.IntegerField(null=True, blank=True, default=0)
     question = models.CharField(max_length=512)
     answer = models.CharField(max_length=512)
     other1 = models.CharField(max_length=512)

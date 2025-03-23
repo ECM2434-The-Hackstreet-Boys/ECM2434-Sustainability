@@ -15,23 +15,207 @@
 
     <div class = "content">
         <div class = "section">
-            <h2>Section for quiz adding</h2>
+            <h2>Quiz Questions</h2>
+
+            <form method = "POST">
+                {% csrf_token %}
+                <fieldset>
+                    <label for = "question" class = "form-label">Question:</label>
+                    <input type = "text" id = "question" name = "question" class = "form-input" required>
+
+                    <label for = "answer" class = "form-label">Answer:</label>
+                    <input type = "text" id = "answer" name = "answer" class = "form-input" required>
+
+                    <label for = "incorrect1" class = "form-label">Incorrect Answer 1:</label>
+                    <input type = "text" id = "incorrect1" name = "incorrect1" class = "form-input" required>
+
+                    <label for = "incorrect2" class = "form-label">Incorrect Answer 2:</label>
+                    <input type = "text" id = "incorrect2" name = "incorrect2" class = "form-input" required>
+
+                    <label for = "incorrect3" class = "form-label">Incorrect Answer 3:</label>
+                    <input type = "text" id = "incorrect3" name = "incorrect3" class = "form-input" required>
+
+
+                </fieldset>
+                <button type = "submit" class = "form-button">Add Question</button>
+            </form>
+
+            <h3>Remove Question</h3>
+            <form method = "POST">
+                {% csrf_token %}
+
+                <label for = "Question" class = "form-label">Question:</label>
+                <select id = "question" name = "question" class = "form-input" required>
+                    <option value = "">Select a question</option>
+                    <!-- Loop through questions -->
+                    {% for question in questions %}
+                        <option value = "{{ question }}">{{ question }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="form-button">Remove Question</button>
+            </form>
         </div>
 
         <div class = "section">
-            <h2>Section for Adding locations</h2>
+            <h2>Quiz Locations</h2>
+            <form method="POST">
+                <h3>Add Location</h3>
+                {% csrf_token %}
+
+                <label for = "longitude" class = "form-label">Longitude:</label>
+                <input type = "text" id = "longitude" name = "longitude" class = "form-input" required>
+
+                <label for = "latitude" class = "form-label">Latitude:</label>
+                <input type = "text" id = "latitude" name = "latitude" class = "form-input" required>
+
+                <label for = "location_name" class = "form-label">Location Name:</label>
+                <input type = "text" id = "location_name" name = "location_name" class = "form-input" required>
+
+                <!-- Loop through 5 questions -->
+                {% for i in "12345" %}
+                    <fieldset class="question-grid">
+                        <legend>Question {{ i }}</legend>
+
+                        <label for="question_{{ i }}" class="form-label">Question:</label>
+                        <input type="text" id="question_{{ i }}" name="question_{{ i }}" class="form-input" required>
+
+                        <label for="answer_{{ i }}" class="form-label">Answer:</label>
+                        <input type="text" id="answer_{{ i }}" name="answer_{{ i }}" class="form-input" required>
+
+                        {% for j in "123" %}
+                            <label for="incorrect_{{ i }}_{{ j }}" class="form-label">Incorrect Answer {{ j }}:</label>
+                            <input type="text" id="incorrect_{{ i }}_{{ j }}" name="incorrect_{{ i }}_{{ j }}" class="form-input" required>
+                        {% endfor %}
+                    </fieldset>
+                {% endfor %}
+
+                <button type = "submit" class = "form-button">Add Location</button>
+            </form>
+
+            <h3>Remove Location</h3>
+            <form method = "POST">
+                {% csrf_token %}
+
+                <label for = "location_name" class = "form-label">Location Name:</label>
+                <select id = "location_name" name = "location_name" class = "form-input" required>
+                    <option value = "">Select a location</option>
+                    <!-- Loop through locations -->
+                    {% for location in locations %}
+                        <option value = "{{ location }}">{{ location }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="form-button">Remove Location</button>
+            </form>
         </div>
 
         <div class = "section">
-            <h2>Section for adding recycling bins</h2>
+            <h2>Recycling Bins</h2>
+            <h3>Add Bin</h3>
+            <form method = "POST">
+                {% csrf_token %}
+
+                <fieldset>
+                    <label for = "bin_identifier" class = "form-label">Bin Identifier:</label>
+                    <input type = "text" id = "bin_identifier" name = "bin_identifier" class = "form-input" required>
+
+                    <label for = "longitude" class = "form-label">Longitude:</label>
+                    <input type = "text" id = "longitude" name = "longitude" class = "form-input" required>
+
+                    <label for = "latitude" class = "form-label">Latitude:</label>
+                    <input type = "text" id = "latitude" name = "latitude" class = "form-input" required>
+                </fieldset>
+                <button type="submit" class="form-button">Add Bin</button>
+
+            </form>
+
+
+            <h3>Delete Bin</h3>
+            <form method = "POST">
+                {% csrf_token %}
+
+                <label for = "bin_identifier" class = "form-label">Bin Identifier:</label>
+                <select id = "bin_identifier" name = "bin_identifier" class = "form-input" required>
+                    <option value = "">Select a bin</option>
+                    <!-- Loop through bins -->
+                    {% for bin in bins %}
+                        <option value = "{{ bin }}">{{ bin }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="form-button">Remove Bin</button>
+
+
+            </form>
         </div>
 
         <div class = "section">
-            <h2>Section for garden admin</h2>
+            <h2>Manage Blocks</h2>
+
+            <!-- Form to Add a New Block (all fields available) -->
+            <h3>Add New Block</h3>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <!-- Use a hidden field to distinguish the form -->
+                <input type="hidden" name="form_type" value="add_block">
+                {{ block_form.as_p }}
+                <button type="submit" class="form-button">Add Block</button>
+            </form>
+
+            <!-- Display Existing Blocks with Edit Options for Cost and Value -->
+            <h3>Existing Blocks</h3>
+            <ul>
+                {% for block in blocks %}
+                    <li>
+                        <strong>{{ block.name }}</strong> ({{ block.visibleName }})<br>
+                        Cost: {{ block.cost }} - Value: {{ block.value }}
+                        {% if block.blockPath %}
+                            <br>Asset: <a href="{{ block.blockPath.url }}" target="_blank">View File</a>
+                        {% endif %}
+
+                        <!-- Form for editing cost and value only -->
+                        <form method="POST" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="form_type" value="edit_block">
+                            <input type="hidden" name="blockID" value="{{ block.blockID }}">
+                            <!-- Only show fields for cost and value -->
+                            <label for="cost_{{ block.blockID }}">Cost:</label>
+                            <input type="number" name="cost" value="{{ block.cost }}" required>
+                            <label for="value_{{ block.blockID }}">Value:</label>
+                            <input type="number" name="value" value="{{ block.value }}" required>
+                            <button type="submit" class="form-button">Update</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
         </div>
 
+
         <div class = "section">
-            <h2>Section for editting users</h2>
+            <h2>User Editing</h2>
+            {% if user.role == "admin" %}
+                <h3>Existing Users</h3>
+                <ul>
+                    {% for user in users %}
+                        <li>
+                            <strong>{{ user.username }}</strong> - Email: {{ user.email }} - Role: {{ user.role }}
+                            <!-- Inline form to update the user's role -->
+                            <form method="POST" style="display:inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="form_type" value="edit_user">
+                                <input type="hidden" name="user_id" value="{{ user.id }}">
+                                <label for="role_{{ user.id }}">Role:</label>
+                                <select name="role" id="role_{{ user.id }}">
+                                    <option value="admin" {% if user.role == "admin" %}selected{% endif %}>Admin</option>
+                                    <option value="gamekeeper" {% if user.role == "gamekeeper" %}selected{% endif %}>Gamekeeper</option>
+                                    <option value="user" {% if user.role == "user" %}selected{% endif %}>User</option>
+                                </select>
+                                <button type="submit" class="form-button">Update Role</button>
+                            </form>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>You do not have permission to manage users.</p>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

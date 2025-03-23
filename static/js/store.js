@@ -29,8 +29,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 let itemDiv = document.createElement("div");
                 itemDiv.classList.add("store-item");
 
-                let imagePath = item.blockPath.startsWith("media/") ? item.blockPath.substring(6) : item.blockPath;
-
+                let imagePath = `../media/${item.blockPath}?v=${Date.now()}`;
+                console.log(`Loading: ${imagePath}`);
                 itemDiv.innerHTML = `
                     <img src="${mediaUrl}${imagePath}" alt="${item.name}" width="50" height="50"/>
                     <h3>${item.name}</h3>

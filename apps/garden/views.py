@@ -178,7 +178,8 @@ def remove_block_from_inventory(request):
 @login_required
 def get_store_items(request):
     user_inventory = {item["blockID"]: item["quantity"] for item in Inventory.objects.filter(userID=request.user).values("blockID", "quantity")}
-    user_points = Stats.objects.get(userID=request.user).yourPoints
+    user_stats = Stats.objects.get_or_create(userID=request.user)
+    user_points = user_stats[0].yourPoints
 
     items = list(Block.objects.values("blockID", "name", "visibleName", "blockPath", "cost", "value"))
 
