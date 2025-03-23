@@ -90,6 +90,12 @@ def quiz_view_by_location(request, locationID):
                 else:
                     incorrect_answers.append({"question": question.question, "your_answer": value, "correct_answer": question.answer})
 
+        user = CustomUser.objects.get(id=request.user.id)  # Get user instance
+        user_stats, created = Stats.objects.get_or_create(userID=user)  # Fix reference
+        user_stats.yourPoints += correct_count  # Increments your Points used in store
+        user_stats.yourTotalPoints += correct_count  # Increments your Total Points
+        user_stats.save()
+
         score = correct_count
 
     # This will render the quiz for that location
