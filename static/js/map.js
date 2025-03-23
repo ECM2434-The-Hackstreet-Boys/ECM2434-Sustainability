@@ -16,8 +16,8 @@ function initializeMap(iconUrl) {
 
         // Custom icon for bins (Pink)
         var binIcon = L.icon({
-            iconUrl: '/static/resources/bin-marker.png',
-            iconSize: [38, 38],
+            iconUrl: '/static/resources/bin.png',
+            iconSize: [25, 25],
             iconAnchor: [19, 19],
             popupAnchor: [0, -19] 
         });
