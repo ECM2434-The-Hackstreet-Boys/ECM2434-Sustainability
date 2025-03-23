@@ -8,5 +8,3 @@ class Bin(models.Model):
     latitude = models.FloatField(default=0)
     longitude = models.FloatField(default=0)
 
-    def __str__(self):
-        return self.binID
