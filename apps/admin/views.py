@@ -12,9 +12,11 @@ from apps.accounts.forms import EditUserForm
 from apps.accounts.models import CustomUser
 
 
-# Create your views here.
 def superuser_check(user):
-    return bool(user.is_authenticated and (user.is_superuser or user.role == 'admin'))
+    return bool(
+        user.is_authenticated and
+        (user.is_superuser or getattr(user, 'role', None) in ['admin', 'gamekeeper'])
+    )
 
 # Dashboard view
 @user_passes_test(superuser_check, login_url='/accounts/login/')
@@ -32,9 +34,32 @@ def adminDashboard(request):
 
     if request.method == "POST":
         form_type = request.POST.get("form_type")
+        print(f"FORM TYPE RECEIVED: {form_type}")
 
-        if "question" in request.POST and "answer" in request.POST:
-            # Handle adding a new question
+
+
+        if form_type == "edit_location":
+            # Editing existing location MUST be before new location creation
+            location_id = request.POST.get("location_id")
+            location = QuizLocation.objects.get(locationID=location_id)
+            location.longitude = request.POST.get("longitude")
+            location.latitude = request.POST.get("latitude")
+            location.locationName = request.POST.get("location_name")
+            location.save()
+            return redirect("admin-dashboard")
+
+        elif form_type == 'edit_bin':
+            # Editing existing bin (explicit handling)
+            bin_id = request.POST.get('bin_id')
+            bin_instance = Bin.objects.get(binID=bin_id)
+            bin_instance.binIdentifier = request.POST.get('bin_identifier')
+            bin_instance.latitude = request.POST.get('latitude')
+            bin_instance.longitude = request.POST.get('longitude')
+            bin_instance.save()
+            return redirect('admin-dashboard')
+
+        elif "question" in request.POST and "answer" in request.POST:
+            # Add new question
             new_question = quiz(
                 question=request.POST["question"],
                 answer=request.POST["answer"],
@@ -44,34 +69,16 @@ def adminDashboard(request):
                 locationID='0'
             )
             new_question.save()
-            return redirect("admin-dashboard")  # Refresh the page
+            return redirect("admin-dashboard")
 
         elif "question" in request.POST:
-            # Handle deleting a question
+            # Delete existing question
             question_to_delete = request.POST["question"]
             quiz.objects.filter(question=question_to_delete).delete()
             return redirect("admin-dashboard")
 
-        elif form_type == "edit_location":
-            location_id = request.POST.get("location_id")
-            location = QuizLocation.objects.get(locationID=location_id)
-            location.longitude = request.POST.get("longitude")
-            location.latitude = request.POST.get("latitude")
-            location.name = request.POST.get("location_name")
-            location.save()
-            return redirect("admin-dashboard")
-
-        if request.POST.get('form_type') == 'edit_bin':
-            bin_id = request.POST.get('bin_id')
-            bin_instance = Bin.objects.get(binID=bin_id)
-            bin_instance.binIdentifier = request.POST.get('bin_identifier')
-            bin_instance.latitude = request.POST.get('latitude')
-            bin_instance.longitude = request.POST.get('longitude')
-            bin_instance.save()
-            return redirect('admin-dashboard')  # Update with your URL name or path
-
-        elif "longitude" in request.POST and "latitude" in request.POST and "location_name" in request.POST:
-            # Create a new location
+        elif "location_name" in request.POST and "longitude" in request.POST and "latitude" in request.POST:
+            # Create new location (must be after specific editing condition!)
             new_location = QuizLocation(
                 longitude=request.POST["longitude"],
                 latitude=request.POST["latitude"],
@@ -79,8 +86,8 @@ def adminDashboard(request):
             )
             new_location.save()
 
-            # Loop through 5 questions and save them
-            for i in range(1, 6):  # 1 to 5
+            # Handle additional quiz questions if provided
+            for i in range(1, 6):
                 question_text = request.POST.get(f"question_{i}")
                 answer = request.POST.get(f"answer_{i}")
                 incorrect1 = request.POST.get(f"incorrect_{i}_1")
@@ -96,17 +103,18 @@ def adminDashboard(request):
                         other2=incorrect2,
                         other3=incorrect3,
                     )
+            return redirect("admin-dashboard")
 
         elif "location_name" in request.POST:
-            # Handle deleting a location
+            # Delete location by name
             location_to_delete = request.POST["location_name"]
             locationID = QuizLocation.objects.get(locationName=location_to_delete).locationID
             quiz.objects.filter(locationID=locationID).delete()
             QuizLocation.objects.filter(locationName=location_to_delete).delete()
             return redirect("admin-dashboard")
 
-
         elif "longitude" in request.POST and "latitude" in request.POST and "bin_identifier" in request.POST:
+            # Create new bin
             new_bin = Bin(
                 longitude=request.POST["longitude"],
                 latitude=request.POST["latitude"],
@@ -116,31 +124,35 @@ def adminDashboard(request):
             return redirect("admin-dashboard")
 
         elif "bin_identifier" in request.POST:
+            # Delete existing bin
             bin_to_delete = request.POST["bin_identifier"]
             Bin.objects.filter(binIdentifier=bin_to_delete).delete()
+            return redirect("admin-dashboard")
 
-        # If the POST contains an 'edit_block' identifier, update an existing block
-        if request.POST.get("form_type") == "edit_block":
+        elif form_type == "edit_user":
+            # Edit user roles
+            user_id = request.POST.get("user_id")
+            user_obj = get_object_or_404(CustomUser, id=user_id)
+            edit_form = EditUserForm(request.POST, instance=user_obj)
+            if edit_form.is_valid():
+                edit_form.save()
+                return redirect("admin-dashboard")
+
+        elif form_type == "edit_block":
+            # Update existing block
             block = get_object_or_404(Block, blockID=request.POST.get("blockID"))
             form = EditBlockForm(request.POST, instance=block)
             if form.is_valid():
                 form.save()
                 return redirect("admin-dashboard")
-        # Otherwise, if the POST contains an 'add_block' identifier, create a new block
-        elif request.POST.get("form_type") == "add_block":
+
+        elif form_type == "add_block":
+            # Create new block
             form = BlockForm(request.POST, request.FILES)
             if form.is_valid():
                 form.save()
                 return redirect("admin-dashboard")
 
-        elif form_type == "edit_user":
-            # Handle editing an existing user (role only)
-            user_id = request.POST.get("user_id")
-            user_obj = get_object_or_404(CustomUser, id=user_id)
-            edit_form = EditUserForm(request.POST, instance=user_obj)
-            if edit_form.is_valid():
-                edit_form.save()  # This updates the user's role
-                return redirect("admin-dashboard")
 
 
 
