@@ -22,7 +22,7 @@ def quizpage(request):
 def quiz_view(request):
 
     # Get 5 random questions from the database
-    questions = list(quiz.objects.all())
+    questions = list(quiz.objects.filter(locationID=0))
     number_of_questions = len(questions)
     questions = sample(questions, min(5, number_of_questions))
 
