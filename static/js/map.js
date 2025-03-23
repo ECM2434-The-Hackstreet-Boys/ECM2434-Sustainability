@@ -43,7 +43,7 @@ function initializeMap(iconUrl) {
 
                     // Add bin locations to the map
                     data.bin_data.forEach(function(location) {
-                        var popupContent = location.binIdentifier;
+                        var popupContent = `<strong>${location.binIdentifier}</strong> <br> QR Code Location`;
                         var marker = L.marker(location.coordinates, {icon: binIcon}).addTo(map).bindPopup(popupContent);
                     });
                 });
