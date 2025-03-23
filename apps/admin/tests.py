@@ -4,6 +4,7 @@ from django.urls import reverse
 
 from apps.quiz.models import quiz
 from apps.play_screen.models import QuizLocation
+from apps.recycling.models import Bin
 
 User = get_user_model()
 
@@ -40,7 +41,6 @@ class AdminDashboardTests(TestCase):
         self.client = Client()
         self.client.login(username='admin', password='pass123')
 
-
     def test_get_admin_dashboard(self):
         # Use reverse to resolve the URL name for the admin dashboard
         response = self.client.get(reverse('admin-dashboard'))
@@ -48,6 +48,8 @@ class AdminDashboardTests(TestCase):
         self.assertTemplateUsed(response, 'admin.html')
         # Verify that context contains expected keys (e.g., 'questions', 'locations')
         self.assertIn('questions', response.context)
+        self.assertIn('locations', response.context)
+
 
 class QuizQuestionsTests(TestCase):
     def setUp(self):
@@ -76,6 +78,7 @@ class QuizQuestionsTests(TestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertTrue(quiz.objects.filter(question=question_text).exists())
+
 
     def test_delete_quiz_question(self):
         # First, create a test question
@@ -142,3 +145,80 @@ class QuizQuestionsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertFalse(QuizLocation.objects.filter(locationName="Location to Delete").exists())
         self.assertEqual(quiz.objects.filter(locationID=location.locationID).count(), 0)
+
+
+class RecyclingBinTests(TestCase):
+    def setUp(self):
+        admin_user = User.objects.create_user(
+            username='adminuser',
+            password='adminpassword',
+            is_superuser=True,
+            is_staff=True
+        )
+        self.client.login(username='adminuser', password='adminpassword')
+
+    def test_add_new_bin(self):
+        bin_identifier = "BIN123"
+        # Assert that the bin does not already exist
+        self.assertFalse(Bin.objects.filter(binIdentifier=bin_identifier).exists())
+
+        response = self.client.post(
+            reverse('admin-dashboard'),
+            {
+                'longitude': 10.1234,
+                'latitude': 20.5678,
+                'bin_identifier': bin_identifier
+            },
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(Bin.objects.filter(binIdentifier=bin_identifier).exists())
+
+    def test_edit_bin(self):
+        # Create a test bin
+        test_bin = Bin.objects.create(
+            binIdentifier="BIN123",
+            longitude=10.1234,
+            latitude=20.5678
+        )
+
+        # Edit the bin
+        response = self.client.post(
+            reverse('admin-dashboard'),
+            {
+                'form_type': 'edit_bin',
+                'bin_id': test_bin.binID,
+                'bin_identifier': "BIN456",
+                'longitude': 30.1234,
+                'latitude': 40.5678
+            },
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+
+        # Fetch the edited bin
+        test_bin.refresh_from_db()
+        self.assertEqual(test_bin.binIdentifier, "BIN456")
+        self.assertEqual(test_bin.longitude, 30.1234)
+        self.assertEqual(test_bin.latitude, 40.5678)
+
+    def test_delete_bin(self):
+        # Create a test bin
+        test_bin = Bin.objects.create(
+            binIdentifier="BIN123",
+            longitude=10.1234,
+            latitude=20.5678
+        )
+        # Ensure the bin exists
+        self.assertTrue(Bin.objects.filter(binIdentifier="BIN123").exists())
+
+        # Delete the bin
+        response = self.client.post(
+            reverse('admin-dashboard'),
+            {
+                'bin_identifier': "BIN123"
+            },
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(Bin.objects.filter(binIdentifier="BIN123").exists())
