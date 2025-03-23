@@ -1,0 +1,56 @@
+<!--
+    Author: Sandy Hay
+    Date: 23/02/2025
+    Description: A page for the user Settings
+-->
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/settings.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="settings-container">
+        <h2 class="section-heading">Settings</h2>
+
+        <!-- Update Username and Password Form -->
+        <form method="POST" action="/settings/" class="settings-form">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="username" class="form-label">New Username:</label>
+                <input type="text" id="username" name="username" class="form-input" required>
+                {% if form.username.errors %}
+                    <div class="error-message">
+                        {% for error in form.username.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="password" class="form-label">New Password:</label>
+                <input type="password" id="password" name="password" class="form-input" required>
+                {% if form.password.errors %}
+                    <div class="error-message">
+                        {% for error in form.password.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="form-button form-button--update">Update</button>
+        </form>
+
+        <!-- Delete Account Button -->
+        <form method="POST" action="/settings/delete-account/" class="delete-form">
+            {% csrf_token %}
+            <button type="submit" class="form-button form-button--delete" onclick="return confirm('Are you sure you want to delete your account? This action is irreversible.')">Delete Account</button>
+        </form>
+    </div>
+
+{% endblock %}
