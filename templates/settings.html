@@ -1,0 +1,32 @@
+<!--
+    Author: Sandy Hay
+    Date: 23/02/2025
+    Description: A page for the user Settings
+-->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto p-6 max-w-lg">
+    <h2 class="text-2xl font-bold mb-4">Settings</h2>
+
+    <!-- Update Username and Password Form -->
+    <form method="POST" action="{% url 'settings' %}" class="bg-white p-6 rounded-lg shadow-md">
+        {% csrf_token %}
+        
+        <label for="username" class="block font-semibold">New Username:</label>
+        <input type="text" id="username" name="username" class="w-full p-2 border rounded mb-4" required>
+        
+        <label for="password" class="block font-semibold">New Password:</label>
+        <input type="password" id="password" name="password" class="w-full p-2 border rounded mb-4" required>
+        
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Update</button>
+    </form>
+
+    <!-- Delete Account Button -->
+    <form method="POST" action="{% url 'delete_account' %}" class="mt-6">
+        {% csrf_token %}
+        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded" onclick="return confirm('Are you sure you want to delete your account? This action is irreversible.')">Delete Account</button>
+    </form>
+</div>
+{% endblock %}
