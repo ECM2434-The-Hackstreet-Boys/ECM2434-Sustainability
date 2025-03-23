@@ -271,7 +271,7 @@
 
         <div class = "section">
             <h2>User Editing</h2>
-            {% if user.role == "admin" %}
+            {% if user.role == "admin" or user.is_superuser %}
                 <h3>Existing Users</h3>
                 <ul>
                     {% for user in users %}
