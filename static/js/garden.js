@@ -319,7 +319,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // ** Context Menu **
     let contextMenu = document.getElementById('context-menu');
-    let selectedTile = null;
+    //let selectedTile = null;
 
     document.addEventListener("contextmenu", (event) => event.preventDefault()); // Disable default menu
 
