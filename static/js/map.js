@@ -65,6 +65,17 @@ function initializeMap(iconUrl) {
 
             userMarker = L.marker(userLocation, { icon: userIcon, opacity: 0.5 }).addTo(map)
                 .bindPopup("You are here").openPopup();
+
+            // Check distance to each marker and update popup content accordingly
+            markers.forEach(function(item) {
+                var distance = userLocation.distanceTo(item.marker.getLatLng());
+
+                if (distance <= 100) {
+                    item.marker.setPopupContent(item.closePopup).openPopup();
+                } else {
+                    item.marker.setPopupContent(item.DistantPopup).openPopup();
+                }
+            });
         });
 
         // Locate the user
