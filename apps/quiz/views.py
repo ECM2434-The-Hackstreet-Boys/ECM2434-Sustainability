@@ -22,7 +22,7 @@ def quizpage(request):
 def quiz_view(request):
 
     # Get 5 random questions from the database
-    questions = list(quiz.objects.all())
+    questions = list(quiz.objects.filter(locationID=0))
     number_of_questions = len(questions)
     questions = sample(questions, min(5, number_of_questions))
 
@@ -67,7 +67,7 @@ def quiz_view(request):
 @login_required
 def quiz_view_by_location(request, locationID):
     # Do the quiz based on specific location
-    questions = list(quiz.objects.filter(landmark_id=locationID))  # Filter by locationID
+    questions = list(quiz.objects.filter(locationID=locationID))  # Filter by locationID
     number_of_questions = len(questions)
     questions = sample(questions, min(5, number_of_questions))
 
@@ -89,6 +89,12 @@ def quiz_view_by_location(request, locationID):
                     correct_count += 1
                 else:
                     incorrect_answers.append({"question": question.question, "your_answer": value, "correct_answer": question.answer})
+
+        user = CustomUser.objects.get(id=request.user.id)  # Get user instance
+        user_stats, created = Stats.objects.get_or_create(userID=user)  # Fix reference
+        user_stats.yourPoints += correct_count  # Increments your Points used in store
+        user_stats.yourTotalPoints += correct_count  # Increments your Total Points
+        user_stats.save()
 
         score = correct_count
 

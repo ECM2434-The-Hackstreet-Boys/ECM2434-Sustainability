@@ -23,8 +23,10 @@
         <thead>
         <tr>
             <th>User</th>
-            <th>CO₂ Saved (kg)</th>
-            <th>Plastic Saved (kg)</th>
+            <th>Packaging Recycled (Kg)</th>
+            <th>Plastic Recycled (kg)</th>
+            <th>Metal Recycled (kg)</th>
+            <th>Paper Recycled (kg)</th>
             <th>Points</th>
         </tr>
         </thead>
@@ -33,8 +35,10 @@
         {% for record in records %}
             <tr>
                 <td>{{ record.userID }}</td>
-                <td>{{ record.co2Saved }}</td>
-                <td>{{ record.plasticSaved }}</td>
+                <td>{{ record.packagingRecycled }}</td>
+                <td>{{ record.plasticRecycled }}</td>
+                <td>{{ record.metalRecycled }}</td>
+                <td>{{ record.paperRecycled }}</td>
                 <td>{{ record.yourTotalPoints }}</td>
             </tr>
         {% endfor %}
