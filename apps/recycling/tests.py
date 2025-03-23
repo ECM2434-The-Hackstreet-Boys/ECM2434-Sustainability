@@ -1,3 +1,13 @@
+"""Recycling Tests
+
+Tests if the user can correctly access the recycling form with the correct bin
+ID and 
+
+@version: 1.1
+@date: 2025-03-22
+@author: Sandy Hay
+"""
+
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth import get_user_model
@@ -78,4 +88,5 @@ class RecyclingTests(TestCase):
             "paper": "5"
         })
         self.assertEqual(response.status_code, 302)  # Redirects to login page
+        self.assertRedirects(response, reverse('login') + '?next=' + reverse('submit_recycling'))
 
