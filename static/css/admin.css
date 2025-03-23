@@ -57,6 +57,15 @@ form.edit-location-form {
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+.edit-bin-form-container {
+    background: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    display: none;
+}
+
 /* Styling for the location dropdown */
 #locationSelector {
     width: 100%;

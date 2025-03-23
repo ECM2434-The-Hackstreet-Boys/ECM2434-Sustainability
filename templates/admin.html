@@ -173,6 +173,42 @@
 
             </form>
 
+            <h3>Edit Bins</h3>
+
+            <!-- Dropdown to select a bin -->
+            <label for="binSelector">Select a bin to edit:</label>
+            <select id="binSelector" class="form-input">
+                <option value="">-- Select a Bin --</option>
+                {% for bin in allBins %}
+                    <option value="bin_form_{{ bin.binID }}">{{ bin.binIdentifier }} - ID: {{ bin.binID }}</option>
+                {% endfor %}
+            </select>
+
+            <ul>
+                {% for bin in allBins %}
+                    <li id="bin_form_{{ bin.binID }}" class="edit-bin-form-container">
+                        <div class="bin-name"><strong>{{ bin.binIdentifier }} - ID: {{ bin.binID }}</strong></div>
+
+                        <form method="POST" class="edit-bin-form">
+                            {% csrf_token %}
+                            <input type="hidden" name="form_type" value="edit_bin">
+                            <input type="hidden" name="bin_id" value="{{ bin.binID }}">
+
+                            <label for="bin_identifier_{{ bin.binID }}" class="form-label">Identifier:</label>
+                            <input type="text" name="bin_identifier" id="bin_identifier_{{ bin.binID }}" value="{{ bin.binIdentifier }}" class="form-input" required>
+
+                            <label for="latitude_{{ bin.binID }}" class="form-label">Latitude:</label>
+                            <input type="text" name="latitude" id="latitude_{{ bin.binID }}" value="{{ bin.latitude }}" class="form-input" required>
+
+                            <label for="longitude_{{ bin.binID }}" class="form-label">Longitude:</label>
+                            <input type="text" name="longitude" id="longitude_{{ bin.binID }}" value="{{ bin.longitude }}" class="form-input" required>
+
+                            <button type="submit" class="form-button">Update Bin</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+
 
             <h3>Delete Bin</h3>
             <form method = "POST">
@@ -278,6 +314,27 @@
             });
 
             // Show only the selected form if it exists
+            if (selectedFormId) {
+                const selectedForm = document.getElementById(selectedFormId);
+                if (selectedForm) {
+                    selectedForm.style.display = "block";
+                } else {
+                    console.error("Form not found for ID:", selectedFormId);
+                }
+            }
+        });
+
+
+        document.getElementById("binSelector").addEventListener("change", function() {
+            const selectedFormId = this.value.trim();
+            console.log("Selected bin form ID:", selectedFormId);
+
+            // Hide all bin forms
+            document.querySelectorAll(".edit-bin-form-container").forEach(form => {
+                form.style.display = "none";
+            });
+
+            // Display the selected bin form, if one was chosen
             if (selectedFormId) {
                 const selectedForm = document.getElementById(selectedFormId);
                 if (selectedForm) {

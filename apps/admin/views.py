@@ -26,6 +26,7 @@ def adminDashboard(request):
     bins = Bin.objects.values_list("binIdentifier", flat=True)
     blocks = Block.objects.all()
     users = CustomUser.objects.all()
+    allBins = Bin.objects.all()
 
 
 
@@ -59,6 +60,15 @@ def adminDashboard(request):
             location.name = request.POST.get("location_name")
             location.save()
             return redirect("admin-dashboard")
+
+        if request.POST.get('form_type') == 'edit_bin':
+            bin_id = request.POST.get('bin_id')
+            bin_instance = Bin.objects.get(binID=bin_id)
+            bin_instance.binIdentifier = request.POST.get('bin_identifier')
+            bin_instance.latitude = request.POST.get('latitude')
+            bin_instance.longitude = request.POST.get('longitude')
+            bin_instance.save()
+            return redirect('admin-dashboard')  # Update with your URL name or path
 
         elif "longitude" in request.POST and "latitude" in request.POST and "location_name" in request.POST:
             # Create a new location
@@ -150,5 +160,6 @@ def adminDashboard(request):
         'bins': bins,
         'blocks': blocks,
         'block_form': form,
-        'users': users
+        'users': users,
+        'allBins': allBins
     })
