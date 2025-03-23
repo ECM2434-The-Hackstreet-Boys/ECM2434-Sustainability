@@ -6,6 +6,7 @@ function initializeMap(iconUrl) {
             attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
 
+        // Custom icon for quizzes (Blue)
         var userIcon = L.icon({
             iconUrl: iconUrl,
             iconSize: [38, 38],
@@ -13,6 +14,7 @@ function initializeMap(iconUrl) {
             popupAnchor: [0, -19]
         });
 
+        // Custom icon for bins (Pink)
         var binIcon = L.icon({
             iconUrl: '/static/resources/bin-marker.png',
             iconSize: [38, 38],
@@ -20,39 +22,29 @@ function initializeMap(iconUrl) {
             popupAnchor: [0, -19] 
         });
 
+        // Array to store marker instances
         var markers = [];
 
+        // Function to load locations from the database
         function loadLocations() {
             fetch('/play_screen/get-locations')
                 .then(response => response.json())
                 .then(data => {
-
+                    // Add quiz locations to the map
                     data.quiz_data.forEach(function(location) {
-                        var quizButton = `<button onclick='triggerQuizEvent(${location.locationID})'>Start Quiz</button>`; 
+                        var quizButton = `<button onclick='triggerQuizEvent(${location.locationID})'>Take the quiz</button>`; // Replace with your quiz page link
+                        var DistantPopup = location.locationName;
+                        var closePopup = location.locationName + ". " + quizButton;
 
-                        var popupContent = `
-                            <div>
-                                <h3>${location.locationName}</h3>
-                                ${quizButton}
-                            </div>
-                        `;
+                        var marker = L.marker(location.coordinates).addTo(map).bindPopup(DistantPopup);
 
-                        var marker = L.marker(location.coordinates).addTo(map).bindPopup(popupContent);
-
-                        markers.push({ marker: marker });
+                        markers.push({ marker: marker, closePopup: closePopup, DistantPopup: DistantPopup });
                     });
 
+                    // Add bin locations to the map
                     data.bin_data.forEach(function(location) {
-                        var binButton = `<button onclick='triggerBinEvent(${location.binID})'>Track Recycling</button>`; 
-
-                        var popupContent = `
-                            <div>
-                                <h3>Bin: ${location.binIdentifier}</h3>
-                                ${binButton}
-                            </div>
-                        `;
+                        var popupContent = location.binIdentifier;
                         var marker = L.marker(location.coordinates, {icon: binIcon}).addTo(map).bindPopup(popupContent);
-
                     });
                 });
         }
@@ -76,7 +68,7 @@ function initializeMap(iconUrl) {
         });
 
         // Locate the user
-        map.locate({ maxZoom: 16, watch: true, enableHighAccuracy: true });
+        map.locate({ maxZoom: 16, enableHighAccuracy: true });
 
         function onLocationError() {
             alert("Location access denied. Please enable location services.");
@@ -93,11 +85,6 @@ function initializeMap(iconUrl) {
             }
         });
     });
-}
-
-// Function to handle when the bin button is clicked
-function triggerBinEvent(binID) {
-    window.top.location.href = `/recycling/${binID}`
 }
 
 // Function to handle when the quiz button is clicked
