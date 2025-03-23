@@ -4,7 +4,7 @@ Tests to check if user registration, login, logout, and role management are
 working as expected.
 
 @version: 1.0
-@date: 2021-04-07
+@date: 2025-03-07
 @author: Sandy Hay
 """
 
@@ -46,19 +46,19 @@ class UserRegistrationTests(TestCase):
 
 class UserLoginTests(TestCase):
     """Tests user login functionality."""
+
+    # Login with valid credentials
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', password='testpassword#123') # Create a user
+
     def test_valid_user_login(self):
         """Tests if the user can login with valid credentials."""
-        # Login with valid credentials
-        def setUp(self):
-            self.user = User.objects.create_user(username='testuser', password='testpassword#123') # Create a user
-
-        def test_valid_user_login(self):
-            response = self.client.post(reverse('login'), {
-                'username': 'testuser',
-                'password': 'testpassword#123'
-            })
-            self.assertEqual(response.status_code, 302)
-            self.assertTrue(response.url, reverse('dashboard'))
+        response = self.client.post(reverse('login'), {
+            'username': 'testuser',
+            'password': 'testpassword#123'
+        })
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(response.url, reverse('dashboard'))
 
     def test_invalid_user_login(self):
         """Tests if the user cannot login with invalid credentials."""

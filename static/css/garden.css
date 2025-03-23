@@ -31,6 +31,8 @@
     border-radius: 8px;
     padding: 10px;
     z-index: 200; /* Higher than canvas */
+    background-color: white;
+    border-radius: 8px;
 }
 
 #context-menu button {
@@ -50,6 +52,8 @@
     z-index: 200; /* Higher than canvas */
     border-radius: 8px;
     padding: 10px;
+    background-color: white;
+    border-radius: 8px;
 }
 
 #texture-submenu button {
@@ -71,16 +75,22 @@
     background: #ddd;
 }
 
-#your-points {
-    width: 300px;
+.points-container {
     margin: 0 auto;
+    margin-bottom: 20px;
     justify-content: center;
-    padding: 5px 10px;
-    color: white;
+    padding: 10px;
     border-radius: 5px;
     background-color: #505050;
     transition: background-color 0.5s ease;
     border: solid 1px #505050;
+}
+
+.points-container p {
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
 }
 
 button {
@@ -98,6 +108,10 @@ button {
     border: solid 1px #505050;
 }
 
+button:hover {
+    background: #ddd;
+    border: solid 1px #ddd;
+}
 
 .store {
     width: 80%;  /* Adjust as necessary */
@@ -110,24 +124,29 @@ button {
     display: flex;
     flex-direction: column;  /* Align children in a column (e.g., h1, p, #store-container) */
     align-items: center;  /* Center children horizontally */
+    align-self: center;
 }
 
 #store-container {
-    width: 100%;  /* 100% of the parent width */
+    width: 80%;  /* 100% of the parent width */
     background: #f0f0f0;
-    padding: 10px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;  /* Centers content horizontally */
     align-items: center;  /* Centers content vertically */
+    margin: 0 auto;
+    border-radius: 8px;
+    margin-top: 20px;
 }
 
 #store-grid {
     display: flex;
     flex-wrap: wrap;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
     gap: 10px;
-    justify-items: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .store-item {
@@ -135,9 +154,8 @@ button {
     padding: 10px;
     border-radius: 8px;
     text-align: center;
-    width: 150px;
+    width: 125px;
     box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
-
 }
 
 .store-item img {
