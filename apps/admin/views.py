@@ -61,7 +61,7 @@ def adminDashboard(request):
             location.save()
             return redirect("admin-dashboard")
 
-        if request.POST.get('form_type') == 'edit_bin':
+        elif request.POST.get('form_type') == 'edit_bin':
             bin_id = request.POST.get('bin_id')
             bin_instance = Bin.objects.get(binID=bin_id)
             bin_instance.binIdentifier = request.POST.get('bin_identifier')
@@ -120,7 +120,7 @@ def adminDashboard(request):
             Bin.objects.filter(binIdentifier=bin_to_delete).delete()
 
         # If the POST contains an 'edit_block' identifier, update an existing block
-        if request.POST.get("form_type") == "edit_block":
+        elif request.POST.get("form_type") == "edit_block":
             block = get_object_or_404(Block, blockID=request.POST.get("blockID"))
             form = EditBlockForm(request.POST, instance=block)
             if form.is_valid():
