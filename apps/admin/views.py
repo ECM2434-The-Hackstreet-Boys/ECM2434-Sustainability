@@ -51,6 +51,15 @@ def adminDashboard(request):
             quiz.objects.filter(question=question_to_delete).delete()
             return redirect("admin-dashboard")
 
+        elif form_type == "edit_location":
+            location_id = request.POST.get("location_id")
+            location = QuizLocation.objects.get(locationID=location_id)
+            location.longitude = request.POST.get("longitude")
+            location.latitude = request.POST.get("latitude")
+            location.name = request.POST.get("location_name")
+            location.save()
+            return redirect("admin-dashboard")
+
         elif "longitude" in request.POST and "latitude" in request.POST and "location_name" in request.POST:
             # Create a new location
             new_location = QuizLocation(
@@ -123,13 +132,7 @@ def adminDashboard(request):
                 edit_form.save()  # This updates the user's role
                 return redirect("admin-dashboard")
 
-        elif form_type == "edit_location":
-            location_id = request.POST.get("location_id")
-            location = QuizLocation.objects.get(locationID=location_id)
-            location.longitude = request.POST.get("longitude")
-            location.latitude = request.POST.get("latitude")
-            location.name = request.POST.get("location_name")
-            location.save()
+
 
 
     else:
