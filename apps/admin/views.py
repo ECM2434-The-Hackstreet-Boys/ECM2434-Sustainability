@@ -12,9 +12,15 @@ from apps.accounts.forms import EditUserForm
 from apps.accounts.models import CustomUser
 
 
-# Create your views here.
 def superuser_check(user):
-    return bool(user.is_authenticated and (user.is_superuser or user.role == 'admin' or user.role == 'gamekeeper'))
+    print(f"Checking user: {user}")
+    print(f"Authenticated: {user.is_authenticated}")
+    print(f"Superuser: {user.is_superuser}")
+    print(f"Role: {getattr(user, 'role', None)}")
+    return bool(
+        user.is_authenticated and
+        (user.is_superuser or getattr(user, 'role', None) == 'admin')
+    )
 
 # Dashboard view
 @user_passes_test(superuser_check, login_url='/accounts/login/')
