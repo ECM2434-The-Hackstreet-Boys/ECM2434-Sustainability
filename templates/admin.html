@@ -230,16 +230,16 @@
 
         <div class = "section">
             <h2>Manage Blocks</h2>
-
-            <!-- Form to Add a New Block (all fields available) -->
-            <h3>Add New Block</h3>
-            <form method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                <!-- Use a hidden field to distinguish the form -->
-                <input type="hidden" name="form_type" value="add_block">
-                {{ block_form.as_p }}
-                <button type="submit" class="form-button">Add Block</button>
-            </form>
+{##}
+{#            <!-- Form to Add a New Block (all fields available) -->#}
+{#            <h3>Add New Block</h3>#}
+{#            <form method="POST" enctype="multipart/form-data">#}
+{#                {% csrf_token %}#}
+{#                <!-- Use a hidden field to distinguish the form -->#}
+{#                <input type="hidden" name="form_type" value="add_block">#}
+{#                {{ block_form.as_p }}#}
+{#                <button type="submit" class="form-button">Add Block</button>#}
+{#            </form>#}
 
             <!-- Display Existing Blocks with Edit Options for Cost and Value -->
             <h3>Existing Blocks</h3>
