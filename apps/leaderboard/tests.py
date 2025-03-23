@@ -81,4 +81,77 @@ class LeaderboardMultipleUsersTests(TestCase):
         self.assertContains(response, '18')
         self.assertContains(response, '1')
 
+class LeaderboardEdgeCasesTests(TestCase):
+    """Edge case tests for the leaderboard"""
 
+    def setUp(self):
+        """Sets up users and stats for leaderboard testing"""
+        Stats = apps.get_model('stats', 'Stats')
+
+        # Users with different scores
+        self.user1 = User.objects.create_user(username='player1', password='password1')
+        self.user2 = User.objects.create_user(username='player2', password='password2')
+        self.user3 = User.objects.create_user(username='player3', password='password3')
+
+        self.client = Client()
+        self.client.login(username='player1', password='password1')
+
+        # Assigning scores
+        self.stats1 = Stats.objects.create(userID=self.user1, yourTotalPoints=50)
+        self.stats2 = Stats.objects.create(userID=self.user2, yourTotalPoints=50)  # Same score as player1
+        self.stats3 = Stats.objects.create(userID=self.user3, yourTotalPoints=-5)  # Negative score
+
+    def test_leaderboard_access_when_empty(self):
+        """Tests if leaderboard page loads correctly when there are no users"""
+        Stats = apps.get_model('stats', 'Stats')
+        Stats.objects.all().delete()  # Remove all entries
+
+        response = self.client.get(reverse('leaderboardpage'))
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "Player 1")  # Check if leaderboard handles empty case
+        self.assertNotContains(response, "Player 2")
+        self.assertNotContains(response, "Player 3")
+
+    def test_leaderboard_correct_order(self):
+        """Tests if leaderboard displays users in the correct ranking order"""
+        response = self.client.get(reverse('leaderboardpage'))
+        leaderboard_html = response.content.decode()
+
+        # player1 and player2 should be ranked higher than player3
+        self.assertTrue(leaderboard_html.index('player1') < leaderboard_html.index('player3'))
+        self.assertTrue(leaderboard_html.index('player2') < leaderboard_html.index('player3'))
+
+    def test_leaderboard_handles_same_score(self):
+        """Tests if users with the same score appear correctly"""
+        response = self.client.get(reverse('leaderboardpage'))
+        self.assertContains(response, 'player1')
+        self.assertContains(response, 'player2')  # Both have 50 points
+
+    def test_leaderboard_handles_negative_or_zero_scores(self):
+        """Tests if negative and zero scores appear correctly"""
+        response = self.client.get(reverse('leaderboardpage'))
+        self.assertContains(response, '-5')  # Check if negative score appears
+
+    def test_deleted_users_do_not_appear(self):
+        """Tests if inactive or deleted users do not appear on the leaderboard"""
+        self.user3.delete()
+
+        response = self.client.get(reverse('leaderboardpage'))
+        self.assertNotContains(response, 'player3')  # Inactive user should not appear
+
+    def test_leaderboard_handles_large_number_of_users(self):
+        """Tests if leaderboard performs well with many users"""
+        Stats = apps.get_model('stats', 'Stats')
+
+        self.client.logout()
+        User.objects.all().delete()  # Clear all users before test
+
+
+        for i in range(1, 30):  # Creating 50 users with random scores
+            user = User.objects.create_user(username=f'player{i}', password=f'password{i}')
+            Stats.objects.create(userID=user, yourTotalPoints=i * 2)  # Different points for each user
+
+        self.client.login(username='player1', password='password1')
+        response = self.client.get(reverse('leaderboardpage'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'player29')  # Ensure top-ranked user appears
