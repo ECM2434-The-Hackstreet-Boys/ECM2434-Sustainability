@@ -22,6 +22,7 @@ def adminDashboard(request):
 
     questions = quiz.objects.filter(locationID = '0').values_list("question", flat=True)
     locations = QuizLocation.objects.values_list("locationName", flat=True)
+    allLocations = QuizLocation.objects.all()
     bins = Bin.objects.values_list("binIdentifier", flat=True)
     blocks = Block.objects.all()
     users = CustomUser.objects.all()
@@ -122,6 +123,15 @@ def adminDashboard(request):
                 edit_form.save()  # This updates the user's role
                 return redirect("admin-dashboard")
 
+        elif form_type == "edit_location":
+            location_id = request.POST.get("location_id")
+            location = QuizLocation.objects.get(locationID=location_id)
+            location.longitude = request.POST.get("longitude")
+            location.latitude = request.POST.get("latitude")
+            location.name = request.POST.get("location_name")
+            location.save()
+
+
     else:
         form = BlockForm()
 
@@ -129,10 +139,11 @@ def adminDashboard(request):
 
 
 
-
+    form = BlockForm()
     return render(request, "admin.html", {
         'questions': questions,
         'locations': locations,
+        'allLocations': allLocations,
         'bins': bins,
         'blocks': blocks,
         'block_form': form,

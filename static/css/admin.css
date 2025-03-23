@@ -35,6 +35,38 @@ h1, h2, h3 {
 form {
     margin-bottom: 15px;
 }
+.location-name {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+form.edit-location-form {
+    display: block;
+    width: 100%;
+}
+
+/* Hide forms initially */
+.edit-location-form-container {
+    display: none;
+    background: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for the location dropdown */
+#locationSelector {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+
 
 fieldset {
     border: 1px solid #ccc;
@@ -42,6 +74,31 @@ fieldset {
     padding: 10px;
     margin-bottom: 10px;
 }
+/* Grid layout for the edit location form */
+fieldset.edit-location-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Stack labels and inputs */
+    gap: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 15px;
+    background: white;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Make the legend stand out */
+fieldset.edit-location-grid legend {
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* Style labels */
+fieldset.edit-location-grid .form-label {
+    font-weight: bold;
+}
+
+
 
 legend {
     font-weight: bold;

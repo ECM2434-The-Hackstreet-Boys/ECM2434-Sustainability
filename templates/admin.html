@@ -92,6 +92,50 @@
                 <button type = "submit" class = "form-button">Add Location</button>
             </form>
 
+
+
+            <h3>Edit Existing Locations</h3>
+
+            <!-- Dropdown to select a location -->
+            <label for="locationSelector">Select a location to edit:</label>
+            <select id="locationSelector" class="form-input">
+                <option value="">-- Select a Location --</option>
+                {% for location in allLocations %}
+                    <option value="form_{{ location.locationID }}">{{ location.locationName }}</option>
+                {% endfor %}
+            </select>
+
+            <ul>
+                {% for location in allLocations %}
+                    <li id="form_{{ location.locationID }}" class="edit-location-form-container" style="display: none;">
+                        <div class="location-name"><strong>{{ location.locationName }}</strong></div>
+
+                        <form method="POST" class="edit-location-form">
+                            {% csrf_token %}
+                            <input type="hidden" name="form_type" value="edit_location">
+                            <input type="hidden" name="location_id" value="{{ location.locationID }}">
+
+                            <fieldset class="edit-location-grid">
+                                <legend>Edit Location</legend>
+
+                                <label for="latitude_{{ location.locationID }}" class="form-label">Latitude:</label>
+                                <input type="text" name="latitude" value="{{ location.latitude }}" class="form-input" required>
+
+                                <label for="longitude_{{ location.locationID }}" class="form-label">Longitude:</label>
+                                <input type="text" name="longitude" value="{{ location.longitude }}" class="form-input" required>
+
+                                <label for="location_name_{{ location.locationID }}" class="form-label">Name:</label>
+                                <input type="text" name="location_name" value="{{ location.locationName }}" class="form-input" required>
+
+                                <button type="submit" class="form-button">Update Location</button>
+                            </fieldset>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+
+
+
             <h3>Remove Location</h3>
             <form method = "POST">
                 {% csrf_token %}
@@ -106,6 +150,7 @@
                 </select>
                 <button type="submit" class="form-button">Remove Location</button>
             </form>
+
         </div>
 
         <div class = "section">
@@ -166,7 +211,6 @@
                 {% for block in blocks %}
                     <li>
                         <strong>{{ block.name }}</strong> ({{ block.visibleName }})<br>
-                        Cost: {{ block.cost }} - Value: {{ block.value }}
                         {% if block.blockPath %}
                             <br>Asset: <a href="{{ block.blockPath.url }}" target="_blank">View File</a>
                         {% endif %}
@@ -222,4 +266,28 @@
 
 {% block extra_js %}
     <!-- Link to JS if needed -->
+
+    <script>
+        document.getElementById("locationSelector").addEventListener("change", function() {
+            const selectedFormId = this.value; // Get the selected value from dropdown
+            console.log("Selected form ID:", selectedFormId); // Debugging output
+
+            // Hide all forms
+            document.querySelectorAll(".edit-location-form-container").forEach(form => {
+                form.style.display = "none";
+            });
+
+            // Show only the selected form if it exists
+            if (selectedFormId) {
+                const selectedForm = document.getElementById(selectedFormId);
+                if (selectedForm) {
+                    selectedForm.style.display = "block";
+                } else {
+                    console.error("Form not found for ID:", selectedFormId);
+                }
+            }
+        });
+    </script>
+
+
 {% endblock %}

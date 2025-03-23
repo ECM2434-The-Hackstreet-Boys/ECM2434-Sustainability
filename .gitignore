@@ -177,3 +177,5 @@ cython_debug/
 package-lock.json
 package.json
 /media/gardens/
+.github
+.idea

@@ -67,7 +67,7 @@ def quiz_view(request):
 @login_required
 def quiz_view_by_location(request, locationID):
     # Do the quiz based on specific location
-    questions = list(quiz.objects.filter(landmark_id=locationID))  # Filter by locationID
+    questions = list(quiz.objects.filter(locationID=locationID))  # Filter by locationID
     number_of_questions = len(questions)
     questions = sample(questions, min(5, number_of_questions))
 
