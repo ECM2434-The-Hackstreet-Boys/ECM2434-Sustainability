@@ -31,11 +31,19 @@ def submit_recycling(request):
 
         stats, created = Stats.objects.get_or_create(userID=user)
 
+        def safe_int(value):
+            try:
+                # Convert to int and check if it's non-negative
+                result = int(value)
+                return result if result >= 0 else 0  # Ensure negative values return 0
+            except ValueError:
+                return 0  # Ignore invalid input
+
         # Get the number of items recycled
-        packaging_count = int(request.POST.get("food-packaging", 0))
-        plastic_count = int(request.POST.get("plastic", 0))
-        metal_count = int(request.POST.get("metal", 0))
-        paper_count = int(request.POST.get("paper", 0))
+        packaging_count = int(safe_int(request.POST.get("food-packaging", 0)))
+        plastic_count = int(safe_int(request.POST.get("plastic", 0)))
+        metal_count = int(safe_int(request.POST.get("metal", 0)))
+        paper_count = int(safe_int(request.POST.get("paper", 0)))
 
         # Update recycling counts
         stats.packagingRecycled += packaging_count
