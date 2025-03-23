@@ -37,6 +37,7 @@ urlpatterns =[
     path('stats/', include('apps.stats.urls')),
     path('leaderboard/', include('apps.leaderboard.urls')),
     path('quiz/', include('apps.quiz.urls')),
+    path('settings/', include('apps.settings.urls')),
     path('api/', include('apps.garden.urls')),
     path('admin-dashboard/', include('apps.admin.urls'))
 ]
