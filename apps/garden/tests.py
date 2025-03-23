@@ -207,7 +207,7 @@ class BlockPlacementTests(TestCase):
 
     def test_place_block_success(self):
         """Tests if a user can successfully place a block"""
-        self.client.login(username='testuser', password='testpassword')
+        self.client.login(username='testuser', password='testpassword#123')
         response = self.client.post(reverse('place_block'), json.dumps({"blockName": "test_block"}), content_type='application/json')
 
         self.assertEqual(response.status_code, 200)
