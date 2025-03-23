@@ -248,7 +248,7 @@
                     <li>
                         <strong>{{ block.name }}</strong> ({{ block.visibleName }})<br>
                         {% if block.blockPath %}
-                            <br>Asset: <a href="{{ block.blockPath.url }}" target="_blank">View File</a>
+                            <br>Asset: <img src="{{ block.blockPath.url }}" alt="{{ block.blockPath }}">
                         {% endif %}
 
                         <!-- Form for editing cost and value only -->
