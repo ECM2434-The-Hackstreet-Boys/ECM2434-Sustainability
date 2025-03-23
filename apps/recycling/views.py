@@ -31,12 +31,20 @@ def submit_recycling(request):
 
         stats, created = Stats.objects.get_or_create(userID=user)
 
-        stats.packagingRecycled += int(request.POST.get("food-packaging", 0))
-        stats.plasticRecycled += int(request.POST.get("plastic", 0))
-        stats.metalRecycled += int(request.POST.get("metal", 0))
-        stats.paperRecycled += int(request.POST.get("paper", 0))
+        def safe_int(value):
+            try:
+                # Convert to int and check if it's non-negative
+                result = int(value)
+                return result if result >= 0 else 0  # Ensure negative values return 0
+            except ValueError:
+                return 0  # Ignore invalid input
+
+        stats.packagingRecycled += safe_int(request.POST.get("food-packaging", 0))
+        stats.plasticRecycled += safe_int(request.POST.get("plastic", 0))
+        stats.metalRecycled += safe_int(request.POST.get("metal", 0))
+        stats.paperRecycled += safe_int(request.POST.get("paper", 0))
         stats.save()
 
-        return(redirect("dashboard"))
-    
+        return redirect("dashboard")
+
     return render(request, "recycling.html")
