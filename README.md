@@ -3,15 +3,14 @@
 ## Introduction
 ![Ecoworld](https://ecoworld.dev/static/resources/Logo.webp)
 ### Plant A Greener Future
-
-The first prototype of our web application brings sustainability to life through an engaging, interactive experience that rewards eco-friendly actions with a gamified progression system. Players are tasked with participating in eco-friendly activities, completing sustainability quizzes, and interacting with real-world sustainability initiatives around campus. Doing these activities allows players to earn points, which they can later spend to their very own, fully-customisable isometric garden, which grows and blossoms the more sustainable actions they make.
-
+Our final prototype refines and expands our web application, delivering a polished and immersive experience that makes sustainability both engaging and rewarding. Players can now take part in a wider range of eco-friendly activities, complete interactive sustainability quizzes, and engage with real-world sustainability initiatives around campus. With an improved gamified progression system, players earn points for their actions and can use them to further customize their own isometric garden. As they continue making sustainable choices, their garden flourishes, reflecting their impact in a visually rewarding way.
 
 ## Production Server
 Our production server is hosted on the internet via https://ecoworld.dev/ and is managed by the development team. The server is running the latest version of the application and is available for public use!
 
 ## Requirements (for running locally)
 - Python 3.12
+- [Automatically Installed Python Requirements](./requirements.txt)
 
 ## Local Installation
 Please open a terminal or command prompt, and clone the repository by entering the following command:
@@ -83,6 +82,10 @@ Run the following command to add a default admin and user to the database
 ```bash
 python manage.py import_user
 ```
+Run the following command to import the default garden assets
+```bash
+python manage.py load_default_assets
+```
 Run the following command to start the server:
 ```bash
 python manage.py runserver
@@ -94,10 +97,8 @@ The default admin username is `admin` and the password is `admin`
 The default user account is `user` and the password is `user`
 
 ### Accessing Admin Pages
-If you wish to access the current admin web page, please enter the following url into your web browser:
-```djangourlpath
-127.0.0.1:8000/accounts/manage_roles/
-```
+Using the default admin account in the sidebar you will have access to the admin dashboard allowing you to update the roles of users to either gamekeepers or admins
+
 
 
 ## Testing

@@ -19,7 +19,7 @@ function initializeMap(iconUrl) {
             iconUrl: '/static/resources/bin.png',
             iconSize: [25, 25],
             iconAnchor: [19, 19],
-            popupAnchor: [0, -19] 
+            popupAnchor: [-6, -19]
         });
 
         // Array to store marker instances
@@ -33,7 +33,7 @@ function initializeMap(iconUrl) {
                     // Add quiz locations to the map
                     data.quiz_data.forEach(function(location) {
                         var quizButton = `<button onclick='triggerQuizEvent(${location.locationID})'>Take the quiz</button>`; // Replace with your quiz page link
-                        var DistantPopup = location.locationName;
+                        var DistantPopup = `<strong>${location.locationName}</strong><br>Get Closer for a Quiz!`;
                         var closePopup = location.locationName + ". " + quizButton;
 
                         var marker = L.marker(location.coordinates).addTo(map).bindPopup(DistantPopup);
@@ -43,7 +43,7 @@ function initializeMap(iconUrl) {
 
                     // Add bin locations to the map
                     data.bin_data.forEach(function(location) {
-                        var popupContent = location.binIdentifier;
+                        var popupContent = `<strong>${location.binIdentifier}</strong> <br> QR Code Location`;
                         var marker = L.marker(location.coordinates, {icon: binIcon}).addTo(map).bindPopup(popupContent);
                     });
                 });
