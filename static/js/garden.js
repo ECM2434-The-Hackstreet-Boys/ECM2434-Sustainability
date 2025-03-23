@@ -319,7 +319,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // ** Context Menu **
     let contextMenu = document.getElementById('context-menu');
-    let selectedTile = null;
+    //let selectedTile = null;
 
     document.addEventListener("contextmenu", (event) => event.preventDefault()); // Disable default menu
 
@@ -358,9 +358,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Function to show the context menu when tile pressed
     function showContextMenu(x, y, tile) {
-        select     //tile.tint = 0x999999; // Change color to indicate long press
+        selectedTile = tile;
         contextMenu.style.display = 'block';
-        contextMenu.style.display = "block";
 
         // Get the bounding rectangle of the Pixi canvas relative to the page
         let canvasBounds = app.view.getBoundingClientRect();
@@ -396,7 +395,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Event listener for the edit tile button
     document.getElementById("edit-tile").addEventListener("click", (event) => {
+        console.log("Edit tile clicked");
         event.stopPropagation(); // Prevents the click event from propagating
+        console.log("Selected tile:", selectedTile);
         if (selectedTile) {
             const submenu = document.getElementById("texture-submenu");
             submenu.style.display = "block";
