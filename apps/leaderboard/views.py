@@ -13,5 +13,7 @@ from apps.stats.models import Stats
 def leaderboardpage(request):
     """Renders the leaderboard on the webpage"""
     records = Stats.objects.all()
+
+
     return render(request, "leaderboard.html", {'records': records})
 
