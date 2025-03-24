@@ -63,13 +63,13 @@
                 {% csrf_token %}
 
                 <label for = "longitude" class = "form-label">Longitude:</label>
-                <input type = "text" id = "longitude" name = "longitude" class = "form-input" required>
+                <input type = "number" step="any" id = "longitude" name = "longitude" class = "form-input" required>
 
                 <label for = "latitude" class = "form-label">Latitude:</label>
-                <input type = "text" id = "latitude" name = "latitude" class = "form-input" required>
+                <input type = "number" step="any" id = "latitude" name = "latitude" class = "form-input" required>
 
                 <label for = "location_name" class = "form-label">Location Name:</label>
-                <input type = "text" id = "location_name" name = "location_name" class = "form-input" required>
+                <input type = "number" step="any" id = "location_name" name = "location_name" class = "form-input" required>
 
                 <!-- Loop through 5 questions -->
                 {% for i in "12345" %}
@@ -118,14 +118,16 @@
                             <fieldset class="edit-location-grid">
                                 <legend>Edit Location</legend>
 
-                                <label for="latitude_{{ location.locationID }}" class="form-label">Latitude:</label>
-                                <input type="text" name="latitude" value="{{ location.latitude }}" class="form-input" required>
-
-                                <label for="longitude_{{ location.locationID }}" class="form-label">Longitude:</label>
-                                <input type="text" name="longitude" value="{{ location.longitude }}" class="form-input" required>
-
                                 <label for="location_name_{{ location.locationID }}" class="form-label">Name:</label>
                                 <input type="text" name="location_name" value="{{ location.locationName }}" class="form-input" required>
+
+                                <label for="latitude_{{ location.locationID }}" class="form-label">Latitude:</label>
+                                <input type="number" step="any" name="latitude" value="{{ location.latitude }}" class="form-input" required>
+
+                                <label for="longitude_{{ location.locationID }}" class="form-label">Longitude:</label>
+                                <input type="number" step="any" name="longitude" value="{{ location.longitude }}" class="form-input" required>
+
+
 
                                 <button type="submit" class="form-button">Update Location</button>
                             </fieldset>
@@ -164,10 +166,10 @@
                     <input type = "text" id = "bin_identifier" name = "bin_identifier" class = "form-input" required>
 
                     <label for = "longitude" class = "form-label">Longitude:</label>
-                    <input type = "text" id = "longitude" name = "longitude" class = "form-input" required>
+                    <input type = "number" step="any" id = "longitude" name = "longitude" class = "form-input" required>
 
                     <label for = "latitude" class = "form-label">Latitude:</label>
-                    <input type = "text" id = "latitude" name = "latitude" class = "form-input" required>
+                    <input type = "number" step="any" id = "latitude" name = "latitude" class = "form-input" required>
                 </fieldset>
                 <button type="submit" class="form-button">Add Bin</button>
 
@@ -198,10 +200,10 @@
                             <input type="text" name="bin_identifier" id="bin_identifier_{{ bin.binID }}" value="{{ bin.binIdentifier }}" class="form-input" required>
 
                             <label for="latitude_{{ bin.binID }}" class="form-label">Latitude:</label>
-                            <input type="text" name="latitude" id="latitude_{{ bin.binID }}" value="{{ bin.latitude }}" class="form-input" required>
+                            <input type="number" step="any" name="latitude" id="latitude_{{ bin.binID }}" value="{{ bin.latitude }}" class="form-input" required>
 
                             <label for="longitude_{{ bin.binID }}" class="form-label">Longitude:</label>
-                            <input type="text" name="longitude" id="longitude_{{ bin.binID }}" value="{{ bin.longitude }}" class="form-input" required>
+                            <input type="number" step="any" name="longitude" id="longitude_{{ bin.binID }}" value="{{ bin.longitude }}" class="form-input" required>
 
                             <button type="submit" class="form-button">Update Bin</button>
                         </form>
