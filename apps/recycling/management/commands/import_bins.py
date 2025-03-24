@@ -13,13 +13,12 @@ class Command(BaseCommand):
         file_path = os.path.join(os.path.dirname(__file__), "../../../recycling/BinLocations.csv")  # Absolute path
         file_path = os.path.abspath(file_path)
 
-        Bin.objects.all().delete()
+        #Bin.objects.all().delete()
 
         with open(file_path, newline='', encoding='utf-8') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                Bin.objects.update_or_create(
-                    binID = row["binID"],
+                Bin.objects.get_or_create(
                     latitude = row["latitude"],
                     longitude = row["longitude"],
                     binIdentifier = row["binIdentifier"]

@@ -19,31 +19,33 @@
     <h1>Leaderboard</h1>
 
     <!-- Table displaying the leaderboard -->
-    <table id="sustainabilityTable" class="display">
-        <thead>
-        <tr>
-            <th>User</th>
-            <th>Packaging Recycled (Kg)</th>
-            <th>Plastic Recycled (kg)</th>
-            <th>Metal Recycled (kg)</th>
-            <th>Paper Recycled (kg)</th>
-            <th>Points</th>
-        </tr>
-        </thead>
-        <tbody>
-        <!-- Loop through each record in the database and display the user's stats -->
-        {% for record in records %}
+    <div class = "table-container">
+        <table id="sustainabilityTable" class="display">
+            <thead>
             <tr>
-                <td>{{ record.userID }}</td>
-                <td>{{ record.packagingRecycled }}</td>
-                <td>{{ record.plasticRecycled }}</td>
-                <td>{{ record.metalRecycled }}</td>
-                <td>{{ record.paperRecycled }}</td>
-                <td>{{ record.yourTotalPoints }}</td>
+                <th>User</th>
+                <th>Packaging Recycled (Kg)</th>
+                <th>Plastic Recycled (kg)</th>
+                <th>Metal Recycled (kg)</th>
+                <th>Paper Recycled (kg)</th>
+                <th>Points</th>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            <!-- Loop through each record in the database and display the user's stats -->
+            {% for record in records %}
+                <tr>
+                    <td>{{ record.userID }}</td>
+                    <td>{{ record.packagingRecycled }}</td>
+                    <td>{{ record.plasticRecycled }}</td>
+                    <td>{{ record.metalRecycled }}</td>
+                    <td>{{ record.paperRecycled }}</td>
+                    <td>{{ record.yourTotalPoints }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
     <!-- Link to the DataTables JavaScript library for displaying a sortable table -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
