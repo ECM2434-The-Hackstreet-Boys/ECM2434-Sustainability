@@ -1,5 +1,9 @@
-# @Author:  Edward Pratt
-# garden/urls.py
+"""
+URLs for the garden page
+garden/urls.py
+
+@Author: Edward Pratt
+"""
 from django.urls import path
 from . import views
 

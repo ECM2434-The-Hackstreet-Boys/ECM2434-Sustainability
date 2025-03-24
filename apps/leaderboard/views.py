@@ -1,4 +1,8 @@
-# Authors: Edward Pratt & Ethan Clapham
+"""
+Views for the Leaderboard
+
+@Authors: Edward Pratt & Ethan Clapham
+"""
 
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required

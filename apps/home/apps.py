@@ -1,3 +1,8 @@
+"""
+Home page App
+
+@Author: Edward Pratt
+"""
 from django.apps import AppConfig
 
 

@@ -1,5 +1,9 @@
-from django.apps import AppConfig
+"""
+Map app
 
+@Author: Matt McCree
+"""
+from django.apps import AppConfig
 
 class MapConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'

@@ -1,4 +1,8 @@
-# login/urls.py
+"""
+URL for the home page
+login/urls.py
+
+@Author: Edward Pratt"""
 from django.urls import path
 from . import views
 
