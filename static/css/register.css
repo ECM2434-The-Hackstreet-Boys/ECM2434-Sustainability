@@ -15,7 +15,9 @@
 /* styling of the form */
 .register-form {
     position: relative;
-    width: 500px;
+    width: 75%;
+    min-width: 300px;
+    max-width: 500px;
     margin: 50px auto;
     padding: 20px;
     background: #f9f9f9;
