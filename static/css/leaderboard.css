@@ -1,0 +1,10 @@
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    min-width: 600px; /* Ensures table does not shrink too much */
+    border-collapse: collapse;
+}
