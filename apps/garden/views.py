@@ -221,9 +221,3 @@ def buy_item(request):
         return JsonResponse({"success": True, "message": "Item(s) purchased!"})
 
     return JsonResponse({"success": False, "message": "Invalid request!"}, status=400)
-
-
-
-
-
-

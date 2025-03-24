@@ -4,8 +4,8 @@ Tests if the garden page is accessible when logged in, if the garden can save co
 if the garden load can load correctly from an existing save file.
 
 @version: 1.0
-@date: 2021-04-07
-@author: Sandy Hay
+@date: 2025-02-25
+@author: Sandy Hay & Edward Pratt
 """
 
 import os
@@ -14,7 +14,8 @@ from django.conf import settings
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth import get_user_model
-from .models import Garden, Block, Inventory
+from apps.garden.models import Garden, Block, Inventory
+from apps.stats.models import Stats
 
 User = get_user_model()
 
@@ -196,15 +197,17 @@ class LoadGardenTests(TestCase):
 
 
 class BlockPlacementTests(TestCase):
+    """Tests for block placements on the garden"""
     def setUp(self):
         self.client = Client()
-        self.user = User.objects.create_user(username='testuser', password='testpassword')
+        self.user = User.objects.create_user(username='testuser', password='testpassword#123')
         self.client.login(username='testuser', password='testpassword')
         self.block = Block.objects.create(name='test_block', cost=10, value=5)
         self.inventory = Inventory.objects.create(userID=self.user, blockID=self.block, quantity=5)
 
     def test_place_block_success(self):
-        self.client.login(username='testuser', password='testpassword')
+        """Tests if a user can successfully place a block"""
+        self.client.login(username='testuser', password='testpassword#123')
         response = self.client.post(reverse('place_block'), json.dumps({"blockName": "test_block"}), content_type='application/json')
 
         self.assertEqual(response.status_code, 200)
@@ -213,7 +216,8 @@ class BlockPlacementTests(TestCase):
         self.assertEqual(self.inventory.quantity, 4)
 
     def test_place_block_not_in_inventory(self):
-        self.client.login(username='testuser', password='testpassword')
+        """Tests if a block cannot be placed if it is not in the inventory"""
+        self.client.login(username='testuser', password='testpassword#123')
         Inventory.objects.filter(userID=self.user, blockID=self.block).delete()  # Remove block from inventory
         response = self.client.post(reverse('place_block'), json.dumps({"blockName": "test_block"}), content_type='application/json')
 
@@ -221,14 +225,12 @@ class BlockPlacementTests(TestCase):
         self.assertJSONEqual(response.content, {"success": False, "message": "Not enough blocks in inventory!"})
 
     def test_place_block_invalid_request(self):
-        self.client.login(username='testuser', password='testpassword')
+        """Tests if a error response displayed after bad request"""
+        self.client.login(username='testuser', password='testpassword#123')
         response = self.client.get(reverse('place_block'))  # GET instead of POST
 
         self.assertEqual(response.status_code, 400)
         self.assertJSONEqual(response.content, {"success": False, "message": "Invalid request!"})
-
-
-
 
 class InventoryTestCase(TestCase):
     def setUp(self):
@@ -254,3 +256,37 @@ class InventoryTestCase(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertIn("Not enough blocks in inventory!", response.json()["message"])
+
+class StoreInteractionTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', password='password')
+        self.client.login(username='testuser', password='password')
+        self.block = Block.objects.create(name='Dirt', cost=5, value=1)
+        self.user_stats = Stats.objects.create(userID=self.user, yourPoints=10)
+
+    def test_buy_item_success(self):
+        """Ensure users can successfully buy an item if they have enough points."""
+        response = self.client.post(reverse('buy_item'), json.dumps({
+            'itemId': self.block.blockID,
+            'cost': 5,
+            'quantity': 1
+        }), content_type='application/json')
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.json()['success'])
+        self.user_stats.refresh_from_db()
+        self.assertEqual(self.user_stats.yourPoints, 5)
+
+    def test_buy_item_insufficient_funds(self):
+        """Ensure users cannot buy an item if they lack sufficient points."""
+        self.user_stats.yourPoints = 3
+        self.user_stats.save()
+
+        response = self.client.post(reverse('buy_item'), json.dumps({
+            'itemId': self.block.blockID,
+            'cost': 5,
+            'quantity': 1
+        }), content_type='application/json')
+
+        self.assertEqual(response.status_code, 404)
+        self.assertFalse(response.json()['success'])
