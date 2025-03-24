@@ -1,4 +1,8 @@
-# Author: Ethan Clapham
+"""
+Views for the recycling page
+
+@Author: Ethan Clapham
+"""
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from ..stats.models import Stats
@@ -7,10 +11,10 @@ from .models import Bin
 
 # Create your views here.
 
-
-# View to access the recycling page
 @login_required
 def recyclepage(request, bin_id):
+    """View to access the recycling page"""
+
     # Fetch bin details
     bin_obj = get_object_or_404(Bin, binID=bin_id)
 
@@ -23,9 +27,9 @@ def recyclepage(request, bin_id):
 
     return render(request, "recycling.html", context)
 
-# View to submit recycling data
 @login_required
 def submit_recycling(request):
+    """View to submit recycling data"""
     if request.method == "POST":
         user = CustomUser.objects.get(id=request.user.id)
 

@@ -1,3 +1,9 @@
+"""
+URLs for the recycling page
+
+@Author: Ethan Clapham
+"""
+
 from django.urls import path
 from . import views
 

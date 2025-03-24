@@ -1,4 +1,11 @@
-# Author: Edward Pratt, Sandy Hay
+"""Tests for the Stats App
+
+Tests if the stats page can display the user's scores correctly
+
+@version: 1.1
+@date: 2025-03-22
+@author: Sandy Hay & Edward Pratt
+"""
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
@@ -39,7 +46,7 @@ class StatisticsPageTests(TestCase):
         self.assertContains(response, "Your Points")
         self.assertContains(response, "KG of CO2 Saved")
         self.assertContains(response, "KG of Plastic Saved")
-    
+
 class StatisticsTests(TestCase):
     """Tests if the statistics page correctly displays values, including edge cases"""
 
@@ -97,7 +104,7 @@ class StatisticsTests(TestCase):
 
 # Class for testing quiz submission
 class EarnPointsFromQuiz(TestCase):
-
+    """Tests for Stats table displaying updated stats after user completes quiz"""
     # Sets up the test by creating a user and quiz object
     def setUp(self):
         self.user = User.objects.create_user(username='testuser', password='testpassword#123')

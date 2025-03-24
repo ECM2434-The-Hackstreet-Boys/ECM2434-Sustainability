@@ -1,4 +1,8 @@
-# Author: Edward Pratt, Ethan Clapham
+"""
+Views for the stats page
+
+@Author: Edward Pratt, Ethan Clapham
+"""
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .models import Stats
@@ -6,9 +10,13 @@ from ..accounts.models import CustomUser
 
 # Create your views here.
 
-# View for the stats app /stats/
 @login_required
 def statspage(request):
+    """Render the statistics page displaying user recycling stats.
+
+    This view calculates the estimated weight of recycled materials, 
+    the plastic saved, and the CO₂ emissions reduced based on user activity.
+    """
     user = CustomUser.objects.get(id=request.user.id)
     stats, created = Stats.objects.get_or_create(userID=user)
 
@@ -30,9 +38,9 @@ def statspage(request):
     )
 
     content = {
-        'user_points' : stats.yourTotalPoints,
-        'plastic_saved' : plastic_saved_kg,
-        'co2_saved' : co2_saved_kg,
+        'user_points': stats.yourTotalPoints,
+        'plastic_saved': plastic_saved_kg,
+        'co2_saved': co2_saved_kg,
     }
 
     return render(request, "statistics.html", content)
