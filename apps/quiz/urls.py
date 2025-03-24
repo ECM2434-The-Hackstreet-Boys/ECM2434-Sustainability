@@ -1,3 +1,9 @@
+"""
+URLs for the quiz
+
+@Authors: Edward Pratt, Ethan Clapham, Louis Pampin
+"""
+
 from django.urls import path
 from . import views
 

@@ -1,3 +1,9 @@
+"""
+Forms for the garden page
+
+@Author: Edward Pratt
+"""
+
 from django import forms
 from .models import Block
 

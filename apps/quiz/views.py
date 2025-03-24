@@ -1,7 +1,10 @@
-# Authors: Edward Pratt, Ethan Clapham
+"""
+Views for the quiz app
+
+@Authors: Edward Pratt, Ethan Clapham
+"""
 
 from random import sample
-
 from django.shortcuts import render, redirect
 from .models import quiz
 from ..stats.models import Stats
@@ -13,13 +16,14 @@ from random import shuffle
 # Function to render the quiz page
 @login_required
 def quizpage(request):
+    """Renders the quiz page template"""
     return render(request, "quiz.html")
-
 
 
 # Function to render the quiz page with the questions and the score
 @login_required
 def quiz_view(request):
+    """Handles the quiz logic, rendering the questions and calculating the score"""
 
     # Get 5 random questions from the database
     questions = list(quiz.objects.filter(locationID=0))
@@ -38,7 +42,6 @@ def quiz_view(request):
     if request.method == "POST":
         correct_count = 0
         print(request.POST)
-
 
         # Check if the user's answer is correct by comparing it to the answer in the database
         for key, value in request.POST.items():
@@ -66,11 +69,14 @@ def quiz_view(request):
 
 @login_required
 def quiz_view_by_location(request, locationID):
+    """Handles the quiz logic based on a specific location"""
+
     # Do the quiz based on specific location
     questions = list(quiz.objects.filter(locationID=locationID))  # Filter by locationID
     number_of_questions = len(questions)
     questions = sample(questions, min(5, number_of_questions))
 
+    # Shuffle the options for each question
     for q in questions:
         q.choices = [q.answer, q.other1, q.other2, q.other3]
         shuffle(q.choices)
@@ -78,6 +84,7 @@ def quiz_view_by_location(request, locationID):
     score = 0
     incorrect_answers = []
 
+    # Process quiz results upon submission
     if request.method == "POST":
         correct_count = 0
         for key, value in request.POST.items():
@@ -100,5 +107,3 @@ def quiz_view_by_location(request, locationID):
 
     # This will render the quiz for that location
     return render(request, "quiz.html", {"questions": questions, "score": score, "incorrect_answers": incorrect_answers})
-
-

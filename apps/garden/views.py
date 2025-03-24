@@ -20,16 +20,19 @@ from django.shortcuts import render
 # View for loading the garden page
 @login_required
 def get_garden_page(request):
+    """Renders in the garden page template"""
     return render(request, 'garden.html')
 
 
 def is_admin(user):
+    """Checks if the user has the admin role in the garden page"""
     return bool(user.role == "admin")
 
 
 # View for loading the admin garden page
 @login_required
 def get_admin_page(request):
+    """Retrieves and renders the admin garden page if the user is an admin"""
     if not is_admin(request.user): # Ensure user is an admin
         messages.warning(request, "You are not authorized to access this page.")
         return redirect("home")
@@ -40,6 +43,7 @@ def get_admin_page(request):
 # View for loading the garden data and sending it to the webpage
 @login_required
 def load_garden(request):
+    """Loads garden data and returns it as JSON"""
     try:
         user = request.user  # Ensure user is authenticated
         garden = get_object_or_404(Garden, userID=user)
@@ -63,6 +67,7 @@ def load_garden(request):
 @csrf_exempt
 @login_required
 def save_garden(request):
+    """Saves the current state of the garden"""
     if request.method == "POST":
         try:
             data = json.loads(request.body) # Loads the JSON data from the request
@@ -95,6 +100,7 @@ def save_garden(request):
 
 @login_required
 def asset_list(request):
+    """Gets the list of assets for the garden"""
     assets = list(Block.objects.values("name", 'blockPath'))
     return JsonResponse({"assets": assets})
 
@@ -114,6 +120,7 @@ from .models import Inventory, Block
 @csrf_exempt
 @login_required
 def place_block(request):
+    """Handles placing a block in the garden"""
     if request.method == "POST":
         data = json.loads(request.body)
         user = request.user
@@ -161,6 +168,7 @@ def add_block_to_inventory(user, block):
 @csrf_exempt
 @login_required
 def remove_block_from_inventory(request):
+    """Handles removing a block from the inventory"""
     if request.method == "POST":
         data = json.loads(request.body)
         user = request.user
@@ -177,6 +185,7 @@ def remove_block_from_inventory(request):
 
 @login_required
 def get_store_items(request):
+    """Retrieves store items and user points"""
     user_inventory = {item["blockID"]: item["quantity"] for item in Inventory.objects.filter(userID=request.user).values("blockID", "quantity")}
     user_stats = Stats.objects.get_or_create(userID=request.user)
     user_points = user_stats[0].yourPoints
@@ -190,6 +199,7 @@ def get_store_items(request):
 
 @login_required
 def buy_item(request):
+    """Handles purchasing an item from the store"""
     if request.method == "POST":
         data = json.loads(request.body)
         item_id = data.get("itemId")

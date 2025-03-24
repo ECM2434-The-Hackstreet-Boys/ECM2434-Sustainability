@@ -1,4 +1,9 @@
+"""
+Dashboard App
 # login/urls.py
+
+@Author: Edward Pratt
+"""
 from django.urls import path
 from . import views
 

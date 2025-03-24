@@ -1,4 +1,4 @@
-# Author: Edward Pratt
+"""Author: Edward Pratt"""
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models
@@ -8,6 +8,7 @@ from django.db import models
 
 # Custom user model extending AbstractUser to add a roles category
 class CustomUser(AbstractUser):
+    """Custom user roles"""
     ROLE_CHOICES = (
         ('admin', 'Admin'),
         ('gamekeeper', 'Gamekeeper'),

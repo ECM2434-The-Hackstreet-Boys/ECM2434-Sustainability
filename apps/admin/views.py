@@ -1,4 +1,7 @@
-# Author: Ethan Clapham, Edward Pratt
+"""Views for the admin page
+
+@Author: Ethan Clapham, Edward Pratt
+"""
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import user_passes_test
@@ -13,6 +16,7 @@ from apps.accounts.models import CustomUser
 
 
 def superuser_check(user):
+    """Check if the user is an admin or gamekeeper."""
     return bool(
         user.is_authenticated and
         (user.is_superuser or getattr(user, 'role', None) in ['admin', 'gamekeeper'])
@@ -21,6 +25,7 @@ def superuser_check(user):
 # Dashboard view
 @user_passes_test(superuser_check, login_url='/accounts/login/')
 def adminDashboard(request):
+    """Handle admin dashboard actions like managing quizzes, locations, bins, users, and blocks."""
 
     questions = quiz.objects.filter(locationID = '0').values_list("question", flat=True)
     locations = QuizLocation.objects.values_list("locationName", flat=True)
@@ -152,16 +157,8 @@ def adminDashboard(request):
                 form.save()
                 return redirect("admin-dashboard")
 
-
-
-
-
     else:
         form = BlockForm()
-
-
-
-
 
     form = BlockForm()
     return render(request, "admin.html", {

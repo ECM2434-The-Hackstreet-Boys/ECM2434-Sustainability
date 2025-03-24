@@ -1,4 +1,8 @@
-# Author: Matt McCree
+"""
+Views for the play screen
+
+@Author: Matt McCree
+"""
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from .models import QuizLocation
@@ -9,15 +13,19 @@ from django.http import JsonResponse
 # Loads the play screen
 @login_required
 def play_screen(request):
+    """Renders the play screen template"""
     return render(request, 'play_screen.html')
 
 
 # Loads the map view
 @login_required
 def map_view(request):
+    """Renders the map template"""
     return render(request, 'map.html')
 
+
 def get_locations(request):
+    """Fetches quiz and bin locations and returns them as JSON"""
     quizzes = QuizLocation.objects.all()
     bins = Bin.objects.all()
 
@@ -34,7 +42,7 @@ def get_locations(request):
         {
             'coordinates': [bin.latitude, bin.longitude],
             'binID': bin.binID,
-            'binIdentifier' : bin.binIdentifier
+            'binIdentifier': bin.binIdentifier
         } for bin in bins
     ]
 

@@ -1,3 +1,9 @@
+"""
+Views for the settings page
+
+@Author: Sandy Hay
+"""
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.password_validation import validate_password
@@ -11,10 +17,18 @@ User = get_user_model
 # Create your views here.
 
 def settings(request):
+    """
+    Renders the settings page.
+    """
     return render(request, 'settings.html')
 
 @login_required
 def update_settings(request):
+    """
+    Updates the user's username and/or password.
+    If a new password is provided, it is validated before being updated.
+    Ensures the user remains logged in after updating credentials.
+    """
     if request.method == "POST":
         new_username = request.POST.get("username")
         new_password = request.POST.get("password")
@@ -40,6 +54,9 @@ def update_settings(request):
 
 @login_required
 def delete_account(request):
+    """
+    Deletes the user's account and redirects to the home page.
+    """
     if request.method == "POST":
         user = request.user
         user.delete()

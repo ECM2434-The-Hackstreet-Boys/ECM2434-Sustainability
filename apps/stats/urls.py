@@ -1,3 +1,9 @@
+"""
+URL for the stats page
+
+@author: Edward Pratt
+"""
+
 from django.urls import path
 from . import views
 
