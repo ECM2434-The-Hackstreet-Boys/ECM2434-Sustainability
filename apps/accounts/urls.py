@@ -1,3 +1,5 @@
+"""Author: Edward Pratt"""
+
 from django.urls import path
 from .views import register, user_login, manage_roles
 from django.contrib.auth.views import LogoutView

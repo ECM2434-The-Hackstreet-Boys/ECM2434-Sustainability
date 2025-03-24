@@ -1,3 +1,8 @@
+"""Tests for the admin page
+
+@author: Edward Pratt
+"""
+
 from django.contrib.auth import get_user_model
 from django.test import TestCase, Client
 from django.urls import reverse
@@ -346,6 +351,9 @@ class RecyclingBinTests(TestCase):
 
 
 class ManageBlockTests(TestCase):
+    """
+    Test suite for managing the blocks via the admin dashboard
+    """
     def setUp(self):
         """
         Set up an admin user and log in to the test client 

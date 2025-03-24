@@ -13,9 +13,10 @@ from .models import CustomUser
 
 User = get_user_model()
 
-"""Create a form for user registration"""
 class RegisterForm(UserCreationForm):
+    """Create a form for user registration"""
     class Meta:
+        """Meta class for inputting user credentials"""
         model = User
         fields = ['username', 'email', 'password1', 'password2']  # No role field
 
@@ -23,5 +24,6 @@ class RegisterForm(UserCreationForm):
 class EditUserForm(ModelForm):
     """Form for editing only the user's role."""
     class Meta:
+        """Meta class for editing the user's role"""
         model = CustomUser
         fields = ['role']

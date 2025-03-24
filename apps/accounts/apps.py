@@ -1,3 +1,5 @@
+"""Author: Edward Pratt"""
+
 from django.apps import AppConfig
 
 

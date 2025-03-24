@@ -7,5 +7,6 @@ from django.contrib.auth.decorators import login_required
 # Dashboard view
 @login_required
 def dashboard(request):
+    """Loads the dashboard template"""
 
     return render(request, "dashboard.html")
