@@ -62,14 +62,16 @@
                 <h3>Add Location</h3>
                 {% csrf_token %}
 
+                <label for = "location_name" class = "form-label">Location Name:</label>
+                <input type = "text" id = "location_name" name = "location_name" class = "form-input" required>
+
                 <label for = "longitude" class = "form-label">Longitude:</label>
                 <input type = "number" step="any" id = "longitude" name = "longitude" class = "form-input" required>
 
                 <label for = "latitude" class = "form-label">Latitude:</label>
                 <input type = "number" step="any" id = "latitude" name = "latitude" class = "form-input" required>
 
-                <label for = "location_name" class = "form-label">Location Name:</label>
-                <input type = "number" step="any" id = "location_name" name = "location_name" class = "form-input" required>
+
 
                 <!-- Loop through 5 questions -->
                 {% for i in "12345" %}
