@@ -54,7 +54,9 @@
     <!-- Initialize the DataTables sorting functionality -->
     <script>
         $(document).ready(function() {
-            $('#sustainabilityTable').DataTable();
+            $('#sustainabilityTable').DataTable({
+                "order": [[ 5, "desc" ]]
+            });
         });
     </script>
 
