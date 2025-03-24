@@ -8,6 +8,7 @@
 {% block content %}
     <div id="container">
         <iframe src="{% url 'map' %}" frameborder="0" style="width: 100%; height: 75vh;"></iframe>
+        <p>Please enable location for full functionality</p>
         <div id="button-container">
             <a href="{% url 'qr_scan' %}">
                 <button id="my-button">Open Camera</button>
