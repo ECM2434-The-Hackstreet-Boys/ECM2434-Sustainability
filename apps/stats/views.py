@@ -38,9 +38,9 @@ def statspage(request):
     )
 
     content = {
-        'user_points': stats.yourTotalPoints,
-        'plastic_saved': plastic_saved_kg,
-        'co2_saved': co2_saved_kg,
+        'user_points': round(stats.yourTotalPoints,3),
+        'plastic_saved': round(plastic_saved_kg, 3),
+        'co2_saved': round(co2_saved_kg, 3),
     }
 
     return render(request, "statistics.html", content)
