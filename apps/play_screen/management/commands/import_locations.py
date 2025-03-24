@@ -13,12 +13,12 @@ class Command(BaseCommand):
         file_path = os.path.join(os.path.dirname(__file__), "../../../play_screen/QuizLocations.csv")  # Absolute path
         file_path = os.path.abspath(file_path)
 
-        QuizLocation.objects.all().delete()
+        #QuizLocation.objects.all().delete()
 
         with open(file_path, newline='', encoding='utf-8') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                QuizLocation.objects.update_or_create(
+                QuizLocation.objects.get_or_create(
                     locationID = row["locationID"],
                     locationName = row["locationName"],
                     latitude = row["latitude"],
